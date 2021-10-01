@@ -1,6 +1,6 @@
 {
-  "short_name": "Greeting Cards",
-  "name": "Greeting Cards",
+  "short_name": "Greeting Card Mgmt",
+  "name": "Greeting Card Management",
   "icons": [
     {
       "src": "favicon.ico",

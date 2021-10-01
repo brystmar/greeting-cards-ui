@@ -1,15 +1,18 @@
-import logo from './logo.svg';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import './styles/styles.css';
+import './styles/components.css';
 
 export default function App() {
     return (
         <div className="app-container">
-            <header className="app-header">
-                <img src={logo} className="app-logo" alt="logo" />
-                <p>
-                    Testing 1,2,3...
-                </p>
-            </header>
+            <Header />
+
+            <main className="app-content">
+
+            </main>
+
+            <Footer />
         </div>
     )
-};
+}
