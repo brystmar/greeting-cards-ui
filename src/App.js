@@ -2,13 +2,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./components/sections/Home";
 import Addresses from "./components/sections/Addresses";
-import Households from "./components/sections/Households";
-import './styles/styles.css';
-import './styles/components.css';
-import './styles/sections.css';
-import { Route, Switch } from "react-router-dom";
 import Cards from "./components/sections/Cards";
 import Events from "./components/sections/Events";
+import Households from "./components/sections/Households";
+import './styles/styles.css';
+import './styles/sections.css';
+import { Route, Switch } from "react-router-dom";
+
 
 export default function App() {
     return (

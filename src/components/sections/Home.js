@@ -1,7 +1,11 @@
 import React from "react";
+import Households from "./Households";
 
 export default function Home() {
     return <section>
-        <h3 className="title">Home!</h3>
+        <div className="title">Home!</div>
+
+        <Households />
+
     </section>
 }

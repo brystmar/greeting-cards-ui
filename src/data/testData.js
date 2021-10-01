@@ -35,7 +35,7 @@ export const addresses = [
     }
 ];
 
-export const families = [
+export const households = [
     {
         id:                 1,
         name:               "The Simpsons",
@@ -52,7 +52,7 @@ export const families = [
     },
     {
         id:                 3,
-        name:               "The Andersons",
+        name:               "Andersons",
         formal_name:        "Mr. Neo and Ms. Trinity Anderson",
         relationship:       "Friends",
         primary_address_id: 103
