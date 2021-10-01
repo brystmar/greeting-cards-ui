@@ -3,7 +3,7 @@ import React from "react";
 export default function Footer() {
     return <footer className="footer-container">
         <div className="tagline">
-            {`A local, surprisingly-not-food-centric app \nby `}
+            {`Another surprisingly-not-food-centric app \nby `}
             <a
                 href="http://thomasberg.me/"
                 target="_blank"
