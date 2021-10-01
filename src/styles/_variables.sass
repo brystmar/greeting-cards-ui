@@ -1,0 +1,358 @@
+/*** Fonts ***/
+
+$font-stack-headings: 'Montserrat', sans-serif
+$font-stack-body: 'Roboto', 'Lato', 'Arial', sans-serif
+
+
+/*** Color Palette ***/
+
+$color-primary: #0068d5
+$color-primary-dark: #003fa3
+$color-primary-light: #5f95ff
+$color-primary-lighter: #69a4ff
+$color-primary-lighterer: #c3deff
+$color-primary-lightest: #e6f2ff
+$color-on-primary: #f5f5f5
+$color-on-primary-light: #121212
+$color-on-primary-dark: #f5f5f5
+$color-on-primary-dark-alt: #f0f0f0
+
+$color-secondary: #ccc
+$color-background: #fff
+$color-on-background: #121212
+$color-background-darker-1: #eee
+$color-background-darker-2: #ccc
+$color-background-darker-3: #aaa
+$color-danger: #B81F11
+$color-danger-light: #d78f8c
+$color-danger-dark: #8C180D
+$color-on-danger: #f5f5f5
+$color-on-danger-light: #121212
+$color-on-danger-dark: #f5f5f5
+
+$color-primary-complementary: #d56e00
+$color-primary-analogous-1: #00d1d5
+$color-primary-analogous-2: #0400d5
+$color-primary-triadic-1: #6e00d5
+$color-primary-triadic-2: #d50067
+
+$color-border: #979AA0
+$color-border-lighter: rgba(151,154,160,0.6)
+$color-border-darker: #696c72
+$color-link: #003fa3
+$color-link-visited: #0068d5
+
+/*** Page Layout ***/
+$header-height: 3em
+$footer-height: $header-height - 1em
+$app-max-width: 1200px
+
+/*** Debugging ***/
+$border1: 1px solid black
+$border2: 1px solid red
+$border3: 1px solid lightblue
+$border4: 1px solid darkgreen
+
+
+/*** Global Tags ***/
+*,
+*::before,
+*::after
+  box-sizing: border-box
+
+body
+  font-family: $font-stack-body
+  font-variant: slashed-zero
+  font-size: 16px
+  font-weight: 400
+  color: $color-on-background
+  margin: 0 auto
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  //background-image: url('background/moroccan-flower.png')
+  //background-image: url('background/circles-light.png')
+  //opacity: 0.15
+
+code
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace
+
+h1
+  font-family: $font-stack-headings
+  font-weight: 500
+  font-size: 3rem
+
+img
+  max-width: 100%
+  display: block
+
+header,
+footer
+  width: 100%
+  margin: 0 auto
+  padding: 0 1em
+  cursor: default
+  background: $color-primary-dark
+  color: $color-on-primary-dark
+
+  // Flexbox to center children vertically when height is <100%
+  //display: flex
+  //flex-direction: column
+  //justify-content: center
+
+  .header-content,
+  .footer-content
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    height: 100%
+
+header
+  height: $header-height
+  min-height: 40px
+  font-size: 1.5rem
+  .header-content
+    a
+      margin-right: 1em
+      color: $color-secondary
+      opacity: 0.85
+      text-decoration: none
+    .header-active
+      color: $color-on-primary-dark-alt
+      opacity: 1
+    a:hover,
+    a:focus,
+    .header-hovers
+      color: $color-background
+  .header-content > *
+    display: flex
+    flex-direction: column
+    justify-content: center
+    margin-left: -0.25em
+    padding: 0 0.25em
+
+footer
+  height: $footer-height
+  min-height: 30px
+  font-size: 0.85rem
+  margin: 0
+  .footer-content
+    display: flex
+    flex-direction: column
+    justify-content: center
+    p
+      margin: 0
+    a
+      color: inherit
+    a:hover,
+    a:focus
+      color: inherit
+    img
+      max-height: 2vh
+
+
+/*** Inputs ***/
+
+input[type="text"],
+input[type="number"],
+select,
+textarea
+  background: $color-background
+  color: $color-on-background
+  border: 1px solid $color-border
+  border-radius: 0.2em
+  margin: 0
+  cursor: text
+
+input[type="text"]:hover,
+input[type="text"]:focus,
+input[type="number"]:hover,
+input[type="number"]:focus,
+select:hover,
+select:focus,
+textarea:hover,
+textarea:focus
+  border: 1px solid $color-border-darker
+
+input[type="text"],
+input[type="number"],
+select
+  height: 2em
+
+input[type="text"]
+  padding: 0.5em 0.5em
+input[type="text"]:placeholder-shown
+  font-style: italic
+
+input[type="number"]
+  padding: 0 0.5em
+  width: max-content + 0.5em
+
+textarea
+  padding: 0.5em
+
+textarea:disabled,
+textarea:read-only
+  background: $color-primary-lightest
+
+select
+  padding: 0 0.2em
+
+
+/*** Buttons ***/
+.btn
+  height: 2.5em
+  width: 7em
+  text-align: center
+  margin: 0
+  border-radius: 0.2em
+  cursor: pointer
+  outline: none !important  // To override settings from packages w/bootstrap
+  box-shadow: none !important  // To override settings from packages w/bootstrap
+  transition: all 0.2s
+.btn:disabled
+  opacity: 0.5
+  border: none
+.btn:disabled:active,
+.btn:disabled:focus,
+.btn:disabled:hover
+  opacity: 0.5
+  border: none
+
+.btn-sm
+  height: 2em
+  text-align: center
+  //padding: 0.28em 0.8em
+
+.btn-primary
+  background: $color-primary
+  color: $color-on-primary
+  border: 2px solid $color-background
+.btn-primary:hover,
+.btn-primary:focus
+  border: 2px solid $color-primary-light
+.btn-primary:active
+  border: 2px solid $color-primary-dark
+
+.btn-primary-outline
+  background: $color-primary-lighterer
+  color: $color-on-primary-light
+  font-weight: 600
+  border: 1px solid $color-background
+.btn-primary-outline:hover,
+.btn-primary-outline:focus
+  background: $color-primary-lighter
+.btn-primary-outline:active
+  background: $color-primary-lighter
+
+.btn-reset-outline
+  background: $color-background-darker-1
+  color: $color-on-background
+  font-weight: 400
+  border: 2px solid $color-background
+.btn-reset-outline:hover,
+.btn-reset-outline:focus
+  background: $color-background-darker-2
+  border: 2px solid $color-background
+.btn-reset-outline:active
+  background: $color-background-darker-3
+  border: 2px solid $color-background
+
+.btn-danger
+  background: $color-danger
+  color: $color-on-danger
+  border: 2px solid $color-background
+.btn-danger:hover,
+.btn-danger:focus
+  border: 2px solid $color-danger-light
+.btn-danger:active
+  border: 2px solid $color-danger-dark
+
+.eli-buttons
+  grid-area: action-buttons
+  display: flex
+  flex-direction: row
+  align-items: center
+  //margin: 0 0.35rem
+  //button
+  //  margin-right: 0.35rem
+.del-button
+  grid-area: del-button
+  justify-content: flex-end
+
+
+/*** Page Layout ***/
+
+.app-container
+  margin: 0 auto
+  height: 100vh
+  width: 100vw
+  max-width: $app-max-width
+
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+.content-container
+  width: 100%
+  display: initial
+  margin-bottom: auto
+
+.page-title-container
+  margin: 0 auto
+  cursor: default
+  overflow: hidden
+  white-space: nowrap
+  hr
+    margin-top: 0
+  img
+    max-height: 100px
+    display: inline-block
+    margin-right: 0.1em
+
+.content-container
+  padding: 0.5em
+
+
+/*** Picklists ***/
+
+.picklist-container
+  padding: 5px
+  margin: 0
+  display: flex
+  flex-direction: column
+
+.picklist-values-container
+  display: grid
+  grid-template: 1fr / 1fr 1fr 2fr
+  grid-gap: 2px
+  //height: 500px
+  .picklist-nav-parent
+    background: whitesmoke
+    list-style: none
+    text-align: center
+    li:hover,
+    li:focus
+      background: lightyellow
+    a
+      text-decoration: none
+      text-transform: capitalize
+      width: 100%
+      padding: 2px 10px
+    //a:hover
+    //  background: whitesmoke
+
+  .picklist-nav-child
+    background: #e6f2ff
+    justify-content: space-between
+    width: max-content
+    input
+      margin: 1px 0
+
+  .picklist-nav-grandchild
+    background: #c3deff
+
+//.picklist-tab-values
+//  border: 1px brown dotted
+//  width: 80px
+//  height: 20px
+
