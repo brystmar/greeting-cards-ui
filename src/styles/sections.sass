@@ -2,13 +2,27 @@
 
 section
   .title
-    font-size: 1.25rem
+    font-size: 1.5rem
     font-weight: 800
     font: $font-stack-primary
     text-align: center
+    margin: 1em 0
+
+  .subtitle
+    font-size: 1.25rem
+    font: $font-stack-primary
+    margin: 1em 0
 
   .content
     font: $font-stack-secondary
     span
       .picklist
         display: block
+  .content.column-container
+    display: flex
+    justify-content: space-between
+    .col
+      margin: 0.25em
+      width: 100%
+      display: block
+      border: 1px solid blue

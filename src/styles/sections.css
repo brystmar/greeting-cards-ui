@@ -8,16 +8,32 @@
 /*** Page Layout ***/
 /*** Nav ***/
 section .title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 800;
   font: "Roboto Slab", serif;
   text-align: center;
+  margin: 1em 0;
+}
+section .subtitle {
+  font-size: 1.25rem;
+  font: "Roboto Slab", serif;
+  margin: 1em 0;
 }
 section .content {
   font: "Roboto", sans-serif;
 }
 section .content span .picklist {
   display: block;
+}
+section .content.column-container {
+  display: flex;
+  justify-content: space-between;
+}
+section .content.column-container .col {
+  margin: 0.25em;
+  width: 100%;
+  display: block;
+  border: 1px solid blue;
 }
 
 /*# sourceMappingURL=sections.css.map */

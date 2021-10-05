@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { households } from "../../data/testData";
 import PicklistOption from "../PicklistOption";
+import { households } from "../../data/testData";
 
 export default function Households() {
 
@@ -32,6 +32,7 @@ export default function Households() {
         })
     }
 
+    // Update the list of picklist options when householdList changes
     // Stubbing out for later when we use an API
     useEffect(() => {
         console.info("Retrieving list of households:")
@@ -40,24 +41,36 @@ export default function Households() {
         picklistOptions = mapHouseholdData(householdList)
     }, [ householdList ])
 
+    // Update
+
+
     return (
         <section>
             <div className="title">Households</div>
 
-            <div className="content">
-                <span>List of Households</span>
-                <span>
-                    <select
-                        name="household"
-                        className="picklist"
-                        id="households-picklist"
-                        value={selection.household}
-                        onChange={handleChange}
-                        required={false}
-                    >
-                        {picklistOptions}
-                    </select>
-                </span>
+            <div className="content column-container">
+                <div className="col">
+                    <span className="subtitle">List of Households</span>
+                    <span className="picklist-container">
+                        <select
+                            name="household"
+                            className="picklist"
+                            id="households-picklist"
+                            value={selection.household}
+                            onChange={handleChange}
+                            required={false}
+                        >
+                            {picklistOptions}
+                        </select>
+                    </span>
+                    <span>{JSON.stringify(selection)}</span>
+                </div>
+
+                <div className="col">
+                    <span>Display address info for household_id={selection.household}</span>
+                    {/*TODO: Show multiple addresses if they exist for a selected household*/}
+                </div>
+
             </div>
         </section>
     )

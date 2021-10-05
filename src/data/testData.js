@@ -1,7 +1,7 @@
 export const addresses = [
     {
         id:                  101,
-        family_id:           1,
+        household_id:        1,
         line_1:              "123 Alpha Ave",
         city:                "Springfield",
         state:               "IL",
@@ -12,7 +12,7 @@ export const addresses = [
     },
     {
         id:                  102,
-        family_id:           2,
+        household_id:        2,
         line_1:              "234 Bravo Blvd",
         city:                "Austin",
         state:               "TX",
@@ -23,7 +23,7 @@ export const addresses = [
     },
     {
         id:                  103,
-        family_id:           3,
+        household_id:        3,
         line_1:              "345 Columbus Cir",
         line_2:              "Apt 27B",
         city:                "New York",
@@ -85,38 +85,38 @@ export const events = [
 
 export const gifts = [
     {
-        id:          1,
-        event_id:    1,
-        family_id:   1,
-        description: "Pencil shavings and a firm handshake"
+        id:           1,
+        event_id:     1,
+        household_id: 1,
+        description:  "Pencil shavings and a firm handshake"
     },
     {
-        id:          2,
-        event_id:    1,
-        family_id:   2,
-        description: "Blender #4",
-        notes:       "Another blender?"
+        id:           2,
+        event_id:     1,
+        household_id: 2,
+        description:  "Blender #4",
+        notes:        "Another blender?"
     },
     {
-        id:          3,
-        event_id:    1,
-        family_id:   3,
-        description: "Post-dated couples therapy coupons",
-        notes:       "Passive aggressive much?"
+        id:           3,
+        event_id:     1,
+        household_id: 3,
+        description:  "Post-dated couples therapy coupons",
+        notes:        "Passive aggressive much?"
     },
     {
-        id:          4,
-        event_id:    2,
-        family_id:   1,
-        description: "Well wishes and a crisp $5 bill",
-        notes:       "$5 is nothing with inflation, grandma"
+        id:           4,
+        event_id:     2,
+        household_id: 1,
+        description:  "Well wishes and a crisp $5 bill",
+        notes:        "$5 is nothing with inflation, grandma"
     },
     {
-        id:          5,
-        event_id:    2,
-        family_id:   3,
-        description: "Inspector Spacetime satchel",
-        notes:       "Cool.  Cool cool cool."
+        id:           5,
+        event_id:     2,
+        household_id: 3,
+        description:  "Inspector Spacetime satchel",
+        notes:        "Cool.  Cool cool cool."
     },
 ];
 
@@ -126,7 +126,7 @@ export const cards = [
         was_card_sent: 1,
         event_id:      1,
         gift_id:       1,
-        family_id:     1,
+        household_id:  1,
         address_id:    101
     },
     {
@@ -134,7 +134,7 @@ export const cards = [
         was_card_sent: 0,
         event_id:      1,
         gift_id:       2,
-        family_id:     2,
+        household_id:  2,
         address_id:    102
     },
     {
@@ -142,7 +142,7 @@ export const cards = [
         was_card_sent: 0,
         event_id:      2,
         gift_id:       5,
-        family_id:     3,
+        household_id:  3,
         address_id:    103
     }
 ];
