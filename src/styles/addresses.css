@@ -7,5 +7,17 @@
 /*** Favicon ***/
 /*** Page Layout ***/
 /*** Nav ***/
+.address-fields {
+  margin: 1em auto;
+}
+
+.label-input-container {
+  display: flex;
+  align-content: space-between;
+  margin: 0 0.5em;
+}
+.label-input-container .label-input {
+  margin-right: 0.25em;
+}
 
 /*# sourceMappingURL=addresses.css.map */

@@ -4,21 +4,18 @@ import AddressArray from "../groupings/AddressArray";
 
 export default function Households(props) {
     const selectionDefault = {
-        household: 0
+        householdId: 0
     }
 
     const [ selection, updateSelection ] = useState(selectionDefault)
     let picklistOptions = mapHouseholdData(props.householdList)
 
-    function mapHouseholdData(list) {
-        return list.map((household, index) =>
+    function mapHouseholdData(allHouseholds) {
+        return allHouseholds.map((selectedHousehold, index) =>
             <PicklistOption
                 key={index}
-                value={household.id}
-                name={household.name}
-                formalName={household.formal_name}
-                relationship={household.relationship}
-                primaryAddressId={household.primary_address_id}
+                value={selectedHousehold.id}
+                name={selectedHousehold.name}
             />
         )
     }
@@ -33,14 +30,14 @@ export default function Households(props) {
     // Update the list of picklist options when householdList changes
     // Stubbing out for later when we use an API
     useEffect(() => {
-        console.debug("Retrieving list of households:")
+        console.debug("List of households was updated.")
         // console.debug(props.householdList)
 
-        picklistOptions = mapHouseholdData(props.householdList)
+        // picklistOptions = mapHouseholdData(props.householdList)
 
         // Initialize the selected id to the first household in the list
         if (props.householdList[0]) {
-            updateSelection({ household: props.householdList[0].id })
+            updateSelection({ householdId: props.householdList[0].id })
         }
     }, [ props.householdList ])
 
@@ -56,31 +53,27 @@ export default function Households(props) {
                     <span className="subtitle">List of Households</span>
                     <span className="picklist-container">
                         <select
-                            name="household"
-                            className="picklist"
+                            name="householdId"
                             id="households-picklist"
-                            value={selection.household}
+                            className="picklist"
+                            value={selection.householdId}
                             onChange={handleChange}
                             required={false}
                         >
                             {picklistOptions}
                         </select>
                     </span>
-                    <span>{JSON.stringify(selection)}</span>
+                    <span className="debug">{JSON.stringify(selection)}</span>
                 </div>
 
                 <div className="col">
-                    {/*TODO: Show multiple addresses if they exist for a selected household*/}
-                    <span className="subtitle">Address for hh_id={selection.id}</span>
+                    <span className="subtitle">Address(es) for hh_id={selection.householdId}</span>
                     <AddressArray
-                        householdId={selection.id}
+                        householdId={selection.householdId}
                         addressList={props.addressList}
                     />
-                    <span><br/>selection={JSON.stringify(selection.household)}</span>
-                    <span><br/>{JSON.stringify(props.addressList)}</span>
-                    <span><br/>address={props.addressList.find(a => a.household_id === selection.household)}</span>
+                    <span className="debug"><br />selection={JSON.stringify(selection.householdId)}</span>
                 </div>
-
             </div>
         </section>
     )

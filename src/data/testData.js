@@ -32,6 +32,18 @@ export const addresses = [
         country:             "United States",
         is_current:          1,
         is_likely_to_change: 1
+    },
+    {
+        id:                  104,
+        household_id:        1,
+        line_1:              "555 Myrtle Ave",
+        line_2:              "Apt 1",
+        city:                "Brooklyn",
+        state:               "NY",
+        postal_code:         "11223",
+        country:             "United States",
+        is_current:          1,
+        is_likely_to_change: 0
     }
 ];
 
