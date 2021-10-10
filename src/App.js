@@ -8,6 +8,7 @@ import Households from "./components/sections/Households";
 import './styles/styles.css';
 import './styles/sections.css';
 import { Route, Switch } from "react-router-dom";
+import { households, addresses } from "./data/testData";
 
 
 export default function App() {
@@ -18,15 +19,24 @@ export default function App() {
             <main className="app-content">
                 <Switch>
                     <Route path="/home">
-                        <Home />
+                        <Home
+                            householdList={households}
+                            addressList={addresses}
+                        />
                     </Route>
 
                     <Route path="/households">
-                        <Households />
+                        <Households
+                            householdList={households}
+                            addressList={addresses}
+                        />
                     </Route>
 
                     <Route path="/addresses">
-                        <Addresses />
+                        <Addresses
+                            householdList={households}
+                            addressList={addresses}
+                        />
                     </Route>
 
                     <Route path="/events">
@@ -38,7 +48,10 @@ export default function App() {
                     </Route>
 
                     <Route exact path="/">
-                        <Home />
+                        <Home
+                            householdList={households}
+                            addressList={addresses}
+                        />
                     </Route>
                 </Switch>
             </main>

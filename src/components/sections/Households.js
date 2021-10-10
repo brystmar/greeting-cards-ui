@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import PicklistOption from "../PicklistOption";
-import { households } from "../../data/testData";
+import AddressFields from "../groupings/AddressFields";
 
-export default function Households() {
-
+export default function Households(props) {
     const selectionDefault = {
         household: ""
     }
 
-    const [ householdList, updateHouseholdList ] = useState(households)
     const [ selection, updateSelection ] = useState(selectionDefault)
-    let picklistOptions = mapHouseholdData(householdList)
+    let picklistOptions = mapHouseholdData(props.householdList)
 
     function mapHouseholdData(list) {
         return list.map((household, index) =>
@@ -35,11 +33,16 @@ export default function Households() {
     // Update the list of picklist options when householdList changes
     // Stubbing out for later when we use an API
     useEffect(() => {
-        console.info("Retrieving list of households:")
-        console.info(householdList)
+        console.debug("Retrieving list of households:")
+        // console.debug(props.householdList)
 
-        picklistOptions = mapHouseholdData(householdList)
-    }, [ householdList ])
+        picklistOptions = mapHouseholdData(props.householdList)
+
+        // Initialize the selected id to the first household in the list
+        if (props.householdList[0]) {
+            updateSelection({ household: props.householdList[0].id })
+        }
+    }, [ props.householdList ])
 
     // Update
 
@@ -67,11 +70,31 @@ export default function Households() {
                 </div>
 
                 <div className="col">
-                    <span>Display address info for household_id={selection.household}</span>
                     {/*TODO: Show multiple addresses if they exist for a selected household*/}
+                    <span className="subtitle">Address for hh_id={selection.id}</span>
+                    <AddressFields
+                        address={props.addressList.find(a => a.household_id === selection.id)}
+                    />
                 </div>
 
             </div>
         </section>
     )
 }
+
+Households.defaultProps = {
+    householdList: [ {
+        id:                 0,
+        name:               "",
+        formal_name:        "",
+        relationship:       "",
+        primary_address_id: 0
+    } ],
+    addressList:   [ {
+        id:                  0,
+        household_id:        0,
+        is_current:          0,
+        is_likely_to_change: 0
+    } ]
+}
+
