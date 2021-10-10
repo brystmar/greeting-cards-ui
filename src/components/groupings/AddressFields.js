@@ -4,7 +4,7 @@ export default function AddressFields(props) {
     console.debug(`Rendering AddressFields: ${JSON.stringify(props)}`)
 
     return (
-        <div className="address-fields-container">
+        <div className="address-fields">
             <div className="label-input-container">
                 <label htmlFor="hh_id" className="label-input">Household_id:</label>
                 <input
@@ -32,16 +32,12 @@ export default function AddressFields(props) {
 }
 
 AddressFields.defaultProps = {
-    address: {
-        id:                  0,
-        household_id:        0,
-        line_1:              "",
-        line_2:              "",
-        city:                "",
-        state:               "",
-        postal_code:         "",
-        country:             "",
-        is_current:          0,
-        is_likely_to_change: 0
-    }
+    id:           0,
+    household_id: 0,
+    line_1:       "",
+    line_2:       "",
+    city:         "",
+    state:        "",
+    postal_code:  "",
+    country:      "United States",
 }

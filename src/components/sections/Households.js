@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PicklistOption from "../PicklistOption";
-import AddressFields from "../groupings/AddressFields";
+import AddressArray from "../groupings/AddressArray";
 
 export default function Households(props) {
     const selectionDefault = {
-        household: ""
+        household: 0
     }
 
     const [ selection, updateSelection ] = useState(selectionDefault)
@@ -72,9 +72,13 @@ export default function Households(props) {
                 <div className="col">
                     {/*TODO: Show multiple addresses if they exist for a selected household*/}
                     <span className="subtitle">Address for hh_id={selection.id}</span>
-                    <AddressFields
-                        address={props.addressList.find(a => a.household_id === selection.id)}
+                    <AddressArray
+                        householdId={selection.id}
+                        addressList={props.addressList}
                     />
+                    <span><br/>selection={JSON.stringify(selection.household)}</span>
+                    <span><br/>{JSON.stringify(props.addressList)}</span>
+                    <span><br/>address={props.addressList.find(a => a.household_id === selection.household)}</span>
                 </div>
 
             </div>
