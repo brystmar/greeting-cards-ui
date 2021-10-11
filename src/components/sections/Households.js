@@ -51,11 +51,12 @@ export default function Households(props) {
             <div className="content column-container">
                 <div className="col">
                     <span className="subtitle">List of Households</span>
-                    <span className="picklist-container">
+                    <span className="selection-box">
                         <select
                             name="householdId"
-                            id="households-picklist"
-                            className="picklist"
+                            id="households-selection-box"
+                            className="selection-box"
+                            size={props.householdList.length}
                             value={selection.householdId}
                             onChange={handleChange}
                             required={false}

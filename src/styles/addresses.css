@@ -13,7 +13,9 @@
 
 .label-input-container {
   display: flex;
-  align-content: space-between;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid red;
   margin: 0 0.5em;
 }
 .label-input-container .label-input {

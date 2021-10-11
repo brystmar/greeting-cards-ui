@@ -35,9 +35,9 @@ export const addresses = [
     },
     {
         id:                  104,
-        household_id:        1,
-        line_1:              "555 Myrtle Ave",
-        line_2:              "Apt 1",
+        household_id:        3,
+        line_1:              "512 Myrtle Ave",
+        line_2:              "Apt 3",
         city:                "Brooklyn",
         state:               "NY",
         postal_code:         "11223",

@@ -4,18 +4,6 @@ export default function AddressFields(props) {
     return (
         <div className="address-fields">
             <div className="label-input-container">
-                <label htmlFor="household_id" className="label-input">Household_id:</label>
-                <input
-                    type="text"
-                    id={`household_id-${props.index}`}
-                    name="household_id"
-                    value={props.householdId}
-                    className="input-text"
-                    disabled={true}
-                />
-            </div>
-
-            <div className="label-input-container">
                 <label htmlFor="address-street-1" className="label-input">Street 1:</label>
                 <input
                     type="text"

@@ -22,7 +22,7 @@ section .subtitle {
 section .content {
   font: "Roboto", sans-serif;
 }
-section .content span .picklist {
+section .content span .selection-box {
   display: block;
 }
 section .content.column-container {
