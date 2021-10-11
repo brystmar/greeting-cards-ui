@@ -56,7 +56,8 @@ export default function Households(props) {
                             name="householdId"
                             id="households-selection-box"
                             className="selection-box"
-                            size={props.householdList.length}
+                            // size={props.householdList.length}
+                            size={Math.min(props.householdList.length, 10)}
                             value={selection.householdId}
                             onChange={handleChange}
                             required={false}
@@ -64,7 +65,7 @@ export default function Households(props) {
                             {picklistOptions}
                         </select>
                     </span>
-                    <span className="debug">{JSON.stringify(selection)}</span>
+                    <span className="debug"><br />{JSON.stringify(selection)}</span>
                 </div>
 
                 <div className="col">

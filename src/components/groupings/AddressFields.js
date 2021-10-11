@@ -81,7 +81,6 @@ export default function AddressFields(props) {
 AddressFields.defaultProps = {
     index:       0,
     id:          0,
-    householdId: 0,
     line1:       "",
     line2:       "",
     city:        "",

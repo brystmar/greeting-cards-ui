@@ -11,19 +11,22 @@ section .title {
   font-size: 1.5rem;
   font-weight: 800;
   font: "Roboto Slab", serif;
-  text-align: center;
   margin: 1em 0;
+  display: block;
+  text-align: center;
 }
 section .subtitle {
   font-size: 1.25rem;
   font: "Roboto Slab", serif;
   margin: 1em 0;
+  display: block;
 }
 section .content {
   font: "Roboto", sans-serif;
 }
-section .content span .selection-box {
+section .content .selection-box {
   display: block;
+  margin: 1em 0;
 }
 section .content.column-container {
   display: flex;

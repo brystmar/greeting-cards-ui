@@ -30,7 +30,6 @@ export default function AddressArray(props) {
                 state={address.state}
                 postalCode={address.postal_code}
                 country={address.country}
-                householdId={props.householdId}
             />
         )
 
