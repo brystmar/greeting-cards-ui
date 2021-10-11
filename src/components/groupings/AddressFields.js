@@ -52,12 +52,12 @@ export default function AddressFields(props) {
             </div>
 
             <div className="label-input-container">
-                <label htmlFor="address-postal-code" className="label-input">Postal Code:</label>
+                <label htmlFor="address-zip" className="label-input">Zip:</label>
                 <input
                     type="text"
-                    id={`address-postal-code-${props.index}`}
-                    name="address-postal-code"
-                    value={props.postalCode}
+                    id={`address-zip-${props.index}`}
+                    name="address-zip"
+                    value={props.zip}
                     className="input-text"
                     disabled={true}
                 />
@@ -79,12 +79,12 @@ export default function AddressFields(props) {
 }
 
 AddressFields.defaultProps = {
-    index:       0,
-    id:          0,
-    line1:       "",
-    line2:       "",
-    city:        "",
-    state:       "",
-    postalCode:  "",
-    country:     "United States",
+    index:   0,
+    id:      0,
+    line1:   "",
+    line2:   "",
+    city:    "",
+    state:   "",
+    zip:     "",
+    country: "United States",
 }

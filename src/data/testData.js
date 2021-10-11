@@ -5,7 +5,7 @@ export const addresses = [
         line_1:              "123 Alpha Ave",
         city:                "Springfield",
         state:               "IL",
-        postal_code:         "60601",
+        zip:                 "60601",
         country:             "United States",
         is_current:          1,
         is_likely_to_change: 0
@@ -16,7 +16,7 @@ export const addresses = [
         line_1:              "234 Bravo Blvd",
         city:                "Austin",
         state:               "TX",
-        postal_code:         "78701",
+        zip:                 "78701",
         country:             "United States",
         is_current:          0,
         is_likely_to_change: 1
@@ -28,7 +28,7 @@ export const addresses = [
         line_2:              "Apt 27B",
         city:                "New York",
         state:               "NY",
-        postal_code:         "12345",
+        zip:                 "12345",
         country:             "United States",
         is_current:          1,
         is_likely_to_change: 1
@@ -40,7 +40,7 @@ export const addresses = [
         line_2:              "Apt 3",
         city:                "Brooklyn",
         state:               "NY",
-        postal_code:         "11223",
+        zip:                 "11223",
         country:             "United States",
         is_current:          1,
         is_likely_to_change: 0

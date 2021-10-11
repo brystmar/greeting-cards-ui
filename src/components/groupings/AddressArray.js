@@ -28,7 +28,7 @@ export default function AddressArray(props) {
                 line2={address.line_2}
                 city={address.city}
                 state={address.state}
-                postalCode={address.postal_code}
+                zip={address.zip}
                 country={address.country}
             />
         )
@@ -49,7 +49,7 @@ AddressArray.defaultProps = {
         line_2:              "",
         city:                "",
         state:               "",
-        postal_code:         "",
+        zip:                 "",
         country:             "United States",
         is_current:          0,
         is_likely_to_change: 0
