@@ -24,12 +24,13 @@ export default function AddressArray(props) {
                 key={index}
                 index={index}
                 id={address.id}
-                line1={address.line_1}
-                line2={address.line_2}
+                line_1={address.line_1}
+                line_2={address.line_2}
                 city={address.city}
                 state={address.state}
                 zip={address.zip}
                 country={address.country}
+                full_address={address.full_address}
             />
         )
 
@@ -51,6 +52,7 @@ AddressArray.defaultProps = {
         state:               "",
         zip:                 "",
         country:             "United States",
+        full_address:        "",
         is_current:          0,
         is_likely_to_change: 0
     } ]

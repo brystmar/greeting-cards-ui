@@ -9,7 +9,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-street-1-${props.index}`}
                     name="address-street-1"
-                    value={props.line1}
+                    value={props.line_1 ? props.line_1 : ""}
                     className="input-text"
                     disabled={true}
                 />
@@ -21,19 +21,19 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-street-2-${props.index}`}
                     name="address-street-2"
-                    value={props.line2}
+                    value={props.line_2 ? props.line_2 : ""}
                     className="input-text"
                     disabled={true}
                 />
             </div>
-            
+
             <div className="label-input-container">
                 <label htmlFor="address-city" className="label-input">City:</label>
                 <input
                     type="text"
                     id={`address-city-${props.index}`}
                     name="address-city"
-                    value={props.city}
+                    value={props.city ? props.city : ""}
                     className="input-text"
                     disabled={true}
                 />
@@ -45,7 +45,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-state-${props.index}`}
                     name="address-state"
-                    value={props.state}
+                    value={props.state ? props.state : ""}
                     className="input-text"
                     disabled={true}
                 />
@@ -57,7 +57,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-zip-${props.index}`}
                     name="address-zip"
-                    value={props.zip}
+                    value={props.zip ? props.zip : ""}
                     className="input-text"
                     disabled={true}
                 />
@@ -69,7 +69,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-country-${props.index}`}
                     name="address-country"
-                    value={props.country}
+                    value={props.country ? props.country : ""}
                     className="input-text"
                     disabled={true}
                 />
@@ -79,12 +79,13 @@ export default function AddressFields(props) {
 }
 
 AddressFields.defaultProps = {
-    index:   0,
-    id:      0,
-    line1:   "",
-    line2:   "",
-    city:    "",
-    state:   "",
-    zip:     "",
-    country: "United States",
+    index:        0,
+    id:           0,
+    line_1:       "",
+    line_2:       "",
+    city:         "",
+    state:        "",
+    zip:          "",
+    country:      "United States",
+    full_address: ""
 }

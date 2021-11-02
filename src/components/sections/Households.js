@@ -15,7 +15,7 @@ export default function Households(props) {
             <PicklistOption
                 key={index}
                 value={selectedHousehold.id}
-                name={selectedHousehold.name}
+                name={selectedHousehold.nickname}
             />
         )
     }

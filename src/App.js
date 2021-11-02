@@ -34,25 +34,25 @@ export default function App() {
                     const householdListResponse = await householdListRequest.json()
 
                     // Update local state
-                    updateAddressData(addressListResponse.data)
-                    updateHouseholdData(householdListResponse.data)
+                    updateAddressData(addressListResponse)
+                    updateHouseholdData(householdListResponse)
                 } catch (error) {
                     console.error(`Error retrieving (or parsing) address list: ${error}`)
                 }
             }
 
             // Call the async function declared above
-            console.info("Retrieving list of addresses & hosueholds via App.useEffect")
+            console.info("Retrieving list of addresses & households via App.useEffect")
             getData()
                 .then(() => console.log("Request within App.useEffect.getData() was successful!"))
                 .catch(() => console.error("Error somewhere within the App.useEffect.getData() call"))
                 .finally(() => {
                     console.debug("End of App.useEffect.getData()")
-                    console.log(`addressData: \n${JSON.stringify(addressData)}`)
-                    console.log(`hhData: \n${JSON.stringify(householdData)}`)
+                    // console.log(`addressData: \n${JSON.stringify(addressData)}`)
+                    // console.log(`hhData: \n${JSON.stringify(householdData)}`)
                 })
         },
-        [ addressData, householdData ])
+        [ ])
 
     return (
         <div className="app-container">
@@ -62,22 +62,22 @@ export default function App() {
                 <Switch>
                     <Route path="/home">
                         <Home
-                            householdList={households}
-                            addressList={addresses}
+                            householdList={householdData}
+                            addressList={addressData}
                         />
                     </Route>
 
                     <Route path="/households">
                         <Households
-                            householdList={households}
-                            addressList={addresses}
+                            householdList={householdData}
+                            addressList={addressData}
                         />
                     </Route>
 
                     <Route path="/addresses">
                         <Addresses
-                            householdList={households}
-                            addressList={addresses}
+                            householdList={householdData}
+                            addressList={addressData}
                         />
                     </Route>
 
@@ -91,8 +91,8 @@ export default function App() {
 
                     <Route exact path="/">
                         <Home
-                            householdList={households}
-                            addressList={addresses}
+                            householdList={householdData}
+                            addressList={addressData}
                         />
                     </Route>
                 </Switch>
