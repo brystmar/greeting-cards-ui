@@ -10,8 +10,7 @@ import './styles/sections.css';
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { api } from "./data/endpoints";
-import { address, household, card, event, gift } from "./data/defaultData";
-import { households, addresses } from "./data/testData";
+import { address, household } from "./data/defaultData";
 
 
 export default function App() {
@@ -44,15 +43,11 @@ export default function App() {
             // Call the async function declared above
             console.info("Retrieving list of addresses & households via App.useEffect")
             getData()
-                .then(() => console.log("Request within App.useEffect.getData() was successful!"))
-                .catch(() => console.error("Error somewhere within the App.useEffect.getData() call"))
-                .finally(() => {
-                    console.debug("End of App.useEffect.getData()")
-                    // console.log(`addressData: \n${JSON.stringify(addressData)}`)
-                    // console.log(`hhData: \n${JSON.stringify(householdData)}`)
-                })
+                .then(() => console.log("Request within App.useEffect.getData() completed!"))
+                .catch(() => console.error("Error in App.useEffect.getData()"))
+                .finally(() => console.debug("End of App.useEffect.getData()"))
         },
-        [ ])
+        [])
 
     return (
         <div className="app-container">

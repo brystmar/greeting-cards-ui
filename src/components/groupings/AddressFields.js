@@ -1,4 +1,5 @@
 import React from "react";
+import { address } from "../../data/defaultData";
 
 export default function AddressFields(props) {
     return (
@@ -78,14 +79,4 @@ export default function AddressFields(props) {
     )
 }
 
-AddressFields.defaultProps = {
-    index:        0,
-    id:           0,
-    line_1:       "",
-    line_2:       "",
-    city:         "",
-    state:        "",
-    zip:          "",
-    country:      "United States",
-    full_address: ""
-}
+AddressFields.defaultProps = address

@@ -1,6 +1,7 @@
 import React from "react";
 import AddressFields from "./AddressFields";
 import "../../styles/addresses.css"
+import { address } from "../../data/defaultData";
 
 export default function AddressArray(props) {
     /**
@@ -43,17 +44,5 @@ export default function AddressArray(props) {
 
 AddressArray.defaultProps = {
     householdId: 0,
-    addressList: [ {
-        id:                  0,
-        household_id:        0,
-        line_1:              "",
-        line_2:              "",
-        city:                "",
-        state:               "",
-        zip:                 "",
-        country:             "United States",
-        full_address:        "",
-        is_current:          0,
-        is_likely_to_change: 0
-    } ]
+    addressList: [ address ]
 }

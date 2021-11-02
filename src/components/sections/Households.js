@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PicklistOption from "../PicklistOption";
 import AddressArray from "../groupings/AddressArray";
+import { address, household } from "../../data/defaultData";
 
 export default function Households(props) {
     const selectionDefault = {
@@ -74,7 +75,11 @@ export default function Households(props) {
                         householdId={selection.householdId}
                         addressList={props.addressList}
                     />
-                    <span className="debug"><br />selection={JSON.stringify(selection.householdId)}</span>
+
+                    <span className="debug">
+                        <br />
+                        selection={JSON.stringify(selection.householdId)}
+                    </span>
                 </div>
             </div>
         </section>
@@ -82,18 +87,6 @@ export default function Households(props) {
 }
 
 Households.defaultProps = {
-    householdList: [ {
-        id:                 0,
-        name:               "",
-        formal_name:        "",
-        relationship:       "",
-        primary_address_id: 0
-    } ],
-    addressList:   [ {
-        id:                  0,
-        household_id:        0,
-        is_current:          0,
-        is_likely_to_change: 0
-    } ]
+    householdList: [ household ],
+    addressList:   [ address ]
 }
-
