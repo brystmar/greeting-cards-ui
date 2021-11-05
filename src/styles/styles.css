@@ -187,6 +187,8 @@ label {
 .debug {
   color: darkred;
   background-color: lightgray;
+  margin: 3em 0;
+  white-space: pre-wrap;
 }
 
 .hidden {

@@ -4,14 +4,14 @@ export default function PicklistOption(props) {
     return (
         <option
             className="picklist-option"
-            value={props.value}
+            value={props.id}
         >
-            {props.name}
+            {props.nickname}
         </option>
     )
 }
 
 PicklistOption.defaultProps = {
-    value:        0,
-    name:         ""
+    id:       0,
+    nickname: ""
 }

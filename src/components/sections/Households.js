@@ -4,44 +4,49 @@ import AddressArray from "../groupings/AddressArray";
 import { defaultAddress, defaultHousehold } from "../../data/defaultData";
 
 export default function Households(props) {
-    const selectionDefault = { householdId: 0 }
-
-    const [ selection, updateSelection ] = useState(selectionDefault)
+    const [ selection, updateSelection ] = useState({
+        householdId:       0,
+        householdNickname: "",
+        addressCount:      0
+    })
     let picklistOptions = mapHouseholdData(props.householdList)
 
-    function mapHouseholdData(allHouseholds) {
-        return allHouseholds.map((selectedHousehold, index) =>
+    function mapHouseholdData(hhList) {
+        return hhList.map((selectedHousehold, index) =>
             <PicklistOption
                 key={index}
-                value={selectedHousehold.id}
-                name={selectedHousehold.nickname}
+                id={selectedHousehold.id}
+                nickname={selectedHousehold.nickname}
             />
         )
     }
 
-    function handleChange(event) {
+    function handleHouseholdChange(event) {
+        // Update the id, nickname, and address count for the selected household
         updateSelection({
-            ...selection,
-            [event.target.name]: event.target.value
-        })
+                ...selection,
+                householdId:       event.target.value,
+                householdNickname: props.householdList.filter((hh) => hh.id.toString() === event.target.value.toString())[0].nickname,
+                addressCount:      props.addressList.filter((address) => address.household_id.toString() === event.target.value).length
+            }
+        )
     }
 
-    // Update the list of picklist options when householdList changes
-    // Stubbing out for later when we use an API
+    // When householdList changes, update state and the list of picklist options
     useEffect(() => {
         console.debug("List of households was updated.")
-        // console.debug(props.householdList)
 
         // picklistOptions = mapHouseholdData(props.householdList)
 
         // Initialize the selected id to the first household in the list
-        if (props.householdList[0]) {
-            updateSelection({ householdId: props.householdList[0].id })
+        if (props.householdList[0].nickname) {
+            updateSelection({
+                householdId:       props.householdList[0].id,
+                householdNickname: props.householdList.filter((hh) => hh.id.toString() === props.householdList[0].id.toString())[0].nickname,
+                addressCount:      props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id).length
+            })
         }
-    }, [ props.householdList ])
-
-    // Update
-
+    }, [ props.householdList, props.addressList ])
 
     return (
         <section>
@@ -55,29 +60,29 @@ export default function Households(props) {
                             name="householdId"
                             id="households-selection-box"
                             className="selection-box"
-                            // size={props.householdList.length}
                             size={Math.min(props.householdList.length, 10)}
                             value={selection.householdId}
-                            onChange={handleChange}
+                            onChange={handleHouseholdChange}
                             required={false}
                         >
                             {picklistOptions}
                         </select>
                     </span>
-                    <span className="debug"><br />{JSON.stringify(selection)}</span>
+
+                    <span className="debug">
+                        {`selection:\n${JSON.stringify(selection)}`}
+                    </span>
                 </div>
 
                 <div className="col">
-                    <span className="subtitle">Address(es) for hh_id={selection.householdId}</span>
+                    <span className="subtitle">
+                        {`${selection.addressCount > 1 ? "Addresses" : "Address"} for ${selection.householdNickname}:`}
+                    </span>
                     <AddressArray
                         householdId={selection.householdId}
+                        householdNickname={selection.householdNickname}
                         addressList={props.addressList}
                     />
-
-                    <span className="debug">
-                        <br />
-                        selection={JSON.stringify(selection.householdId)}
-                    </span>
                 </div>
             </div>
         </section>
