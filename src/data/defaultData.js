@@ -1,4 +1,4 @@
-export const address = {
+export const defaultAddress = {
     id:                  0,
     household_id:        0,
     line_1:              "",
@@ -12,7 +12,7 @@ export const address = {
     last_modified:       new Date("2021-10-18 03:40:35.473881")
 }
 
-export const household = {
+export const defaultHousehold = {
     id:                0,
     nickname:          "",
     first_names:       "",
@@ -24,7 +24,7 @@ export const household = {
     notes:             ""
 }
 
-export const event = {
+export const defaultEvent = {
     id:          0,
     name:        "",
     date:        "",
@@ -32,7 +32,7 @@ export const event = {
     is_archived: 0
 }
 
-export const card = {
+export const defaultCard = {
     id:            0,
     was_card_sent: 1,
     event_id:      0,
@@ -40,7 +40,7 @@ export const card = {
     address_id:    0
 }
 
-export const gift = {
+export const defaultGift = {
     id:           0,
     event_id:     0,
     household_id: 0,

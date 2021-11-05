@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PicklistOption from "../PicklistOption";
 import AddressArray from "../groupings/AddressArray";
-import { address, household } from "../../data/defaultData";
+import { defaultAddress, defaultHousehold } from "../../data/defaultData";
 
 export default function Households(props) {
-    const selectionDefault = {
-        householdId: 0
-    }
+    const selectionDefault = { householdId: 0 }
 
     const [ selection, updateSelection ] = useState(selectionDefault)
     let picklistOptions = mapHouseholdData(props.householdList)
@@ -87,6 +85,6 @@ export default function Households(props) {
 }
 
 Households.defaultProps = {
-    householdList: [ household ],
-    addressList:   [ address ]
+    householdList: [ defaultHousehold ],
+    addressList:   [ defaultAddress ]
 }

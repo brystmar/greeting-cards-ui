@@ -1,5 +1,6 @@
 import React from "react";
 import Households from "./Households";
+import { defaultHousehold, defaultAddress } from "../../data/defaultData";
 
 export default function Home(props) {
     return <section>
@@ -14,17 +15,6 @@ export default function Home(props) {
 }
 
 Home.defaultProps = {
-    householdList: [{
-        id: 0,
-        name: "",
-        formal_name: "",
-        relationship: "",
-        primary_address_id: 0
-    }],
-    addressList: [{
-        id: 0,
-        household_id: 0,
-        is_current: 0,
-        is_likely_to_change: 0
-    }]
+    householdList: [ defaultHousehold ],
+    addressList:   [ defaultAddress ]
 }

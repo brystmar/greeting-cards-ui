@@ -1,5 +1,5 @@
 import React from "react";
-import { address } from "../../data/defaultData";
+import { defaultAddress } from "../../data/defaultData";
 
 export default function AddressFields(props) {
     return (
@@ -79,4 +79,4 @@ export default function AddressFields(props) {
     )
 }
 
-AddressFields.defaultProps = address
+AddressFields.defaultProps = defaultAddress

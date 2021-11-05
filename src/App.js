@@ -10,12 +10,11 @@ import './styles/sections.css';
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { api } from "./data/endpoints";
-import { address, household } from "./data/defaultData";
-
+import { defaultAddress, defaultHousehold } from "./data/defaultData";
 
 export default function App() {
-    const [ addressData, updateAddressData ] = useState([ address ])
-    const [ householdData, updateHouseholdData ] = useState([ household ])
+    const [ addressData, updateAddressData ] = useState([ defaultAddress ])
+    const [ householdData, updateHouseholdData ] = useState([ defaultHousehold ])
 
     // Retrieve and store data from the database in memory
     useEffect(() => {
