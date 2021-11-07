@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { defaultAddress } from "../../data/defaultData";
 
 export default function AddressFields(props) {
+    const [ state, updateState ] = useState({
+        householdId:      props.householdId,
+        line_1:           "",
+        line_2:           "",
+        city:             "",
+        state:            "",
+        zip:              "",
+        country:          "",
+        fullAddress:      "",
+        isCurrent:        props.isCurrent === 1,
+        isLikelyToChange: props.isLikelyToChange === 1
+    })
+
+    function handleChange(event) {
+        // Update the id, nickname, and address count for the selected household
+        updateState({
+            ...state,
+            [event.target.name]: event.target.value
+        })
+    }
+
     return (
         <div className="address-fields">
             <div className="label-input-container">
@@ -13,7 +34,7 @@ export default function AddressFields(props) {
                 <input
                     type="text"
                     id={`address-line-1-${props.index}`}
-                    name="address-line-1"
+                    name="line_1"
                     value={props.line_1 || ""}
                     className="input-text input-address-street"
                     disabled={true}
@@ -29,7 +50,7 @@ export default function AddressFields(props) {
                 <input
                     type="text"
                     id={`address-line-2-${props.index}`}
-                    name="address-line-2"
+                    name="line_2"
                     value={props.line_2 || ""}
                     className="input-text input-address-street"
                     disabled={true}
@@ -45,7 +66,7 @@ export default function AddressFields(props) {
                 <input
                     type="text"
                     id={`address-city-${props.index}`}
-                    name="address-city"
+                    name="city"
                     value={props.city || ""}
                     className="input-text input-address-city"
                     disabled={true}
@@ -61,7 +82,7 @@ export default function AddressFields(props) {
                 <input
                     type="text"
                     id={`address-state-${props.index}`}
-                    name="address-state"
+                    name="state"
                     value={props.state || ""}
                     className="input-text input-address-state"
                     disabled={true}
@@ -77,7 +98,7 @@ export default function AddressFields(props) {
                 <input
                     type="text"
                     id={`address-zip-${props.index}`}
-                    name="address-zip"
+                    name="zip"
                     value={props.zip || ""}
                     className="input-text input-address-zip"
                     disabled={true}
@@ -93,14 +114,14 @@ export default function AddressFields(props) {
                 <input
                     type="text"
                     id={`address-country-${props.index}`}
-                    name="address-country"
+                    name="country"
                     value={props.country || ""}
                     className="input-text input-address-country"
                     disabled={true}
                 />
             </div>
 
-            {props.full_address ?
+            {props.fullAddress ?
                 // Only display the full address when it's used, typically for non-US addresses
                 <div className="label-input-container">
                     <label
@@ -110,13 +131,49 @@ export default function AddressFields(props) {
 
                     <textarea
                         id={`address-full-${props.index}`}
-                        name="address-full"
-                        value={props.full_address || ""}
+                        name="fullAddress"
+                        value={props.fullAddress || ""}
                         className="input-textarea input-address-full"
                         disabled={true}
                     />
                 </div>
                 : null}
+
+            <div className="label-checkbox-container">
+                <input
+                    type="checkbox"
+                    id={`is-current-${props.isCurrent}`}
+                    name="isCurrent"
+                    value={state.isCurrent}
+                    checked={state.isCurrent}
+                    onChange={handleChange}
+                    className="input-checkbox"
+                    disabled={false}
+                />
+
+                <label
+                    htmlFor={`is-current-${props.isCurrent}`}
+                    className="label-checkbox"
+                >Is Current?</label>
+            </div>
+
+            <div className="label-checkbox-container">
+                <input
+                    type="checkbox"
+                    id={`is-likely-to-change-${props.isCurrent}`}
+                    name="isLikelyToChange"
+                    value={state.isLikelyToChange}
+                    checked={state.isLikelyToChange}
+                    onChange={handleChange}
+                    className="input-checkbox"
+                    disabled={false}
+                />
+
+                <label
+                    htmlFor={`is-likely-to-change-${props.isCurrent}`}
+                    className="label-checkbox"
+                >Is Likely To Change?</label>
+            </div>
 
         </div>
     )

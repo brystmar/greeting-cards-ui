@@ -15,21 +15,23 @@ export const defaultAddress = {
 }
 
 export const defaultHousehold = {
-    id:                0,
-    nickname:          "",
-    first_names:       "",
-    surname:           "",
-    formal_name:       "",
-    relationship:      "",
-    relationship_type: "",
-    family_side:       "",
-    notes:             ""
+    id:                          0,
+    nickname:                    "",
+    first_names:                 "",
+    surname:                     "",
+    formal_name:                 "",
+    relationship:                "",
+    relationship_type:           "",
+    family_side:                 "",
+    kids:                        "",
+    should_receive_holiday_card: 1,
+    notes:                       ""
 }
 
 export const defaultEvent = {
     id:          0,
     name:        "",
-    date:        "",
+    date:        new Date("2021-10-18"),
     year:        2021,
     is_archived: 0
 }
@@ -43,9 +45,11 @@ export const defaultCard = {
 }
 
 export const defaultGift = {
-    id:           0,
-    event_id:     0,
-    household_id: 0,
-    description:  "",
-    notes:        ""
+    id:             0,
+    event_id:       0,
+    household_id:   0,
+    description:    "",
+    purchased_from: "",
+    date:           new Date("2021-10-18"),
+    notes:          ""
 }

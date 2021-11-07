@@ -24,12 +24,11 @@ export default function Households(props) {
     function handleHouseholdChange(event) {
         // Update the id, nickname, and address count for the selected household
         updateSelection({
-                ...selection,
-                householdId:       event.target.value,
-                householdNickname: props.householdList.filter((hh) => hh.id.toString() === event.target.value.toString())[0].nickname,
-                addressCount:      props.addressList.filter((address) => address.household_id.toString() === event.target.value).length
-            }
-        )
+            ...selection,
+            householdId:       event.target.value,
+            householdNickname: props.householdList.filter((hh) => hh.id.toString() === event.target.value.toString())[0].nickname,
+            addressCount:      props.addressList.filter((address) => address.household_id.toString() === event.target.value).length
+        })
     }
 
     // When householdList changes, update state and the list of picklist options

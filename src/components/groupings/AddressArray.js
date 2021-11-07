@@ -11,7 +11,7 @@ export default function AddressArray(props) {
      * @param   {Number}   householdId  Numeric id of the household to find
      * @param   {Array}    addressList  List of address objects to search through
      * @return  {HTMLDivElement}        A div with
-     */
+    */
 
     let addressesForHousehold = props.addressList
         // Find which addresses match the provided household
@@ -25,13 +25,18 @@ export default function AddressArray(props) {
                 key={index}
                 index={index}
                 id={address.id}
+                householdId={address.household_id}
                 line_1={address.line_1}
                 line_2={address.line_2}
                 city={address.city}
                 state={address.state}
                 zip={address.zip}
                 country={address.country}
-                full_address={address.full_address}
+                fullAddress={address.full_address}
+                isCurrent={address.is_current}
+                isLikelyToChange={address.is_likely_to_change}
+                createdDate={address.created_date}
+                lastModified={address.last_modified}
             />
         )
 

@@ -41,4 +41,13 @@
   grid-template: 1fr/minmax(7em, 25%) minmax(max-content, 75%);
 }
 
+.label-checkbox-container {
+  margin: 0 0.75em;
+  padding: 0.1em;
+}
+.label-checkbox-container .label-checkbox {
+  display: inline;
+  margin-left: 0.5em;
+}
+
 /*# sourceMappingURL=addresses.css.map */
