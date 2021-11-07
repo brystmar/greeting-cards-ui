@@ -9,7 +9,7 @@ export const defaultAddress = {
     country:             "United States",
     full_address:        "",
     is_current:          1,
-    is_likely_to_change: 0,
+    is_likely_to_change: 1,
     created_date:        new Date("2021-10-18 03:40:35.473881"),
     last_modified:       new Date("2021-10-18 03:40:35.473881")
 }

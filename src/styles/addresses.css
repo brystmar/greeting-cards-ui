@@ -45,7 +45,8 @@
   margin: 0 0.75em;
   padding: 0.1em;
 }
-.label-checkbox-container .label-checkbox {
+
+.label-checkbox {
   display: inline;
   margin-left: 0.5em;
 }

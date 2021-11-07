@@ -175,6 +175,10 @@ export default function AddressFields(props) {
                 >Is Likely To Change?</label>
             </div>
 
+            <div className="debug">
+                {JSON.stringify(props)}
+            </div>
+
         </div>
     )
 }
