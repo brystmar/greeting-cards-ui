@@ -188,7 +188,7 @@ export default function AddressFields(props) {
                     id={`is-current-${props.index}`}
                     name="isCurrent"
                     checked={formData.isCurrent}
-                    onChange={handleChange}
+                    onChange={handleCheckboxChange}
                     className="input-checkbox"
                     disabled={isDisabled}
                 />

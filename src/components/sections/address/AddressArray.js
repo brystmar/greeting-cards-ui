@@ -1,7 +1,7 @@
 import React from "react";
 import AddressFields from "./AddressFields";
-import "../../styles/addresses.css"
-import { defaultAddress } from "../../data/defaultData";
+import "../../../styles/addresses.css"
+import { defaultAddress } from "../../../data/defaultData";
 
 export default function AddressArray(props) {
     /**

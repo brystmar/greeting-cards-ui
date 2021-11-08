@@ -7,6 +7,7 @@
 /*** Favicon ***/
 /*** Page Layout ***/
 /*** Nav ***/
+article .title,
 section .title {
   font-size: 1.5rem;
   font-weight: 800;
@@ -15,24 +16,26 @@ section .title {
   display: block;
   text-align: center;
 }
+article .subtitle,
 section .subtitle {
   font-size: 1.25rem;
   font: "Roboto Slab", serif;
   margin: 1em 0;
   display: block;
 }
+
 section .content {
   font: "Roboto", sans-serif;
 }
-section .content .selection-box {
+section .col .selection-box {
   display: block;
   margin: 1em 0;
 }
-section .content.column-container {
+section .column-container {
   display: flex;
   justify-content: space-between;
 }
-section .content.column-container .col {
+section .column-container .col {
   margin: 0.25em;
   width: 100%;
   display: block;

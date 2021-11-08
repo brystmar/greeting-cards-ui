@@ -1,10 +1,8 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./components/sections/Home";
-import Addresses from "./components/sections/Addresses";
 import Cards from "./components/sections/Cards";
 import Events from "./components/sections/Events";
-import Households from "./components/sections/Households";
 import './styles/styles.css';
 import './styles/sections.css';
 import React, { useState, useEffect } from "react";
@@ -56,20 +54,6 @@ export default function App() {
                 <Switch>
                     <Route path="/home">
                         <Home
-                            householdList={householdData}
-                            addressList={addressData}
-                        />
-                    </Route>
-
-                    <Route path="/households">
-                        <Households
-                            householdList={householdData}
-                            addressList={addressData}
-                        />
-                    </Route>
-
-                    <Route path="/addresses">
-                        <Addresses
                             householdList={householdData}
                             addressList={addressData}
                         />

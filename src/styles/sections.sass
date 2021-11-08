@@ -1,5 +1,6 @@
 @import "variables"
 
+article,
 section
   .title
     font-size: 1.5rem
@@ -15,12 +16,15 @@ section
     margin: 1em 0
     display: block
 
+section
   .content
     font: $font-stack-secondary
+
+  .col
     .selection-box
       display: block
       margin: 1em 0
-  .content.column-container
+  .column-container
     display: flex
     justify-content: space-between
     .col

@@ -37,11 +37,14 @@ export const defaultEvent = {
 }
 
 export const defaultCard = {
-    id:            0,
-    was_card_sent: 1,
-    event_id:      0,
-    household_id:  0,
-    address_id:    0
+    id:           0,
+    type:         "",
+    status:       "New",
+    event_id:     0,
+    gift_id: 0,
+    household_id: 0,
+    address_id:   0,
+    date_sent: new Date("2021-10-18")
 }
 
 export const defaultGift = {
