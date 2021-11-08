@@ -1,30 +1,66 @@
-import React, { useState } from "react";
-import { defaultAddress } from "../../data/defaultData";
+import React, { useState, useEffect } from "react";
+// import { defaultAddress } from "../../data/defaultData";
 
 export default function AddressFields(props) {
-    const [ state, updateState ] = useState({
+    const [ formData, updateFormData ] = useState({
         householdId:      props.householdId,
-        line_1:           "",
-        line_2:           "",
-        city:             "",
-        state:            "",
-        zip:              "",
-        country:          "",
-        fullAddress:      "",
-        isCurrent:        props.isCurrent === 1,
-        isLikelyToChange: props.isLikelyToChange === 1
+        line_1:           props.line_1 || "",
+        line_2:           props.line_2 || "",
+        city:             props.city || "",
+        state:            props.state || "",
+        zip:              props.zip || "",
+        country:          props.country || "",
+        fullAddress:      props.fullAddress || "",
+        isCurrent:        props.isCurrent,
+        isLikelyToChange: props.isLikelyToChange
     })
+
+    const isDisabled = false;
 
     function handleChange(event) {
         // Update the id, nickname, and address count for the selected household
-        updateState({
-            ...state,
+        updateFormData({
+            ...formData,
             [event.target.name]: event.target.value
         })
     }
 
+    function handleCheckboxChange(event) {
+        // Default form handling of checkboxes is weird
+        updateFormData({
+            ...formData,
+            [event.target.name]: event.target.checked
+        })
+    }
+
+    function handleSubmit(event) {
+        // Don't refresh the page
+        event.preventDefault()
+
+        console.info(`Form ${event.target.id} submitted`)
+        console.debug(`Form data: ${JSON.stringify(formData)}`)
+    }
+
+    useEffect(() => {
+        console.debug("Re-rendering AddressFields...")
+        updateFormData({
+            householdId:      props.householdId,
+            line_1:           props.line_1 || "",
+            line_2:           props.line_2 || "",
+            city:             props.city || "",
+            state:            props.state || "",
+            zip:              props.zip || "",
+            country:          props.country || "",
+            fullAddress:      props.fullAddress || "",
+            isCurrent:        props.isCurrent,
+            isLikelyToChange: props.isLikelyToChange
+        })
+
+    }, [ props.householdId, props.line_1, props.line_2, props.city, props.state, props.zip,
+        props.country, props.fullAddress, props.isCurrent, props.isLikelyToChange ])
+
     return (
-        <div className="address-fields">
+        <form id={`address-form-${props.index}`} className="address-fields" onSubmit={handleSubmit}>
             <div className="label-input-container">
                 <label
                     htmlFor={`address-line-1-${props.index}`}
@@ -35,9 +71,10 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-line-1-${props.index}`}
                     name="line_1"
-                    value={props.line_1 || ""}
+                    value={formData.line_1}
+                    onChange={handleChange}
                     className="input-text input-address-street"
-                    disabled={true}
+                    disabled={isDisabled}
                 />
             </div>
 
@@ -51,9 +88,10 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-line-2-${props.index}`}
                     name="line_2"
-                    value={props.line_2 || ""}
+                    value={formData.line_2}
+                    onChange={handleChange}
                     className="input-text input-address-street"
-                    disabled={true}
+                    disabled={isDisabled}
                 />
             </div>
 
@@ -67,9 +105,10 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-city-${props.index}`}
                     name="city"
-                    value={props.city || ""}
+                    value={formData.city}
+                    onChange={handleChange}
                     className="input-text input-address-city"
-                    disabled={true}
+                    disabled={isDisabled}
                 />
             </div>
 
@@ -83,9 +122,10 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-state-${props.index}`}
                     name="state"
-                    value={props.state || ""}
+                    value={formData.state}
+                    onChange={handleChange}
                     className="input-text input-address-state"
-                    disabled={true}
+                    disabled={isDisabled}
                 />
             </div>
 
@@ -99,9 +139,10 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-zip-${props.index}`}
                     name="zip"
-                    value={props.zip || ""}
+                    value={formData.zip}
+                    onChange={handleChange}
                     className="input-text input-address-zip"
-                    disabled={true}
+                    disabled={isDisabled}
                 />
             </div>
 
@@ -115,9 +156,10 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-country-${props.index}`}
                     name="country"
-                    value={props.country || ""}
+                    value={formData.country}
+                    onChange={handleChange}
                     className="input-text input-address-country"
-                    disabled={true}
+                    disabled={isDisabled}
                 />
             </div>
 
@@ -132,9 +174,10 @@ export default function AddressFields(props) {
                     <textarea
                         id={`address-full-${props.index}`}
                         name="fullAddress"
-                        value={props.fullAddress || ""}
+                        value={formData.fullAddress}
+                        onChange={handleChange}
                         className="input-textarea input-address-full"
-                        disabled={true}
+                        disabled={isDisabled}
                     />
                 </div>
                 : null}
@@ -142,17 +185,16 @@ export default function AddressFields(props) {
             <div className="label-checkbox-container">
                 <input
                     type="checkbox"
-                    id={`is-current-${props.isCurrent}`}
+                    id={`is-current-${props.index}`}
                     name="isCurrent"
-                    value={state.isCurrent}
-                    checked={state.isCurrent}
+                    checked={formData.isCurrent}
                     onChange={handleChange}
                     className="input-checkbox"
-                    disabled={false}
+                    disabled={isDisabled}
                 />
 
                 <label
-                    htmlFor={`is-current-${props.isCurrent}`}
+                    htmlFor={`is-current-${props.index}`}
                     className="label-checkbox"
                 >Is Current?</label>
             </div>
@@ -160,27 +202,48 @@ export default function AddressFields(props) {
             <div className="label-checkbox-container">
                 <input
                     type="checkbox"
-                    id={`is-likely-to-change-${props.isCurrent}`}
+                    id={`is-likely-to-change-${props.index}`}
                     name="isLikelyToChange"
-                    value={state.isLikelyToChange}
-                    checked={state.isLikelyToChange}
-                    onChange={handleChange}
+                    checked={formData.isLikelyToChange}
+                    onChange={handleCheckboxChange}
                     className="input-checkbox"
-                    disabled={false}
+                    disabled={isDisabled}
                 />
 
                 <label
-                    htmlFor={`is-likely-to-change-${props.isCurrent}`}
+                    htmlFor={`is-likely-to-change-${props.index}`}
                     className="label-checkbox"
                 >Is Likely To Change?</label>
             </div>
 
-            <div className="debug">
-                {JSON.stringify(props)}
-            </div>
+            <button type="submit" className="btn btn-submit">Save Changes</button>
 
-        </div>
+            <p className="debug">
+                hhId:             {"\t" + props.householdId} <br/>
+                line_1:           {"\t" + props.line_1 || ""} <br/>
+                line_2:           {"\t" + props.line_2 || ""} <br/>
+                city:             {"\t\t" + props.city || ""} <br/>
+                state:            {"\t" + props.state || ""} <br/>
+                zip:              {"\t\t" + props.zip || ""} <br/>
+                country:          {"\t" + props.country || ""} <br/>
+                fullAddy:         {"\t" + props.fullAddress || ""} <br/>
+                isCurr:           {"\t" + props.isCurrent} <br/>
+                isLikely:         {"\t" + props.isLikelyToChange} <br/>
+            </p>
+        </form>
     )
 }
 
-AddressFields.defaultProps = defaultAddress
+AddressFields.defaultProps = {
+    index:            0,
+    householdId:      0,
+    line_1:           "",
+    line_2:           "",
+    city:             "",
+    state:            "",
+    zip:              "",
+    country:          "",
+    fullAddress:      "",
+    isCurrent:        false,
+    isLikelyToChange: false
+}

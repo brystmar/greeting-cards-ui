@@ -68,9 +68,11 @@ export default function Households(props) {
                         </select>
                     </span>
 
-                    <span className="debug">
-                        {`selection:\n${JSON.stringify(selection)}`}
-                    </span>
+                    <p className="debug">
+                        hh_id:      {"\t" + selection.householdId} <br/>
+                        nick:       {"\t" + selection.householdNickname} <br/>
+                        addresses:  {"\t" + selection.addressCount} <br/>
+                    </p>
                 </div>
 
                 <div className="col">

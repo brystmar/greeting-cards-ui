@@ -33,8 +33,8 @@ export default function AddressArray(props) {
                 zip={address.zip}
                 country={address.country}
                 fullAddress={address.full_address}
-                isCurrent={address.is_current}
-                isLikelyToChange={address.is_likely_to_change}
+                isCurrent={address.is_current.toString() === "1"}
+                isLikelyToChange={address.is_likely_to_change.toString() === "1"}
                 createdDate={address.created_date}
                 lastModified={address.last_modified}
             />
