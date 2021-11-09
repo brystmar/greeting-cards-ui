@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { defaultAddress } from "../../data/defaultData";
 
 export default function AddressFields(props) {
     const [ formData, updateFormData ] = useState({
@@ -15,7 +14,7 @@ export default function AddressFields(props) {
         isLikelyToChange: props.isLikelyToChange
     })
 
-    const isDisabled = false;
+    const isDisabled = false
 
     function handleChange(event) {
         // Update the id, nickname, and address count for the selected household
@@ -42,7 +41,7 @@ export default function AddressFields(props) {
     }
 
     useEffect(() => {
-        console.debug("Re-rendering AddressFields...")
+        console.debug("Re-rendering AddressFields")
         updateFormData({
             householdId:      props.householdId,
             line_1:           props.line_1 || "",
@@ -60,12 +59,12 @@ export default function AddressFields(props) {
         props.country, props.fullAddress, props.isCurrent, props.isLikelyToChange ])
 
     return (
-        <form id={`address-form-${props.index}`} className="address-fields" onSubmit={handleSubmit}>
+        <form id={`form-address-${props.index}`} className="address-fields" onSubmit={handleSubmit}>
             <div className="label-input-container">
                 <label
                     htmlFor={`address-line-1-${props.index}`}
                     className="label-input"
-                >Line 1:</label>
+                >Line 1</label>
 
                 <input
                     type="text"
@@ -82,7 +81,7 @@ export default function AddressFields(props) {
                 <label
                     htmlFor={`address-line-2-${props.index}`}
                     className="label-input"
-                >Line 2:</label>
+                >Line 2</label>
 
                 <input
                     type="text"
@@ -99,7 +98,7 @@ export default function AddressFields(props) {
                 <label
                     htmlFor={`address-city-${props.index}`}
                     className="label-input"
-                >City:</label>
+                >City</label>
 
                 <input
                     type="text"
@@ -116,7 +115,7 @@ export default function AddressFields(props) {
                 <label
                     htmlFor={`address-state-${props.index}`}
                     className="label-input"
-                >State:</label>
+                >State</label>
 
                 <input
                     type="text"
@@ -133,7 +132,7 @@ export default function AddressFields(props) {
                 <label
                     htmlFor={`address-zip-${props.index}`}
                     className="label-input"
-                >Zip:</label>
+                >Zip</label>
 
                 <input
                     type="text"
@@ -150,7 +149,7 @@ export default function AddressFields(props) {
                 <label
                     htmlFor={`address-country-${props.index}`}
                     className="label-input"
-                >Country:</label>
+                >Country</label>
 
                 <input
                     type="text"
@@ -169,7 +168,7 @@ export default function AddressFields(props) {
                     <label
                         htmlFor={`address-full-${props.index}`}
                         className="label-input"
-                    >Full Address:</label>
+                    >Full Address</label>
 
                     <textarea
                         id={`address-full-${props.index}`}
@@ -216,20 +215,21 @@ export default function AddressFields(props) {
                 >Is Likely To Change?</label>
             </div>
 
-            <button type="submit" className="btn btn-submit">Save Changes</button>
+            <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes
+            </button>
 
-            <p className="debug">
-                hhId:             {"\t" + props.householdId} <br/>
-                line_1:           {"\t" + props.line_1 || ""} <br/>
-                line_2:           {"\t" + props.line_2 || ""} <br/>
-                city:             {"\t\t" + props.city || ""} <br/>
-                state:            {"\t" + props.state || ""} <br/>
-                zip:              {"\t\t" + props.zip || ""} <br/>
-                country:          {"\t" + props.country || ""} <br/>
-                fullAddy:         {"\t" + props.fullAddress || ""} <br/>
-                isCurr:           {"\t" + props.isCurrent} <br/>
-                isLikely:         {"\t" + props.isLikelyToChange} <br/>
-            </p>
+            <div className="debug">
+                hhId: {"\t" + props.householdId} <br />
+                line_1: {"\t" + props.line_1 || ""} <br />
+                line_2: {"\t" + props.line_2 || ""} <br />
+                city: {"\t\t" + props.city || ""} <br />
+                state: {"\t" + props.state || ""} <br />
+                zip: {"\t\t" + props.zip || ""} <br />
+                country: {"\t" + props.country || ""} <br />
+                fullAddy: {"\t" + props.fullAddress || ""} <br />
+                isCurr: {"\t" + props.isCurrent} <br />
+                isLikely: {"\t" + props.isLikelyToChange} <br />
+            </div>
         </form>
     )
 }
