@@ -219,6 +219,7 @@ export default function AddressFields(props) {
             </button>
 
             <div className="debug">
+                addrId: {"\t" + props.id} <br />
                 hhId: {"\t" + props.householdId} <br />
                 line_1: {"\t" + props.line_1 || ""} <br />
                 line_2: {"\t" + props.line_2 || ""} <br />
@@ -235,6 +236,7 @@ export default function AddressFields(props) {
 }
 
 AddressFields.defaultProps = {
+    id:               0,
     index:            0,
     householdId:      0,
     line_1:           "",

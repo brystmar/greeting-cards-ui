@@ -6,7 +6,7 @@ import Events from "./components/sections/Events";
 import './styles/styles.css';
 import './styles/sections.css';
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { api } from "./data/endpoints";
 import { defaultAddress, defaultHousehold } from "./data/defaultData";
 
@@ -51,29 +51,33 @@ export default function App() {
             <Header />
 
             <main className="app-content">
-                <Switch>
-                    <Route path="/home">
-                        <Home
-                            householdList={householdData}
-                            addressList={addressData}
-                        />
-                    </Route>
+                <Home
+                    householdList={householdData}
+                    addressList={addressData}
+                />
+                {/*<Routes>*/}
+                {/*    <Route path="/home">*/}
+                {/*        <Home*/}
+                {/*            householdList={householdData}*/}
+                {/*            addressList={addressData}*/}
+                {/*        />*/}
+                {/*    </Route>*/}
 
-                    <Route path="/events">
-                        <Events />
-                    </Route>
+                {/*    <Route path="/events">*/}
+                {/*        <Events />*/}
+                {/*    </Route>*/}
 
-                    <Route path="/cards">
-                        <Cards />
-                    </Route>
+                {/*    <Route path="/cards">*/}
+                {/*        <Cards />*/}
+                {/*    </Route>*/}
 
-                    <Route exact path="/">
-                        <Home
-                            householdList={householdData}
-                            addressList={addressData}
-                        />
-                    </Route>
-                </Switch>
+                {/*    <Route exact path="/">*/}
+                {/*        <Home*/}
+                {/*            householdList={householdData}*/}
+                {/*            addressList={addressData}*/}
+                {/*        />*/}
+                {/*    </Route>*/}
+                {/*</Routes>*/}
             </main>
 
             <Footer />

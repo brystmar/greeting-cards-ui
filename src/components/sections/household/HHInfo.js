@@ -47,7 +47,7 @@ export default function HHInfo(props) {
 
         // When props change, replace state with the new props values
         updateHHData(initialState)
-    }, [ props ])
+    }, [ initialState, props ])
 
     return (
         <form id="form-hh-info" className="hh-info" onSubmit={handleSubmit}>
@@ -226,15 +226,15 @@ export default function HHInfo(props) {
             <div className="debug">
                 id: {"\t" + props.id} <br />
                 nickname: {"\t" + props.nickname || ""} <br />
-                firstNames: {"\t" + props.firstNames || ""} <br />
-                surname: {"\t" + props.surname || ""} <br />
-                formalName: {"\t" + props.formalName || ""} <br />
-                relationship: {"\t" + props.relationship || ""} <br />
-                relationshipType: {"\t" + props.relationshipType || ""} <br />
-                familySide: {"\t" + props.familySide || ""} <br />
-                kids: {"\t\t" + props.kids || ""} <br />
-                shouldReceiveHolidayCard: {"\t" + props.shouldReceiveHolidayCard || ""} <br />
-                notes: {"\t\t" + props.notes || ""} <br />
+                {/*firstNames: {"\t" + props.firstNames || ""} <br />*/}
+                {/*surname: {"\t" + props.surname || ""} <br />*/}
+                {/*formalName: {"\t" + props.formalName || ""} <br />*/}
+                {/*relationship: {"\t" + props.relationship || ""} <br />*/}
+                {/*relationshipType: {"\t" + props.relationshipType || ""} <br />*/}
+                {/*familySide: {"\t" + props.familySide || ""} <br />*/}
+                {/*kids: {"\t\t" + props.kids || ""} <br />*/}
+                {/*shouldReceiveHolidayCard: {"\t" + props.shouldReceiveHolidayCard || ""} <br />*/}
+                {/*notes: {"\t\t" + props.notes || ""} <br />*/}
             </div>
         </form>
     )

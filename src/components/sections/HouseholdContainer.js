@@ -7,7 +7,8 @@ import HHInfo from "./household/HHInfo";
 export default function HouseholdContainer(props) {
     const [ selection, updateSelection ] = useState({
         householdId:  0,
-        addressCount: 0
+        addressCount: 0,
+        addrList: [{id: 0, line_1: ""}]
     })
 
     const [ selectedHH, updateSelectedHH ] = useState({ id: 0, nickname: "" })
@@ -15,7 +16,16 @@ export default function HouseholdContainer(props) {
     let picklistOptions = mapHouseholdData(props.householdList)
 
     function mapHouseholdData(hhList) {
-        return hhList.map((selectedHousehold, index) =>
+        const output = hhList.sort((a, b) => {
+            if (a.nickname.toLowerCase() > b.nickname.toLowerCase()) {
+                return 1
+            }
+            if (a.nickname.toLowerCase() < b.nickname.toLowerCase()) {
+                return -1
+            }
+            return 0
+        });
+        return output.map((selectedHousehold, index) =>
             <PicklistOption
                 key={index}
                 id={selectedHousehold.id}
@@ -29,7 +39,8 @@ export default function HouseholdContainer(props) {
         updateSelection({
             ...selection,
             householdId:       event.target.value,
-            addressCount:      props.addressList.filter((address) => address.household_id.toString() === event.target.value).length
+            addressCount:      props.addressList.filter((address) => address.household_id.toString() === event.target.value).length,
+            addrList:      props.addressList.filter((address) => address.household_id.toString() === event.target.value)
         })
         
         // Update the household data for the selected object
@@ -46,7 +57,8 @@ export default function HouseholdContainer(props) {
         if (props.householdList[0].nickname) {
             updateSelection({
                 householdId:       props.householdList[0].id,
-                addressCount:      props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id).length
+                addressCount:      props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id).length,
+                addrList:      props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id)
             })
         }
     }, [ props.householdList, props.addressList ])
@@ -76,7 +88,11 @@ export default function HouseholdContainer(props) {
                         <p className="debug">
                             hh_id: {"\t" + selection.householdId} <br />
                             nick: {"\t" + selectedHH.nickname} <br />
-                            addresses: {"\t" + selection.addressCount} <br />
+                            addresses: {"\t" + selection.addressCount} <br /><br />
+                            addr0Id: {selection.addrList[0] ? selection.addrList[0].id : "..."} <br />
+                            addr0Street: {selection.addrList[0] ? selection.addrList[0].line_1 : "..."} <br /><br />
+                            addr1Id: {selection.addrList[1] ? selection.addrList[1].id : "n/a"} <br />
+                            addr1Street: {selection.addrList[1] ? selection.addrList[1].line_1 : "n/a"} <br />
                         </p>
                     </div>
                     <div className="col">
