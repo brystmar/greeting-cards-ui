@@ -107,8 +107,10 @@ export default function HouseholdContainer(props) {
                             relationshipType={selectedHH.relationship_type}
                             familySide={selectedHH.family_side}
                             kids={selectedHH.kids}
+                            pets={selectedHH.pets}
                             shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card}
                             notes={selectedHH.notes}
+                            updateHHData={props.updateHHData}
                         />
 
                     </div>

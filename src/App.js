@@ -54,6 +54,7 @@ export default function App() {
                 <Home
                     householdList={householdData}
                     addressList={addressData}
+                    updateHHData={updateHouseholdData}
                 />
                 {/*<Routes>*/}
                 {/*    <Route path="/home">*/}

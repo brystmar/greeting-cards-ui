@@ -10,6 +10,7 @@ export default function Home(props) {
             <HouseholdContainer
                 householdList={props.householdList}
                 addressList={props.addressList}
+                updateHHData={props.updateHHData}
             />
 
         </article>
