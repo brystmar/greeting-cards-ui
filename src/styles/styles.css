@@ -93,7 +93,7 @@ a:hover {
 
 a:focus,
 a:active {
-  outline-color: #979aa0;
+  outline-color: rgb(151, 154, 160);
 }
 
 li {
@@ -171,7 +171,6 @@ label {
   .app-logo {
     animation: spinning-bread infinite 20s linear;
   }
-
   html {
     scroll-behavior: smooth;
   }

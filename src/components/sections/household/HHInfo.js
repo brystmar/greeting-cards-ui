@@ -46,7 +46,7 @@ export default function HHInfo(props) {
         console.debug("Re-rendering HHInfo")
 
         // When props change, replace state with the new props values
-        updateHHData(initialState)
+        // updateHHData(initialState)
     }, [ initialState, props ])
 
     return (
