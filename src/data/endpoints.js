@@ -8,3 +8,9 @@ export const api = {
         all: `${process.env.REACT_APP_BACKEND_URL}/api/v1/all_addresses`
     }
 }
+
+// export const headers = {
+//     new Headers({
+//         'content-type': 'application/json'
+//     })
+// }

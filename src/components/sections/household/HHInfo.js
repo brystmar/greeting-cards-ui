@@ -19,6 +19,7 @@ export default function HHInfo(props) {
 
     const [ hhData, updateHHData ] = useState(initialState)
     const isDisabled = false
+    const isTesting = true
 
     function handleChange(event) {
         // Update the id, nickname, and address count for the selected household
@@ -58,11 +59,15 @@ export default function HHInfo(props) {
         // POST newHH to the backend
         // TODO: Fix CORS issues: Access to fetch at 'http://localhost:5000/api/v1/household' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
         console.log(`Calling endpoint: [POST] ${api.households.one}`)
-        fetch(api.households.one, {
-                method: "POST",
-                body:   JSON.stringify(newHH)
-            }
-        )
+        console.debug(`Request body in JSON: ${JSON.stringify(newHH)}`)
+
+        const options = {
+            method:  "POST",
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify(newHH)
+        }
+
+        fetch(api.households.one, options)
             .then(response => {
                 console.debug(`POST complete, response: ${response.status}; ${response.ok}`)
                 return response.json()
@@ -74,12 +79,26 @@ export default function HHInfo(props) {
                 props.updateHHData()
             })
 
-        console.info(`Form ${event.target.id} submitted, but no API called yet.`)
+        console.info(`Form ${event.target.id} submitted.`)
         console.debug(`Form data: ${JSON.stringify(newHH)}`)
     }
 
     useEffect(() => {
-        console.debug("Re-rendering HHInfo")
+        // Insert test data while testing
+        if (isTesting) {
+            updateHHData({
+                nickname:   "0test Nick " + new Date().toISOString(),
+                firstNames: "0test First Names",
+                surname:    "0test Surname",
+                notes:      new Date().toISOString()
+            })
+        }
+        console.debug("Inserting test data")
+
+    }, [ isTesting ])
+
+    useEffect(() => {
+        console.debug("Props changed, re-rendering HHInfo")
 
         // When props change, replace state with the new props values
         // updateHHData(initialState)
