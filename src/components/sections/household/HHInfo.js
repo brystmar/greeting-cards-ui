@@ -3,7 +3,7 @@ import { api } from "../../../data/endpoints";
 
 export default function HHInfo(props) {
     const initialState = {
-        id:                       props.id,
+        id:                       props.id || 0,
         nickname:                 props.nickname || "",
         firstNames:               props.firstNames || "",
         surname:                  props.surname || "",
@@ -13,13 +13,15 @@ export default function HHInfo(props) {
         familySide:               props.familySide || "",
         kids:                     props.kids || "",
         pets:                     props.pets || "",
-        shouldReceiveHolidayCard: props.shouldReceiveHolidayCard || 0,
+        shouldReceiveHolidayCard: props.shouldReceiveHolidayCard || true,
+        createdDate:              new Date().toISOString(),
+        lastModified:             new Date().toISOString(),
         notes:                    props.notes || ""
     }
 
     const [ hhData, updateHHData ] = useState(initialState)
     const isDisabled = false
-    const isTesting = true
+    const isTesting = false
 
     function handleChange(event) {
         // Update the id, nickname, and address count for the selected household
@@ -57,14 +59,13 @@ export default function HHInfo(props) {
         }
 
         // POST newHH to the backend
-        // TODO: Fix CORS issues: Access to fetch at 'http://localhost:5000/api/v1/household' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
         console.log(`Calling endpoint: [POST] ${api.households.one}`)
         console.debug(`Request body in JSON: ${JSON.stringify(newHH)}`)
 
         const options = {
             method:  "POST",
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify(newHH)
+            body:    JSON.stringify(newHH)
         }
 
         fetch(api.households.one, options)
@@ -99,6 +100,7 @@ export default function HHInfo(props) {
 
     useEffect(() => {
         console.debug("Props changed, re-rendering HHInfo")
+        console.debug(`createdDate: ${props.createdDate}, ${typeof(props.createdDate)}`)
 
         // When props change, replace state with the new props values
         // updateHHData(initialState)
@@ -261,6 +263,40 @@ export default function HHInfo(props) {
 
             <div className="label-input-container">
                 <label
+                    htmlFor="hh-created-date"
+                    className="label-input"
+                >Date Added</label>
+
+                <input
+                    type="text"
+                    id="hh-created-date"
+                    name="createdDate"
+                    value={hhData.createdDate}
+                    onChange={handleChange}
+                    className="input-date"
+                    disabled={true}
+                />
+            </div>
+
+            <div className="label-input-container">
+                <label
+                    htmlFor="hh-last-modified"
+                    className="label-input"
+                >Last Modified</label>
+
+                <input
+                    type="text"
+                    id="hh-last-modified"
+                    name="createdDate"
+                    value={hhData.lastModified}
+                    onChange={handleChange}
+                    className="input-datetime"
+                    disabled={true}
+                />
+            </div>
+
+            <div className="label-input-container">
+                <label
                     htmlFor="hh-notes"
                     className="label-input"
                 >Notes</label>
@@ -323,6 +359,8 @@ HHInfo.defaultProps = {
     familySide:               "",
     kids:                     "",
     pets:                     "",
-    shouldReceiveHolidayCard: 1,
+    shouldReceiveHolidayCard: true,
+    createdDate:              new Date().toISOString(),
+    lastModified:             new Date().toISOString(),
     notes:                    ""
 }

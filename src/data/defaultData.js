@@ -8,10 +8,11 @@ export const defaultAddress = {
     zip:                 "12345",
     country:             "United States",
     full_address:        "",
-    is_current:          1,
-    is_likely_to_change: 1,
+    is_current:          true,
+    is_likely_to_change: false,
     created_date:        new Date("2021-10-18 03:40:35.473881"),
-    last_modified:       new Date("2021-10-18 03:40:35.473881")
+    last_modified:       new Date("2021-10-18 03:40:35.473881"),
+    notes:               ""
 }
 
 export const defaultHousehold = {
@@ -24,7 +25,10 @@ export const defaultHousehold = {
     relationship_type:           "",
     family_side:                 "",
     kids:                        "",
-    should_receive_holiday_card: 1,
+    pets:                        "",
+    should_receive_holiday_card: true,
+    created_date:                new Date("2021-10-18 03:40:35.473881"),
+    last_modified:               new Date("2021-10-18 03:40:35.473881"),
     notes:                       ""
 }
 
@@ -33,26 +37,29 @@ export const defaultEvent = {
     name:        "",
     date:        new Date("2021-10-18"),
     year:        2021,
-    is_archived: 0
+    is_archived: false,
+    notes:       ""
 }
 
 export const defaultCard = {
     id:           0,
-    type:         "",
+    type:         "Thank You",
     status:       "New",
-    event_id:     0,
-    gift_id: 0,
+    gift_id:      0,
     household_id: 0,
     address_id:   0,
-    date_sent: new Date("2021-10-18")
+    date_sent:    new Date("2021-10-18"),
+    notes:        ""
 }
 
 export const defaultGift = {
-    id:             0,
-    event_id:       0,
-    household_id:   0,
-    description:    "",
-    purchased_from: "",
-    date:           new Date("2021-10-18"),
-    notes:          ""
+    id:                    0,
+    event_id:              0,
+    household_id:          0,
+    description:           "",
+    type:                  "",
+    origin:                "",
+    should_a_card_be_sent: "",
+    date:                  new Date("2021-10-18"),
+    notes:                 ""
 }

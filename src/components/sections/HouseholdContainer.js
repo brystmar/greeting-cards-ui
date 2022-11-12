@@ -8,11 +8,11 @@ export default function HouseholdContainer(props) {
     const [ selection, updateSelection ] = useState({
         householdId:  0,
         addressCount: 0,
-        addrList: [{id: 0, line_1: ""}]
+        addrList:     [ { id: 0, line_1: "" } ]
     })
 
-    const [ selectedHH, updateSelectedHH ] = useState({ id: 0, nickname: "" })
-    
+    const [ selectedHH, updateSelectedHH ] = useState({ id: 0, nickname: "default" })
+
     let picklistOptions = mapHouseholdData(props.householdList)
 
     function mapHouseholdData(hhList) {
@@ -38,11 +38,11 @@ export default function HouseholdContainer(props) {
         // Update the id, nickname, and address count for the selected household
         updateSelection({
             ...selection,
-            householdId:       event.target.value,
-            addressCount:      props.addressList.filter((address) => address.household_id.toString() === event.target.value).length,
-            addrList:      props.addressList.filter((address) => address.household_id.toString() === event.target.value)
+            householdId:  event.target.value,
+            addressCount: props.addressList.filter((address) => address.household_id.toString() === event.target.value).length,
+            addrList:     props.addressList.filter((address) => address.household_id.toString() === event.target.value)
         })
-        
+
         // Update the household data for the selected object
         updateSelectedHH(props.householdList.filter((hh) => hh.id.toString() === event.target.value.toString())[0])
     }
@@ -56,9 +56,9 @@ export default function HouseholdContainer(props) {
         // Initialize the selected id to the first household in the list
         if (props.householdList[0].nickname) {
             updateSelection({
-                householdId:       props.householdList[0].id,
-                addressCount:      props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id).length,
-                addrList:      props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id)
+                householdId:  props.householdList[0].id,
+                addressCount: props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id).length,
+                addrList:     props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id)
             })
         }
     }, [ props.householdList, props.addressList ])
@@ -89,10 +89,14 @@ export default function HouseholdContainer(props) {
                             hh_id: {"\t" + selection.householdId} <br />
                             nick: {"\t" + selectedHH.nickname} <br />
                             addresses: {"\t" + selection.addressCount} <br /><br />
-                            addr0Id: {selection.addrList[0] ? selection.addrList[0].id : "..."} <br />
-                            addr0Street: {selection.addrList[0] ? selection.addrList[0].line_1 : "..."} <br /><br />
-                            addr1Id: {selection.addrList[1] ? selection.addrList[1].id : "n/a"} <br />
-                            addr1Street: {selection.addrList[1] ? selection.addrList[1].line_1 : "n/a"} <br />
+                            addr0Id: {selection.addrList[0] ? selection.addrList[0].id : "..."}
+                            <br />
+                            addr0Street: {selection.addrList[0] ? selection.addrList[0].line_1 : "..."}
+                            <br /><br />
+                            addr1Id: {selection.addrList[1] ? selection.addrList[1].id : "n/a"}
+                            <br />
+                            addr1Street: {selection.addrList[1] ? selection.addrList[1].line_1 : "n/a"}
+                            <br />
                         </p>
                     </div>
                     <div className="col">
@@ -109,6 +113,8 @@ export default function HouseholdContainer(props) {
                             kids={selectedHH.kids}
                             pets={selectedHH.pets}
                             shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card}
+                            createdDate={new Date(selectedHH.created_date).toLocaleString()}
+                            lastModified={new Date(selectedHH.last_modified).toLocaleString()}
                             notes={selectedHH.notes}
                             updateHHData={props.updateHHData}
                         />

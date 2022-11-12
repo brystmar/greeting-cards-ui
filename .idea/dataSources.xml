@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="SQLite - greeting-cards.sqlite3" uuid="ccd9418f-39b0-4046-8f4b-5825c19f6903">
+    <data-source source="LOCAL" name="SQLite: greeting-cards-dev" uuid="ccd9418f-39b0-4046-8f4b-5825c19f6903">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/../greeting-cards/greeting-cards.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/../greeting-cards/instance/greeting-cards-dev.sqlite3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

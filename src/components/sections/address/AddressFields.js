@@ -10,8 +10,11 @@ export default function AddressFields(props) {
         zip:              props.zip || "",
         country:          props.country || "",
         fullAddress:      props.fullAddress || "",
-        isCurrent:        props.isCurrent,
-        isLikelyToChange: props.isLikelyToChange
+        isCurrent:        props.isCurrent || true,
+        isLikelyToChange: props.isLikelyToChange || false,
+        createdDate:      props.createdDate || new Date().toISOString(),
+        lastModified:     props.lastModified || new Date().toISOString(),
+        notes:            props.notes || ""
     })
 
     const isDisabled = false
@@ -247,5 +250,8 @@ AddressFields.defaultProps = {
     country:          "",
     fullAddress:      "",
     isCurrent:        false,
-    isLikelyToChange: false
+    isLikelyToChange: false,
+    createdDate:      new Date().toISOString(),
+    lastModified:     new Date().toISOString(),
+    notes:            ""
 }
