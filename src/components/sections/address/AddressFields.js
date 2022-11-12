@@ -18,6 +18,7 @@ export default function AddressFields(props) {
     })
 
     const isDisabled = false
+    const hideDebug = true
 
     function handleChange(event) {
         // Update the id, nickname, and address count for the selected household
@@ -221,7 +222,7 @@ export default function AddressFields(props) {
             <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes
             </button>
 
-            <div className="debug">
+            <div className="debug" hidden={hideDebug}>
                 addrId: {"\t" + props.id} <br />
                 hhId: {"\t" + props.householdId} <br />
                 line_1: {"\t" + props.line_1 || ""} <br />

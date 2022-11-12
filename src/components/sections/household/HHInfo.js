@@ -14,14 +14,15 @@ export default function HHInfo(props) {
         kids:                     props.kids || "",
         pets:                     props.pets || "",
         shouldReceiveHolidayCard: props.shouldReceiveHolidayCard || true,
-        createdDate:              new Date().toISOString(),
-        lastModified:             new Date().toISOString(),
+        createdDate:              new Date().toLocaleString() || "",
+        lastModified:             new Date().toLocaleString() || "",
         notes:                    props.notes || ""
     }
 
     const [ hhData, updateHHData ] = useState(initialState)
     const isDisabled = false
     const isTesting = false
+    const hideDebug = true
 
     function handleChange(event) {
         // Update the id, nickname, and address count for the selected household
@@ -45,6 +46,7 @@ export default function HHInfo(props) {
 
         // Build the payload to send
         const newHH = {
+            id:                          hhData.id,
             nickname:                    hhData.nickname,
             first_names:                 hhData.firstNames,
             surname:                     hhData.surname,
@@ -59,11 +61,11 @@ export default function HHInfo(props) {
         }
 
         // POST newHH to the backend
-        console.log(`Calling endpoint: [POST] ${api.households.one}`)
+        console.log(`Calling endpoint: [PUT] ${api.households.one}`)
         console.debug(`Request body in JSON: ${JSON.stringify(newHH)}`)
 
         const options = {
-            method:  "POST",
+            method:  "PUT",
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body:    JSON.stringify(newHH)
         }
@@ -76,8 +78,8 @@ export default function HHInfo(props) {
             .then(result => {
                 console.log(`New address saved:`, result.data)
 
-                // Refresh household data from the database
-                props.updateHHData()
+                // Replace the householdList entry with the newly-submitted household data
+                // props.updateHHData()
             })
 
         console.info(`Form ${event.target.id} submitted.`)
@@ -93,17 +95,15 @@ export default function HHInfo(props) {
                 surname:    "0test Surname",
                 notes:      new Date().toISOString()
             })
+            console.debug("Inserted test data")
         }
-        console.debug("Inserting test data")
-
     }, [ isTesting ])
 
     useEffect(() => {
         console.debug("Props changed, re-rendering HHInfo")
-        console.debug(`createdDate: ${props.createdDate}, ${typeof(props.createdDate)}`)
 
         // When props change, replace state with the new props values
-        // updateHHData(initialState)
+        updateHHData(props)
     }, [ props ])
 
     return (
@@ -331,7 +331,7 @@ export default function HHInfo(props) {
             <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes
             </button>
 
-            <div className="debug">
+            <div className="debug" hidden={hideDebug}>
                 id: {"\t" + props.id} <br />
                 nickname: {"\t" + props.nickname || ""} <br />
                 {/*firstNames: {"\t" + props.firstNames || ""} <br />*/}

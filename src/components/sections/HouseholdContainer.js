@@ -12,6 +12,7 @@ export default function HouseholdContainer(props) {
     })
 
     const [ selectedHH, updateSelectedHH ] = useState({ id: 0, nickname: "default" })
+    const hideDebug = true
 
     let picklistOptions = mapHouseholdData(props.householdList)
 
@@ -85,7 +86,7 @@ export default function HouseholdContainer(props) {
                             </select>
                         </span>
 
-                        <p className="debug">
+                        <p className="debug" hidden={hideDebug}>
                             hh_id: {"\t" + selection.householdId} <br />
                             nick: {"\t" + selectedHH.nickname} <br />
                             addresses: {"\t" + selection.addressCount} <br /><br />
@@ -104,21 +105,20 @@ export default function HouseholdContainer(props) {
                         <HHInfo
                             id={selectedHH.id}
                             nickname={selectedHH.nickname}
-                            firstNames={selectedHH.first_names}
-                            surname={selectedHH.surname}
-                            formalName={selectedHH.formal_name}
-                            relationship={selectedHH.relationship}
-                            relationshipType={selectedHH.relationship_type}
-                            familySide={selectedHH.family_side}
-                            kids={selectedHH.kids}
-                            pets={selectedHH.pets}
-                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card}
-                            createdDate={new Date(selectedHH.created_date).toLocaleString()}
-                            lastModified={new Date(selectedHH.last_modified).toLocaleString()}
-                            notes={selectedHH.notes}
+                            firstNames={selectedHH.first_names || ""}
+                            surname={selectedHH.surname || ""}
+                            formalName={selectedHH.formal_name || ""}
+                            relationship={selectedHH.relationship || ""}
+                            relationshipType={selectedHH.relationship_type || ""}
+                            familySide={selectedHH.family_side || ""}
+                            kids={selectedHH.kids || ""}
+                            pets={selectedHH.pets || ""}
+                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card || ""}
+                            createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
+                            lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
+                            notes={selectedHH.notes || ""}
                             updateHHData={props.updateHHData}
                         />
-
                     </div>
                 </div>
 
