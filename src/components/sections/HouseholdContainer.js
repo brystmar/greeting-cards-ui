@@ -77,7 +77,7 @@ export default function HouseholdContainer(props) {
                                 name="householdId"
                                 id="households-selection-box"
                                 className="selection-box"
-                                size={Math.min(props.householdList.length, 10)}
+                                size={Math.min(props.householdList.length, 18)}
                                 value={selection.householdId}
                                 onChange={handleHouseholdChange}
                                 required={false}
