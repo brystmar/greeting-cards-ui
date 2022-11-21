@@ -21,7 +21,7 @@ export default function HHInfo(props) {
 
     const [ hhData, updateHHData ] = useState(initialState)
     const isDisabled = false
-    const isTesting = false
+    const isTesting = true
     const hideDebug = true
 
     function handleChange(event) {
@@ -76,10 +76,11 @@ export default function HHInfo(props) {
                 return response.json()
             })
             .then(result => {
-                console.log(`New address saved:`, result.data)
+                console.log(`New address saved: ${result.data}`)
 
                 // Replace the householdList entry with the newly-submitted household data
-                // props.updateHHData()
+                console.debug("Refreshing hhList from the database...")
+                props.refreshDataFromDB()
             })
 
         console.info(`Form ${event.target.id} submitted.`)
@@ -100,11 +101,11 @@ export default function HHInfo(props) {
     }, [ isTesting ])
 
     useEffect(() => {
-        console.debug("Props changed, re-rendering HHInfo")
+        console.debug("Household selection changed, re-rendering HHInfo")
 
         // When props change, replace state with the new props values
         updateHHData(props)
-    }, [ props ])
+    }, [ props.id ])
 
     return (
         <form id="form-hh-info" className="hh-info" onSubmit={handleSubmit}>

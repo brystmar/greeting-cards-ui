@@ -11,8 +11,11 @@ export default function HouseholdContainer(props) {
         addrList:     [ { id: 0, line_1: "" } ]
     })
 
-    const [ selectedHH, updateSelectedHH ] = useState({ id: 0, nickname: "default" })
-    const hideDebug = true
+    let prevSelection = 0
+
+    // const [ selectedHH, updateSelectedHH ] = useState({ id: 0, nickname: "default" })
+    const [ selectedHH, updateSelectedHH ] = useState({})
+    const hideDebug = false
 
     let picklistOptions = mapHouseholdData(props.householdList)
 
@@ -61,6 +64,9 @@ export default function HouseholdContainer(props) {
                 addressCount: props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id).length,
                 addrList:     props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id)
             })
+
+            // Fill HHInfo for the first item in the list
+            updateSelectedHH(props.householdList[0])
         }
     }, [ props.householdList, props.addressList ])
 
@@ -118,6 +124,7 @@ export default function HouseholdContainer(props) {
                             lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
                             notes={selectedHH.notes || ""}
                             updateHHData={props.updateHHData}
+                            refreshDataFromDB={props.refreshDataFromDB}
                         />
                     </div>
                 </div>
@@ -131,6 +138,7 @@ export default function HouseholdContainer(props) {
                             householdId={selection.householdId}
                             householdNickname={selectedHH.nickname}
                             addressList={props.addressList}
+                            // refreshDataFromDB={props.refreshDataFromDB}
                         />
                     </div>
                 </div>
