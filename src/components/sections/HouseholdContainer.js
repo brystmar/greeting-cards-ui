@@ -11,9 +11,6 @@ export default function HouseholdContainer(props) {
         addrList:     [ { id: 0, line_1: "" } ]
     })
 
-    let prevSelection = 0
-
-    // const [ selectedHH, updateSelectedHH ] = useState({ id: 0, nickname: "default" })
     const [ selectedHH, updateSelectedHH ] = useState({})
     const hideDebug = false
 
@@ -113,6 +110,7 @@ export default function HouseholdContainer(props) {
                             nickname={selectedHH.nickname}
                             firstNames={selectedHH.first_names || ""}
                             surname={selectedHH.surname || ""}
+                            addressTo={selectedHH.address_to || ""}
                             formalName={selectedHH.formal_name || ""}
                             relationship={selectedHH.relationship || ""}
                             relationshipType={selectedHH.relationship_type || ""}

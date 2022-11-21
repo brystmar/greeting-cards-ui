@@ -7,6 +7,7 @@ export default function HHInfo(props) {
         nickname:                 props.nickname || "",
         firstNames:               props.firstNames || "",
         surname:                  props.surname || "",
+        addressTo:                props.addressTo || "",
         formalName:               props.formalName || "",
         relationship:             props.relationship || "",
         relationshipType:         props.relationshipType || "",
@@ -50,6 +51,7 @@ export default function HHInfo(props) {
             nickname:                    hhData.nickname,
             first_names:                 hhData.firstNames,
             surname:                     hhData.surname,
+            address_to:                  hhData.addressTo,
             formal_name:                 hhData.formalName,
             relationship:                hhData.relationship,
             relationship_type:           hhData.relationshipType,
@@ -154,6 +156,23 @@ export default function HHInfo(props) {
                     id="hh-surname"
                     name="surname"
                     value={hhData.surname}
+                    onChange={handleChange}
+                    className="input-text"
+                    disabled={isDisabled}
+                />
+            </div>
+
+            <div className="label-input-container">
+                <label
+                    htmlFor="hh-address-to"
+                    className="label-input"
+                >Address To</label>
+
+                <input
+                    type="text"
+                    id="hh-address-to"
+                    name="addressTo"
+                    value={hhData.addressTo}
                     onChange={handleChange}
                     className="input-text"
                     disabled={isDisabled}
@@ -354,6 +373,7 @@ HHInfo.defaultProps = {
     nickname:                 "",
     firstNames:               "",
     surname:                  "",
+    addressTo:                "",
     formalName:               "",
     relationship:             "",
     relationshipType:         "",

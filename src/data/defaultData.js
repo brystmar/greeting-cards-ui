@@ -20,6 +20,7 @@ export const defaultHousehold = {
     nickname:                    "",
     first_names:                 "",
     surname:                     "",
+    address_to:                  "",
     formal_name:                 "",
     relationship:                "",
     relationship_type:           "",
