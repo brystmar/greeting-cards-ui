@@ -12,7 +12,7 @@ export default function HouseholdContainer(props) {
     })
 
     const [ selectedHH, updateSelectedHH ] = useState({})
-    const hideDebug = false
+    const [ showDebug, updateShowDebug ] = useState(false)
 
     let picklistOptions = mapHouseholdData(props.householdList)
 
@@ -88,9 +88,24 @@ export default function HouseholdContainer(props) {
                             >
                                 {picklistOptions}
                             </select>
+                            <div className="label-checkbox-container">
+                                <input
+                                    type="checkbox"
+                                    id="hh-show-debug"
+                                    name="showDebug"
+                                    checked={showDebug}
+                                    onChange={() => updateShowDebug(!showDebug)}
+                                    className="input-checkbox"
+                                />
+
+                                <label
+                                    htmlFor="hh-show-debug"
+                                    className="label-checkbox"
+                                >Show debug info</label>
+                            </div>
                         </span>
 
-                        <p className="debug" hidden={hideDebug}>
+                        <p className="debug" hidden={!showDebug}>
                             hh_id: {"\t" + selection.householdId} <br />
                             nick: {"\t" + selectedHH.nickname} <br />
                             addresses: {"\t" + selection.addressCount} <br /><br />
