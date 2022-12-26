@@ -17,6 +17,7 @@ export default function HouseholdContainer(props) {
     let picklistOptions = mapHouseholdData(props.householdList)
 
     function mapHouseholdData(hhList) {
+        console.debug(`Starting mapHouseholdData with ${hhList.length} HHs`)
         const output = hhList.sort((a, b) => {
             if (a.nickname.toLowerCase() > b.nickname.toLowerCase()) {
                 return 1
