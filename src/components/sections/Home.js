@@ -5,7 +5,7 @@ import { defaultHousehold, defaultAddress } from "../../data/defaultData";
 export default function Home(props) {
     return (
         <article>
-            <div className="title">Home!</div>
+            {/*<div className="title">Home!</div>*/}
 
             <HouseholdContainer
                 householdList={props.householdList}
