@@ -42,6 +42,8 @@ export default function HHInfo(props) {
     }
 
     function handleSubmit(event) {
+        console.debug(`Submit button for form ${event.target.id} clicked.`)
+
         // Don't refresh the page
         event.preventDefault()
 
@@ -62,19 +64,19 @@ export default function HHInfo(props) {
             notes:                       hhData.notes
         }
 
-        // POST newHH to the backend
+        // Send this new household data to the backend
         console.log(`Calling endpoint: [PUT] ${api.households.one}`)
         console.debug(`Request body in JSON: ${JSON.stringify(newHH)}`)
 
-        const options = {
+        const serviceCallOptions = {
             method:  "PUT",
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body:    JSON.stringify(newHH)
         }
 
-        fetch(api.households.one, options)
+        fetch(api.households.one, serviceCallOptions)
             .then(response => {
-                console.debug(`POST complete, response: ${response.status}; ${response.ok}`)
+                console.debug(`PUT complete, response: ${response.status}; ${response.ok}`)
                 return response.json()
             })
             .then(result => {
@@ -83,6 +85,9 @@ export default function HHInfo(props) {
                 // Replace the householdList entry with the newly-submitted household data
                 console.debug("Refreshing hhList from the database...")
                 props.refreshDataFromDB()
+            })
+            .catch(err => {
+                console.debug(`Errors caught: ${err}`)
             })
 
         console.info(`Form ${event.target.id} submitted.`)

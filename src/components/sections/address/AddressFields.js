@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import {api} from "../../../data/endpoints";
 
 export default function AddressFields(props) {
-    const [ formData, updateFormData ] = useState({
+    const [ addressData, updateAddressData ] = useState({
         householdId:      props.householdId,
         line_1:           props.line_1 || "",
         line_2:           props.line_2 || "",
@@ -22,31 +23,72 @@ export default function AddressFields(props) {
 
     function handleChange(event) {
         // Update the id, nickname, and address count for the selected household
-        updateFormData({
-            ...formData,
+        updateAddressData({
+            ...addressData,
             [event.target.name]: event.target.value
         })
     }
 
     function handleCheckboxChange(event) {
         // Default form handling of checkboxes is weird
-        updateFormData({
-            ...formData,
+        updateAddressData({
+            ...addressData,
             [event.target.name]: event.target.checked
         })
     }
 
     function handleSubmit(event) {
+        console.debug(`Submit button for form ${event.target.id} clicked.`)
+
         // Don't refresh the page
         event.preventDefault()
 
-        console.info(`Form ${event.target.id} submitted`)
-        console.debug(`Form data: ${JSON.stringify(formData)}`)
+        // Build the payload to submit
+        const newAddress = {
+            householdId:      addressData.householdId,
+            line_1:           addressData.line_1,
+            line_2:           addressData.line_2,
+            city:             addressData.city,
+            state:            addressData.state,
+            zip:              addressData.zip,
+            country:          addressData.country,
+            fullAddress:      addressData.fullAddress,
+            isCurrent:        addressData.isCurrent,
+            isLikelyToChange: addressData.isLikelyToChange,
+            createdDate:      addressData.createdDate,
+            lastModified:     new Date().toISOString(),
+            notes:            addressData.notes
+        }
+        console.debug(`Form data: ${JSON.stringify(addressData)}`)
+
+        // Send this new address to the backend
+        console.log(`Calling endpoint: [PUT] ${api.addresses.one}`)
+        console.debug(`Request body in JSON: ${JSON.stringify(newAddress)}`)
+
+        const serviceCallOptions = {
+            method:  "PUT",
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body:    JSON.stringify(newAddress)
+        }
+
+        fetch(api.addresses.one, serviceCallOptions)
+            .then(response => {
+                console.debug(`PUT complete, response: ${response.status}; ${response.ok}`)
+                return response.json()
+            })
+            .then(result => {
+                console.log(`New address saved: ${result.data}`)
+            })
+            .catch(err => {
+                console.debug(`Errors caught: ${err}`)
+            })
+
+        console.info(`Form submission complete.`)
     }
 
     useEffect(() => {
         console.debug("Re-rendering AddressFields")
-        updateFormData({
+        updateAddressData({
             householdId:      props.householdId,
             line_1:           props.line_1 || "",
             line_2:           props.line_2 || "",
@@ -74,7 +116,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-line-1-${props.index}`}
                     name="line_1"
-                    value={formData.line_1}
+                    value={addressData.line_1}
                     onChange={handleChange}
                     className="input-text input-address-street"
                     disabled={isDisabled}
@@ -91,7 +133,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-line-2-${props.index}`}
                     name="line_2"
-                    value={formData.line_2}
+                    value={addressData.line_2}
                     onChange={handleChange}
                     className="input-text input-address-street"
                     disabled={isDisabled}
@@ -108,7 +150,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-city-${props.index}`}
                     name="city"
-                    value={formData.city}
+                    value={addressData.city}
                     onChange={handleChange}
                     className="input-text input-address-city"
                     disabled={isDisabled}
@@ -125,7 +167,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-state-${props.index}`}
                     name="state"
-                    value={formData.state}
+                    value={addressData.state}
                     onChange={handleChange}
                     className="input-text input-address-state"
                     disabled={isDisabled}
@@ -142,7 +184,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-zip-${props.index}`}
                     name="zip"
-                    value={formData.zip}
+                    value={addressData.zip}
                     onChange={handleChange}
                     className="input-text input-address-zip"
                     disabled={isDisabled}
@@ -159,7 +201,7 @@ export default function AddressFields(props) {
                     type="text"
                     id={`address-country-${props.index}`}
                     name="country"
-                    value={formData.country}
+                    value={addressData.country}
                     onChange={handleChange}
                     className="input-text input-address-country"
                     disabled={isDisabled}
@@ -177,7 +219,7 @@ export default function AddressFields(props) {
                     <textarea
                         id={`address-full-${props.index}`}
                         name="fullAddress"
-                        value={formData.fullAddress}
+                        value={addressData.fullAddress}
                         onChange={handleChange}
                         className="input-textarea input-address-full"
                         disabled={isDisabled}
@@ -190,7 +232,7 @@ export default function AddressFields(props) {
                     type="checkbox"
                     id={`is-current-${props.index}`}
                     name="isCurrent"
-                    checked={formData.isCurrent}
+                    checked={addressData.isCurrent}
                     onChange={handleCheckboxChange}
                     className="input-checkbox"
                     disabled={isDisabled}
@@ -207,7 +249,7 @@ export default function AddressFields(props) {
                     type="checkbox"
                     id={`is-likely-to-change-${props.index}`}
                     name="isLikelyToChange"
-                    checked={formData.isLikelyToChange}
+                    checked={addressData.isLikelyToChange}
                     onChange={handleCheckboxChange}
                     className="input-checkbox"
                     disabled={isDisabled}
