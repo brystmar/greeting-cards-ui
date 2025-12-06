@@ -18,6 +18,12 @@ export default function HouseholdContainer(props) {
 
     function mapHouseholdData(hhList) {
         console.debug(`Starting mapHouseholdData with ${hhList.length} HHs`)
+
+        if (!Array.isArray(hhList)) {
+            console.error("Invalid household list:", hhList);
+            return [];
+        }
+
         const output = hhList.sort((a, b) => {
             if (a.nickname.toLowerCase() > b.nickname.toLowerCase()) {
                 return 1
