@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import {api} from "../../../data/endpoints";
 
 export default function AddressFields(props) {
-    const [ addressData, updateAddressData ] = useState({
+    const initialState = {
+        id:               props.id,
         householdId:      props.householdId,
         line_1:           props.line_1 || "",
         line_2:           props.line_2 || "",
@@ -16,8 +17,9 @@ export default function AddressFields(props) {
         createdDate:      props.createdDate || new Date().toISOString(),
         lastModified:     props.lastModified || new Date().toISOString(),
         notes:            props.notes || ""
-    })
+    }
 
+    const [ addressData, updateAddressData ] = useState(initialState)
     const isDisabled = false
     const hideDebug = true
 
@@ -37,38 +39,35 @@ export default function AddressFields(props) {
         })
     }
 
-    function handleSubmit(event) {
-        console.debug(`Submit button for form ${event.target.id} clicked.`)
+    function handleSave(event) {
+        console.debug(`Save button for form ${event.target.id} clicked.`)
 
         // Don't refresh the page
         event.preventDefault()
 
         // Build the payload to submit
-        const newAddress = {
-            householdId:      addressData.householdId,
-            line_1:           addressData.line_1,
-            line_2:           addressData.line_2,
-            city:             addressData.city,
-            state:            addressData.state,
-            zip:              addressData.zip,
-            country:          addressData.country,
-            fullAddress:      addressData.fullAddress,
-            isCurrent:        addressData.isCurrent,
-            isLikelyToChange: addressData.isLikelyToChange,
-            createdDate:      addressData.createdDate,
-            lastModified:     new Date().toISOString(),
-            notes:            addressData.notes
-        }
         console.debug(`Form data: ${JSON.stringify(addressData)}`)
+        const updatedAddress = {
+            id:                     addressData.id,
+            line_1:                 addressData.line_1,
+            line_2:                 addressData.line_2,
+            city:                   addressData.city,
+            state:                  addressData.state,
+            zip:                    addressData.zip,
+            country:                addressData.country,
+            is_current:             addressData.isCurrent,
+            is_likely_to_change:    addressData.isLikelyToChange,
+            notes:                  addressData.notes
+        }
 
         // Send this new address to the backend
         console.log(`Calling endpoint: [PUT] ${api.addresses.one}`)
-        console.debug(`Request body in JSON: ${JSON.stringify(newAddress)}`)
+        console.debug(`Request body: ${JSON.stringify(updatedAddress)}`)
 
         const serviceCallOptions = {
             method:  "PUT",
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            body:    JSON.stringify(newAddress)
+            body:    JSON.stringify(updatedAddress)
         }
 
         fetch(api.addresses.one, serviceCallOptions)
@@ -89,23 +88,23 @@ export default function AddressFields(props) {
     useEffect(() => {
         console.debug("Re-rendering AddressFields")
         updateAddressData({
-            householdId:      props.householdId,
-            line_1:           props.line_1 || "",
-            line_2:           props.line_2 || "",
-            city:             props.city || "",
-            state:            props.state || "",
-            zip:              props.zip || "",
-            country:          props.country || "",
-            fullAddress:      props.fullAddress || "",
-            isCurrent:        props.isCurrent,
-            isLikelyToChange: props.isLikelyToChange
+            id:                   props.id,
+            line_1:               props.line_1 || "",
+            line_2:               props.line_2 || "",
+            city:                 props.city || "",
+            state:                props.state || "",
+            zip:                  props.zip || "",
+            country:              props.country || "",
+            isCurrent:            props.isCurrent,
+            isLikelyToChange:     props.isLikelyToChange,
+            notes:                props.notes || ""
         })
 
-    }, [ props.householdId, props.line_1, props.line_2, props.city, props.state, props.zip,
-        props.country, props.fullAddress, props.isCurrent, props.isLikelyToChange ])
+    }, [ props.id, props.householdId, props.line_1, props.line_2, props.city, props.state, props.zip,
+        props.country, props.fullAddress, props.isCurrent, props.isLikelyToChange, props.notes ])
 
     return (
-        <form id={`form-address-${props.index}`} className="address-fields" onSubmit={handleSubmit}>
+        <form id={`form-address-${props.index}`} className="address-fields" onSubmit={handleSave}>
             <div className="label-input-container">
                 <label
                     htmlFor={`address-line-1-${props.index}`}
