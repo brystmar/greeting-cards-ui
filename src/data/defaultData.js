@@ -1,18 +1,19 @@
 export const defaultAddress = {
-    id:                  0,
-    household_id:        0,
-    line_1:              "",
-    line_2:              "",
-    city:                "",
-    state:               "",
-    zip:                 "12345",
-    country:             "United States",
-    full_address:        "",
-    is_current:          true,
-    is_likely_to_change: false,
-    created_date:        new Date("2021-10-18 03:40:35.473881"),
-    last_modified:       new Date("2021-10-18 03:40:35.473881"),
-    notes:               ""
+    id:                             0,
+    household_id:                   0,
+    line_1:                         "",
+    line_2:                         "",
+    city:                           "",
+    state:                          "",
+    zip:                           "12345",
+    country:                        "United States",
+    full_address:                    "",
+    is_current:                     true,
+    is_likely_to_change:            false,
+    mail_the_card_to_this_address:  true,
+    created_date:                   new Date("2021-10-18 03:40:35.473881"),
+    last_modified:                  new Date("2021-10-18 03:40:35.473881"),
+    notes:                          ""
 }
 
 export const defaultHousehold = {
@@ -22,12 +23,14 @@ export const defaultHousehold = {
     surname:                     "",
     address_to:                  "",
     formal_name:                 "",
+    known_from:                  "",
     relationship:                "",
     relationship_type:           "",
     family_side:                 "",
     kids:                        "",
     pets:                        "",
     should_receive_holiday_card: true,
+    is_relevant:                 true,
     created_date:                new Date("2021-10-18 03:40:35.473881"),
     last_modified:               new Date("2021-10-18 03:40:35.473881"),
     notes:                       ""

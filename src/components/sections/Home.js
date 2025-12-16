@@ -12,6 +12,7 @@ export default function Home(props) {
                 addressList={props.addressList}
                 updateHHData={props.updateHHData}
                 refreshDataFromDB={props.refreshDataFromDB}
+                hhIndex={props.hhIndex}
             />
 
         </article>

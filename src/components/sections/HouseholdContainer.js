@@ -3,6 +3,7 @@ import PicklistOption from "../PicklistOption";
 import AddressArray from "./address/AddressArray";
 import { defaultAddress, defaultHousehold } from "../../data/defaultData";
 import HHInfo from "./household/HHInfo";
+import HouseholdSearchResult from "./household/HHSearchResult";
 
 export default function HouseholdContainer(props) {
     const [ selection, updateSelection ] = useState({
@@ -13,9 +14,18 @@ export default function HouseholdContainer(props) {
 
     const [ selectedHH, updateSelectedHH ] = useState({})
     const [ showDebug, updateShowDebug ] = useState(false)
+    const [ query, setQuery ] = useState("")
+    const fuse = props.hhIndex
+
+    const results =
+        fuse && query.trim().length > 1
+          ? fuse.search(query).slice(0, 8)
+          : [];
+
 
     let picklistOptions = mapHouseholdData(props.householdList)
 
+    // Map each household record into a picklist option
     function mapHouseholdData(hhList) {
         console.debug(`Starting mapHouseholdData with ${hhList.length} HHs`)
 
@@ -33,6 +43,7 @@ export default function HouseholdContainer(props) {
             }
             return 0
         });
+
         return output.map((selectedHousehold, index) =>
             <PicklistOption
                 key={index}
@@ -55,9 +66,13 @@ export default function HouseholdContainer(props) {
         updateSelectedHH(props.householdList.filter((hh) => hh.id.toString() === event.target.value.toString())[0])
     }
 
+    function handleSearchQueryChange(event) {
+        setQuery(event.target.value)
+    }
+
     // When householdList changes, update state and the list of picklist options
     useEffect(() => {
-        console.debug("List of households was updated.")
+        console.debug("List of households was updated by HouseholdContainer.useEffect")
 
         // picklistOptions = mapHouseholdData(props.householdList)
 
@@ -69,8 +84,8 @@ export default function HouseholdContainer(props) {
                 addrList:     props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id)
             })
 
-            // Fill HHInfo for the first item in the list
-            updateSelectedHH(props.householdList[0])
+        // Fill HHInfo for the first item in the list
+        updateSelectedHH(props.householdList[0])
         }
     }, [ props.householdList, props.addressList ])
 
@@ -82,6 +97,32 @@ export default function HouseholdContainer(props) {
                 <div className="column-container">
                     <div className="col">
                         <span className="subtitle">Select Household</span>
+                        <span className="hh-search-box-container">
+                            <input
+                                type="text"
+                                id="household-search-box"
+                                name="hhSearchBox"
+                                className="hh-search-box"
+                                placeholder="Search by name, kids, etc…"
+                                value={query}
+                                onChange={handleSearchQueryChange}
+                                autoFocus={true}
+                            />
+
+                            {results.length > 0 && (
+                                <ul className="hh-search-results">
+                                    {results.map(({ item }) => (
+                                        <li
+                                            key={item.household_id}
+                                            onClick={() => updateSelectedHH(item)}
+                                        >
+                                            <HouseholdSearchResult household={item} />
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </span>
+
                         <span className="selection-box">
                             <select
                                 name="householdId"
