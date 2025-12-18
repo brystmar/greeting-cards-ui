@@ -15,6 +15,8 @@ export default function HHInfo(props) {
         kids:                     props.kids || "",
         pets:                     props.pets || "",
         shouldReceiveHolidayCard: props.shouldReceiveHolidayCard || true,
+        knownFrom:                props.knownFrom || "",
+        isRelevant:               props.isRelevant || true,
         createdDate:              props.createdDate || new Date().toLocaleString(),
         lastModified:             props.lastModified || new Date().toLocaleString(),
         notes:                    props.notes || ""
@@ -61,6 +63,8 @@ export default function HHInfo(props) {
             kids:                        hhData.kids,
             pets:                        hhData.pets,
             should_receive_holiday_card: hhData.shouldReceiveHolidayCard,
+            known_from:                  hhData.knownFrom,
+            is_relevant:                 hhData.isRelevant,
             notes:                       hhData.notes
         }
 
@@ -203,6 +207,23 @@ export default function HHInfo(props) {
 
             <div className="label-input-container">
                 <label
+                    htmlFor="hh-relationship-type"
+                    className="label-input"
+                >Relationship Type</label>
+
+                <input
+                    type="text"
+                    id="hh-relationship-type"
+                    name="relationshipType"
+                    value={hhData.relationshipType}
+                    onChange={handleChange}
+                    className="input-text"
+                    disabled={isDisabled}
+                />
+            </div>
+
+            <div className="label-input-container">
+                <label
                     htmlFor="hh-relationship"
                     className="label-input"
                 >Relationship</label>
@@ -220,15 +241,15 @@ export default function HHInfo(props) {
 
             <div className="label-input-container">
                 <label
-                    htmlFor="hh-relationship-type"
+                    htmlFor="hh-known-from"
                     className="label-input"
-                >Relationship Type</label>
+                >Known From</label>
 
                 <input
                     type="text"
-                    id="hh-relationship-type"
-                    name="relationshipType"
-                    value={hhData.relationshipType}
+                    id="hh-known-from"
+                    name="knownFrom"
+                    value={hhData.knownFrom}
                     onChange={handleChange}
                     className="input-text"
                     disabled={isDisabled}
@@ -353,6 +374,23 @@ export default function HHInfo(props) {
                 >Include on the holiday card list</label>
             </div>
 
+            <div className="label-checkbox-container">
+                <input
+                    type="checkbox"
+                    id="hh-is-relevant"
+                    name="isRelevant"
+                    checked={hhData.isRelevant}
+                    onChange={handleCheckboxChange}
+                    className="input-checkbox"
+                    disabled={isDisabled}
+                />
+
+                <label
+                    htmlFor="hh-is-relevant"
+                    className="label-checkbox"
+                >Is Still Relevant?</label>
+            </div>
+
             <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes
             </button>
 
@@ -386,6 +424,8 @@ HHInfo.defaultProps = {
     kids:                     "",
     pets:                     "",
     shouldReceiveHolidayCard: true,
+    knownFrom:                "",
+    isRelevant:               true,
     createdDate:              new Date().toISOString(),
     lastModified:             new Date().toISOString(),
     notes:                    ""

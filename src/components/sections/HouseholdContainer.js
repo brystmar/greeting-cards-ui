@@ -19,8 +19,8 @@ export default function HouseholdContainer(props) {
 
     const searchResults =
         fuse && query.trim().length > 1
-          ? fuse.search(query).slice(0, 8)
-          : [];
+            ? fuse.search(query).slice(0, 8)
+            : [];
 
     let picklistOptions = mapHouseholdData(props.householdList)
 
@@ -100,8 +100,8 @@ export default function HouseholdContainer(props) {
                 addrList:     props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id)
             })
 
-        // Fill HHInfo for the first item in the list
-        updateSelectedHH(props.householdList[0])
+            // Fill HHInfo for the first item in the list
+            updateSelectedHH(props.householdList[0])
         }
     }, [ props.householdList, props.addressList ])
 
@@ -114,48 +114,51 @@ export default function HouseholdContainer(props) {
                     <div className="col">
                         {/*<span className="subtitle">Select Household</span>*/}
                         <h3>Select Household</h3>
-                        <div className="hh-search-box-container">
-                            <input
-                                type="text"
-                                id="household-search-box"
-                                name="hhSearchBox"
-                                className="hh-search-box"
-                                placeholder="Search by name, kids, etc…"
-                                value={query}
-                                onChange={handleSearchQueryChange}
-                                autoFocus={true}
-                            />
+                        {props.householdList.length > 1 && (
+                            <div className="hh-search-box-container">
+                                <input
+                                    type="text"
+                                    id="household-search-box"
+                                    name="hhSearchBox"
+                                    className="hh-search-box"
+                                    placeholder="Search by name(s), including kids & pets"
+                                    value={query}
+                                    onChange={handleSearchQueryChange}
+                                    autoFocus={true}
+                                />
 
-                            {searchResults.length > 0 && (
-                                <ul className="hh-search-results">
-                                    {searchResults.map(({ item: result }) => {
-                                        // console.debug(`Search result item: ${JSON.stringify(item)}`)
-                                        // console.debug(`Selection: ${JSON.stringify(selection)}`)
-                                        return (
-                                            <li
-                                                key={`search-result-${result.id}`}
-                                                id={`search-result-${result.id}`}
-                                                className="hh-search-result-container"
-                                                value={result.id}
-                                                onClick={() => handleSearchResultSelectionChange(result.id)}
-                                            >
-                                                <HouseholdSearchResult
-                                                    key={result.id}
-                                                    nickname={result.nickname}
-                                                    first_names={result.first_names}
-                                                    surname={result.surname}
-                                                    kids={result.kids}
-                                                    pets={result.pets}
-                                                    known_from={result.known_from}
-                                                    relationship={result.relationship}
-                                                    relationship_type={result.relationship_type}
-                                                />
-                                            </li>
+                                {searchResults.length > 0 && (
+                                    <ul className="hh-search-results">
+                                        {searchResults.map(({item: result}) => {
+                                                // console.debug(`Search result item: ${JSON.stringify(item)}`)
+                                                // console.debug(`Selection: ${JSON.stringify(selection)}`)
+                                                return (
+                                                    <li
+                                                        key={`search-result-${result.id}`}
+                                                        id={`search-result-${result.id}`}
+                                                        className="hh-search-result-container"
+                                                        value={result.id}
+                                                        onClick={() => handleSearchResultSelectionChange(result.id)}
+                                                    >
+                                                        <HouseholdSearchResult
+                                                            key={result.id}
+                                                            nickname={result.nickname}
+                                                            first_names={result.first_names}
+                                                            surname={result.surname}
+                                                            kids={result.kids}
+                                                            pets={result.pets}
+                                                            known_from={result.known_from}
+                                                            relationship={result.relationship}
+                                                            relationship_type={result.relationship_type}
+                                                        />
+                                                    </li>
+                                                )
+                                            }
                                         )}
-                                    )}
-                                </ul>
-                            )}
-                        </div>
+                                    </ul>
+                                )}
+                            </div>
+                        )}
 
                         <span className="selection-box">
                             <select
@@ -215,6 +218,8 @@ export default function HouseholdContainer(props) {
                             kids={selectedHH.kids || ""}
                             pets={selectedHH.pets || ""}
                             shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card || ""}
+                            knownFrom={selectedHH.known_from || ""}
+                            isRelevant={selectedHH.is_relevant || ""}
                             createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
                             lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
                             notes={selectedHH.notes || ""}

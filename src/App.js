@@ -52,7 +52,7 @@ export default function App() {
         console.debug("Start of the search index useMemo function.")
         if (!householdData || householdData.length === 0) {
             console.debug("Not creating a search index.")
-            return null;
+            return null
         }
 
         // Normalize the household data, since many fields can be null
@@ -64,7 +64,7 @@ export default function App() {
             relationship: hh.relationship || "",
             relationship_type: hh.relationship_type || "",
             family_side: hh.family_side || ""
-        }));
+        }))
 
         return new Fuse(normalizedHouseholds, {
             keys: [
@@ -81,7 +81,7 @@ export default function App() {
             threshold: 0.25,
             ignoreLocation: true,
             minMatchCharLength: 2,
-        });
+        })
     }, [householdData])
 
     return (
