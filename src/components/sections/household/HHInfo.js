@@ -15,8 +15,8 @@ export default function HHInfo(props) {
         kids:                     props.kids || "",
         pets:                     props.pets || "",
         shouldReceiveHolidayCard: props.shouldReceiveHolidayCard || true,
-        createdDate:              new Date().toLocaleString() || "",
-        lastModified:             new Date().toLocaleString() || "",
+        createdDate:              props.createdDate || new Date().toLocaleString(),
+        lastModified:             props.lastModified || new Date().toLocaleString(),
         notes:                    props.notes || ""
     }
 
@@ -112,7 +112,7 @@ export default function HHInfo(props) {
 
         // When props change, replace state with the new props values
         updateHHData(props)
-    }, [ props.id ])
+    }, [ props ])
 
     return (
         <form id="form-hh-info" className="hh-info" onSubmit={handleSubmit}>

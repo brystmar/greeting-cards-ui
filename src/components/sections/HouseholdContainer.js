@@ -17,11 +17,10 @@ export default function HouseholdContainer(props) {
     const [ query, setQuery ] = useState("")
     const fuse = props.hhIndex
 
-    const results =
+    const searchResults =
         fuse && query.trim().length > 1
           ? fuse.search(query).slice(0, 8)
           : [];
-
 
     let picklistOptions = mapHouseholdData(props.householdList)
 
@@ -54,6 +53,8 @@ export default function HouseholdContainer(props) {
     }
 
     function handleHouseholdChange(event) {
+        console.debug("Start of handleHouseholdChange(event)")
+        // console.debug(`hhId: ${event.target.value}`)
         // Update the id, nickname, and address count for the selected household
         updateSelection({
             ...selection,
@@ -64,6 +65,21 @@ export default function HouseholdContainer(props) {
 
         // Update the household data for the selected object
         updateSelectedHH(props.householdList.filter((hh) => hh.id.toString() === event.target.value.toString())[0])
+    }
+
+    function handleSearchResultSelectionChange(searchSelectionId) {
+        // Update the id, nickname, and address count for the selected household
+        // console.debug("Start of handleSearchResultSelectionChange()")
+        // console.debug(`hhId: ${searchSelectionId}`)
+        updateSelection({
+            ...selection,
+            householdId:  searchSelectionId,
+            addressCount: props.addressList.filter((address) => address.household_id.toString() === searchSelectionId).length,
+            addrList:     props.addressList.filter((address) => address.household_id.toString() === searchSelectionId)
+        })
+
+        // Update the household data for the selected object
+        updateSelectedHH(props.householdList.filter((hh) => hh.id.toString() === searchSelectionId.toString())[0])
     }
 
     function handleSearchQueryChange(event) {
@@ -91,13 +107,14 @@ export default function HouseholdContainer(props) {
 
     return (
         <section>
-            <div className="title">Households</div>
+            {/*<div className="title">Households</div>*/}
 
             <div className="content">
                 <div className="column-container">
                     <div className="col">
-                        <span className="subtitle">Select Household</span>
-                        <span className="hh-search-box-container">
+                        {/*<span className="subtitle">Select Household</span>*/}
+                        <h3>Select Household</h3>
+                        <div className="hh-search-box-container">
                             <input
                                 type="text"
                                 id="household-search-box"
@@ -109,19 +126,36 @@ export default function HouseholdContainer(props) {
                                 autoFocus={true}
                             />
 
-                            {results.length > 0 && (
+                            {searchResults.length > 0 && (
                                 <ul className="hh-search-results">
-                                    {results.map(({ item }) => (
-                                        <li
-                                            key={item.household_id}
-                                            onClick={() => updateSelectedHH(item)}
-                                        >
-                                            <HouseholdSearchResult household={item} />
-                                        </li>
-                                    ))}
+                                    {searchResults.map(({ item: result }) => {
+                                        // console.debug(`Search result item: ${JSON.stringify(item)}`)
+                                        // console.debug(`Selection: ${JSON.stringify(selection)}`)
+                                        return (
+                                            <li
+                                                key={`search-result-${result.id}`}
+                                                id={`search-result-${result.id}`}
+                                                className="hh-search-result-container"
+                                                value={result.id}
+                                                onClick={() => handleSearchResultSelectionChange(result.id)}
+                                            >
+                                                <HouseholdSearchResult
+                                                    key={result.id}
+                                                    nickname={result.nickname}
+                                                    first_names={result.first_names}
+                                                    surname={result.surname}
+                                                    kids={result.kids}
+                                                    pets={result.pets}
+                                                    known_from={result.known_from}
+                                                    relationship={result.relationship}
+                                                    relationship_type={result.relationship_type}
+                                                />
+                                            </li>
+                                        )}
+                                    )}
                                 </ul>
                             )}
-                        </span>
+                        </div>
 
                         <span className="selection-box">
                             <select
@@ -167,7 +201,7 @@ export default function HouseholdContainer(props) {
                         </p>
                     </div>
                     <div className="col">
-                        <span className="subtitle">Household Info</span>
+                        <h3>Household Info</h3>
                         <HHInfo
                             id={selectedHH.id}
                             nickname={selectedHH.nickname}
@@ -192,9 +226,7 @@ export default function HouseholdContainer(props) {
 
                 <div className="column-container">
                     <div className="col">
-                        <span className="subtitle">
-                            {`${selection.addressCount > 1 ? "Addresses" : "Address"} for ${selectedHH.nickname}:`}
-                        </span>
+                        <h3>{`${selection.addressCount > 1 ? "Addresses" : "Address"} for ${selectedHH.nickname}:`}</h3>
                         <AddressArray
                             householdId={selection.householdId}
                             householdNickname={selectedHH.nickname}

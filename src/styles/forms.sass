@@ -2,6 +2,10 @@
 
 // Form controls
 
+.selection-box
+  select
+    width: 100%
+
 .label-input-container
   display: grid
   margin: 0
@@ -27,7 +31,7 @@
 // Address-specific elements
 
 .address-fields
-  margin: 0 auto 2em
+  margin: 0 auto
 
 .input-address-street,
 .input-address-full
@@ -58,5 +62,33 @@
 // Search box & results elements
 
 .hh-search-box
-  max-width: 90%
+  width: 100%
 
+.hh-search-result-container
+  margin-bottom: 0.6em
+
+.hh-search-result-title
+  font-weight: 600
+
+.hh-search-result-subtitle
+  font-style: italic
+  display: flex
+  gap: 0.25em
+  .separator
+    font-weight: 800
+
+.hh-search-result-info
+  margin-left: 0.5em
+
+.hh-search-result-relationship
+  //font-weight: 300
+  font-size: 0.8em
+  color: $color-primary-triadic
+
+.hh-search-result-other-info
+  font-size: 0.9em
+  display: flex
+  gap: 0.25em
+  label
+    font-weight: 500
+    color: $color-primary-complementary-darker

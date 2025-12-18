@@ -7,6 +7,10 @@
 /*** Favicon ***/
 /*** Page Layout ***/
 /*** Nav ***/
+.selection-box select {
+  width: 100%;
+}
+
 .label-input-container {
   display: grid;
   margin: 0;
@@ -34,7 +38,7 @@
 }
 
 .address-fields {
-  margin: 0 auto 2em;
+  margin: 0 auto;
 }
 
 .input-address-street,
@@ -68,7 +72,43 @@
 }
 
 .hh-search-box {
-  max-width: 90%;
+  width: 100%;
+}
+
+.hh-search-result-container {
+  margin-bottom: 0.6em;
+}
+
+.hh-search-result-title {
+  font-weight: 600;
+}
+
+.hh-search-result-subtitle {
+  font-style: italic;
+  display: flex;
+  gap: 0.25em;
+}
+.hh-search-result-subtitle .separator {
+  font-weight: 800;
+}
+
+.hh-search-result-info {
+  margin-left: 0.5em;
+}
+
+.hh-search-result-relationship {
+  font-size: 0.8em;
+  color: #673a90;
+}
+
+.hh-search-result-other-info {
+  font-size: 0.9em;
+  display: flex;
+  gap: 0.25em;
+}
+.hh-search-result-other-info label {
+  font-weight: 500;
+  color: #cb5700;
 }
 
 /*# sourceMappingURL=forms.css.map */

@@ -7,6 +7,10 @@
 /*** Favicon ***/
 /*** Page Layout ***/
 /*** Nav ***/
+article,
+section {
+  padding-top: 0;
+}
 article .title,
 section .title {
   font-size: 1.5rem;
@@ -37,6 +41,7 @@ section .column-container {
 }
 section .column-container .col {
   margin: 0.25em;
+  padding: 0.5em 1.5em 1.5em;
   width: 100%;
   display: block;
   border: 1px solid blue;
