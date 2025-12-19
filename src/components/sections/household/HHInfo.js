@@ -9,14 +9,14 @@ export default function HHInfo(props) {
         surname:                  props.surname || "",
         addressTo:                props.addressTo || "",
         formalName:               props.formalName || "",
-        relationship:             props.relationship || "",
         relationshipType:         props.relationshipType || "",
+        relationship:             props.relationship || "",
         familySide:               props.familySide || "",
+        knownFrom:                props.knownFrom || "",
         kids:                     props.kids || "",
         pets:                     props.pets || "",
-        shouldReceiveHolidayCard: props.shouldReceiveHolidayCard || true,
-        knownFrom:                props.knownFrom || "",
-        isRelevant:               props.isRelevant || true,
+        shouldReceiveHolidayCard: props.shouldReceiveHolidayCard === null ? false : props.shouldReceiveHolidayCard,
+        isRelevant:               props.isRelevant === null ? false : props.isRelevant,
         createdDate:              props.createdDate || new Date().toLocaleString(),
         lastModified:             props.lastModified || new Date().toLocaleString(),
         notes:                    props.notes || ""
@@ -60,11 +60,11 @@ export default function HHInfo(props) {
             relationship:                hhData.relationship,
             relationship_type:           hhData.relationshipType,
             family_side:                 hhData.familySide,
+            known_from:                  hhData.knownFrom,
             kids:                        hhData.kids,
             pets:                        hhData.pets,
-            should_receive_holiday_card: hhData.shouldReceiveHolidayCard,
-            known_from:                  hhData.knownFrom,
-            is_relevant:                 hhData.isRelevant,
+            should_receive_holiday_card: hhData.shouldReceiveHolidayCard === null ? false : hhData.shouldReceiveHolidayCard,
+            is_relevant:                 hhData.isRelevant === null ? false : hhData.isRelevant,
             notes:                       hhData.notes
         }
 
@@ -84,7 +84,7 @@ export default function HHInfo(props) {
                 return response.json()
             })
             .then(result => {
-                console.log(`New address saved: ${result.data}`)
+                console.log(`New address saved for hh_id=${result}`)
 
                 // Replace the householdList entry with the newly-submitted household data
                 console.debug("Refreshing hhList from the database...")
@@ -205,6 +205,44 @@ export default function HHInfo(props) {
                 />
             </div>
 
+            <br/>
+
+            <div className="label-input-container">
+                <label
+                    htmlFor="hh-kids"
+                    className="label-input"
+                >Kids</label>
+
+                <input
+                    type="text"
+                    id="hh-kids"
+                    name="kids"
+                    value={hhData.kids}
+                    onChange={handleChange}
+                    className="input-text"
+                    disabled={isDisabled}
+                />
+            </div>
+
+            <div className="label-input-container">
+                <label
+                    htmlFor="hh-pets"
+                    className="label-input"
+                >Pets</label>
+
+                <input
+                    type="text"
+                    id="hh-pets"
+                    name="pets"
+                    value={hhData.pets}
+                    onChange={handleChange}
+                    className="input-text"
+                    disabled={isDisabled}
+                />
+            </div>
+
+            <br/>
+
             <div className="label-input-container">
                 <label
                     htmlFor="hh-relationship-type"
@@ -241,23 +279,6 @@ export default function HHInfo(props) {
 
             <div className="label-input-container">
                 <label
-                    htmlFor="hh-known-from"
-                    className="label-input"
-                >Known From</label>
-
-                <input
-                    type="text"
-                    id="hh-known-from"
-                    name="knownFrom"
-                    value={hhData.knownFrom}
-                    onChange={handleChange}
-                    className="input-text"
-                    disabled={isDisabled}
-                />
-            </div>
-
-            <div className="label-input-container">
-                <label
                     htmlFor="hh-family-side"
                     className="label-input"
                 >Family Side</label>
@@ -275,37 +296,22 @@ export default function HHInfo(props) {
 
             <div className="label-input-container">
                 <label
-                    htmlFor="hh-kids"
+                    htmlFor="hh-known-from"
                     className="label-input"
-                >Kids</label>
+                >Known From</label>
 
                 <input
                     type="text"
-                    id="hh-kids"
-                    name="kids"
-                    value={hhData.kids}
+                    id="hh-known-from"
+                    name="knownFrom"
+                    value={hhData.knownFrom}
                     onChange={handleChange}
                     className="input-text"
                     disabled={isDisabled}
                 />
             </div>
 
-            <div className="label-input-container">
-                <label
-                    htmlFor="hh-pets"
-                    className="label-input"
-                >Pets</label>
-
-                <input
-                    type="text"
-                    id="hh-pets"
-                    name="pets"
-                    value={hhData.pets}
-                    onChange={handleChange}
-                    className="input-text"
-                    disabled={isDisabled}
-                />
-            </div>
+            <br/>
 
             <div className="label-input-container">
                 <label
@@ -388,11 +394,10 @@ export default function HHInfo(props) {
                 <label
                     htmlFor="hh-is-relevant"
                     className="label-checkbox"
-                >Is Still Relevant?</label>
+                >Is still relevant?</label>
             </div>
 
-            <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes
-            </button>
+            <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes</button>
 
             <div className="debug" hidden={hideDebug}>
                 id: {"\t" + props.id} <br />
@@ -404,7 +409,8 @@ export default function HHInfo(props) {
                 {/*relationshipType: {"\t" + props.relationshipType || ""} <br />*/}
                 {/*familySide: {"\t" + props.familySide || ""} <br />*/}
                 {/*kids: {"\t\t" + props.kids || ""} <br />*/}
-                {/*shouldReceiveHolidayCard: {"\t" + props.shouldReceiveHolidayCard || ""} <br />*/}
+                shouldReceive: {"\t" + props.shouldReceiveHolidayCard.toString() + "\t" + typeof(props.shouldReceiveHolidayCard)} <br />
+                isRelevant: {"\t\t" + props.isRelevant.toString() + "\t" + typeof(props.isRelevant)} <br />
                 {/*notes: {"\t\t" + props.notes || ""} <br />*/}
             </div>
         </form>
@@ -421,10 +427,10 @@ HHInfo.defaultProps = {
     relationship:             "",
     relationshipType:         "",
     familySide:               "",
+    knownFrom:                "",
     kids:                     "",
     pets:                     "",
     shouldReceiveHolidayCard: true,
-    knownFrom:                "",
     isRelevant:               true,
     createdDate:              new Date().toISOString(),
     lastModified:             new Date().toISOString(),

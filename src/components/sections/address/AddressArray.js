@@ -33,8 +33,9 @@ export default function AddressArray(props) {
                 zip={address.zip}
                 country={address.country}
                 fullAddress={address.full_address}
-                isCurrent={address.is_current.toString().toLowerCase() === "true"}
-                isLikelyToChange={address.is_likely_to_change.toString().toLowerCase() === "true"}
+                isCurrent={address.is_current === null ? false : address.is_current}
+                isLikelyToChange={address.is_likely_to_change === null ? false : address.is_likely_to_change}
+                mailToThisAddress={address.mail_the_card_to_this_address === null ? false : address.mail_the_card_to_this_address}
                 createdDate={address.created_date}
                 lastModified={address.last_modified}
                 notes={address.notes}

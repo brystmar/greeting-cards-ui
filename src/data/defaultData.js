@@ -5,11 +5,11 @@ export const defaultAddress = {
     line_2:                         "",
     city:                           "",
     state:                          "",
-    zip:                           "12345",
+    zip:                            "12345",
     country:                        "United States",
     full_address:                    "",
     is_current:                     true,
-    is_likely_to_change:            false,
+    is_likely_to_change:            true,
     mail_the_card_to_this_address:  true,
     created_date:                   new Date("2021-10-18 03:40:35.473881"),
     last_modified:                  new Date("2021-10-18 03:40:35.473881"),
@@ -47,7 +47,7 @@ export const defaultEvent = {
 
 export const defaultCard = {
     id:           0,
-    type:         "Thank You",
+    type:         "Holiday",
     status:       "New",
     gift_id:      0,
     household_id: 0,
@@ -63,7 +63,7 @@ export const defaultGift = {
     description:           "",
     type:                  "",
     origin:                "",
-    should_a_card_be_sent: "",
+    should_a_card_be_sent: true,
     date:                  new Date("2021-10-18"),
     notes:                 ""
 }

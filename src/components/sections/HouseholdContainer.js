@@ -86,6 +86,17 @@ export default function HouseholdContainer(props) {
         setQuery(event.target.value)
     }
 
+    function normalizeBooleanProps(value) {
+        if (value in [null, ""]) {
+            value = false
+        }
+        else {
+            value = value === true
+        }
+
+        return value.toString().toLowerCase() === "true"
+    }
+
     // When householdList changes, update state and the list of picklist options
     useEffect(() => {
         console.debug("List of households was updated by HouseholdContainer.useEffect")
@@ -105,14 +116,16 @@ export default function HouseholdContainer(props) {
         }
     }, [ props.householdList, props.addressList ])
 
+    // if (selectedHH.id && selectedHH.id.toString() === "84") {
+    console.debug(`hhContainer: shouldReceiveHolidayCard=${selectedHH.should_receive_holiday_card}`)
+    console.debug(`hhContainer: isRelevant=${selectedHH.is_relevant}`)
+    // }
+
     return (
         <section>
-            {/*<div className="title">Households</div>*/}
-
             <div className="content">
                 <div className="column-container">
                     <div className="col">
-                        {/*<span className="subtitle">Select Household</span>*/}
                         <h3>Select Household</h3>
                         {props.householdList.length > 1 && (
                             <div className="hh-search-box-container">
@@ -203,6 +216,7 @@ export default function HouseholdContainer(props) {
                             <br />
                         </p>
                     </div>
+
                     <div className="col">
                         <h3>Household Info</h3>
                         <HHInfo
@@ -215,11 +229,13 @@ export default function HouseholdContainer(props) {
                             relationship={selectedHH.relationship || ""}
                             relationshipType={selectedHH.relationship_type || ""}
                             familySide={selectedHH.family_side || ""}
+                            knownFrom={selectedHH.known_from || ""}
                             kids={selectedHH.kids || ""}
                             pets={selectedHH.pets || ""}
-                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card || ""}
-                            knownFrom={selectedHH.known_from || ""}
-                            isRelevant={selectedHH.is_relevant || ""}
+                            // shouldReceiveHolidayCard={normalizeBooleanProps(selectedHH.should_receive_holiday_card)}
+                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card}
+                            // isRelevant={normalizeBooleanProps(selectedHH.is_relevant)}
+                            isRelevant={selectedHH.is_relevant}
                             createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
                             lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
                             notes={selectedHH.notes || ""}

@@ -3,20 +3,21 @@ import {api} from "../../../data/endpoints";
 
 export default function AddressFields(props) {
     const initialState = {
-        id:               props.id,
-        householdId:      props.householdId,
-        line_1:           props.line_1 || "",
-        line_2:           props.line_2 || "",
-        city:             props.city || "",
-        state:            props.state || "",
-        zip:              props.zip || "",
-        country:          props.country || "",
-        fullAddress:      props.fullAddress || "",
-        isCurrent:        props.isCurrent || true,
-        isLikelyToChange: props.isLikelyToChange || false,
-        createdDate:      props.createdDate || new Date().toISOString(),
-        lastModified:     props.lastModified || new Date().toISOString(),
-        notes:            props.notes || ""
+        id:                 props.id,
+        householdId:        props.householdId,
+        line_1:             props.line_1 || "",
+        line_2:             props.line_2 || "",
+        city:               props.city || "",
+        state:              props.state || "",
+        zip:                props.zip || "",
+        country:            props.country || "",
+        fullAddress:        props.fullAddress || "",
+        isCurrent:          props.isCurrent === null ? false : props.isCurrent,
+        isLikelyToChange:   props.isLikelyToChange === null ? false : props.isLikelyToChange,
+        mailToThisAddress:  props.mailToThisAddress === null ? false : props.mailToThisAddress,
+        createdDate:        props.createdDate || new Date().toISOString(),
+        lastModified:       props.lastModified || new Date().toISOString(),
+        notes:              props.notes || ""
     }
 
     const [ addressData, updateAddressData ] = useState(initialState)
@@ -48,16 +49,17 @@ export default function AddressFields(props) {
         // Build the payload to submit
         console.debug(`Form data: ${JSON.stringify(addressData)}`)
         const updatedAddress = {
-            id:                     addressData.id,
-            line_1:                 addressData.line_1,
-            line_2:                 addressData.line_2,
-            city:                   addressData.city,
-            state:                  addressData.state,
-            zip:                    addressData.zip,
-            country:                addressData.country,
-            is_current:             addressData.isCurrent,
-            is_likely_to_change:    addressData.isLikelyToChange,
-            notes:                  addressData.notes
+            id:                             addressData.id,
+            line_1:                         addressData.line_1,
+            line_2:                         addressData.line_2,
+            city:                           addressData.city,
+            state:                          addressData.state,
+            zip:                            addressData.zip,
+            country:                        addressData.country,
+            is_current:                     addressData.isCurrent === null ? false : addressData.isCurrent,
+            is_likely_to_change:            addressData.isLikelyToChange === null ? false : addressData.isLikelyToChange,
+            mail_the_card_to_this_address:  addressData.mailToThisAddress === null ? false : addressData.mailToThisAddress,
+            notes:                          addressData.notes
         }
 
         // Send this new address to the backend
@@ -76,7 +78,7 @@ export default function AddressFields(props) {
                 return response.json()
             })
             .then(result => {
-                console.log(`New address saved: ${result.data}`)
+                console.log(`New address saved for address_id=${result}`)
             })
             .catch(err => {
                 console.debug(`Errors caught: ${err}`)
@@ -95,13 +97,13 @@ export default function AddressFields(props) {
             state:                props.state || "",
             zip:                  props.zip || "",
             country:              props.country || "",
-            isCurrent:            props.isCurrent,
-            isLikelyToChange:     props.isLikelyToChange,
+            isCurrent:            props.isCurrent === null ? false : props.isCurrent,
+            isLikelyToChange:     props.isLikelyToChange === null ? false : props.isLikelyToChange,
+            mailToThisAddress:    props.mailToThisAddress === null ? false : props.mailToThisAddress,
             notes:                props.notes || ""
         })
 
-    }, [ props.id, props.householdId, props.line_1, props.line_2, props.city, props.state, props.zip,
-        props.country, props.fullAddress, props.isCurrent, props.isLikelyToChange, props.notes ])
+    }, [ props ])
 
     return (
         <form id={`form-address-${props.index}`} className="address-fields" onSubmit={handleSave}>
@@ -240,7 +242,7 @@ export default function AddressFields(props) {
                 <label
                     htmlFor={`is-current-${props.index}`}
                     className="label-checkbox"
-                >Is Current?</label>
+                >Is current?</label>
             </div>
 
             <div className="label-checkbox-container">
@@ -257,43 +259,61 @@ export default function AddressFields(props) {
                 <label
                     htmlFor={`is-likely-to-change-${props.index}`}
                     className="label-checkbox"
-                >Is Likely To Change?</label>
+                >Is likely to change?</label>
             </div>
 
-            <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes
-            </button>
+            <div className="label-checkbox-container">
+                <input
+                    type="checkbox"
+                    id={`mail-to-this-address-${props.index}`}
+                    name="mailToThisAddress"
+                    checked={addressData.mailToThisAddress}
+                    onChange={handleCheckboxChange}
+                    className="input-checkbox"
+                    disabled={isDisabled}
+                />
+
+                <label
+                    htmlFor={`mail-to-this-address-${props.index}`}
+                    className="label-checkbox"
+                >Mail to this address?</label>
+            </div>
+
+            <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes</button>
 
             <div className="debug" hidden={hideDebug}>
                 addrId: {"\t" + props.id} <br />
                 hhId: {"\t" + props.householdId} <br />
-                line_1: {"\t" + props.line_1 || ""} <br />
-                line_2: {"\t" + props.line_2 || ""} <br />
-                city: {"\t\t" + props.city || ""} <br />
-                state: {"\t" + props.state || ""} <br />
-                zip: {"\t\t" + props.zip || ""} <br />
-                country: {"\t" + props.country || ""} <br />
-                fullAddy: {"\t" + props.fullAddress || ""} <br />
-                isCurr: {"\t" + props.isCurrent} <br />
-                isLikely: {"\t" + props.isLikelyToChange} <br />
+                {/*line_1: {"\t" + props.line_1 || ""} <br />*/}
+                {/*line_2: {"\t" + props.line_2 || ""} <br />*/}
+                {/*city: {"\t\t" + props.city || ""} <br />*/}
+                {/*state: {"\t" + props.state || ""} <br />*/}
+                {/*zip: {"\t\t" + props.zip || ""} <br />*/}
+                {/*country: {"\t" + props.country || ""} <br />*/}
+                {/*fullAddy: {"\t" + props.fullAddress || ""} <br />*/}
+                isCurr: {"\t" + props.isCurrent + "\t" + typeof(props.isCurrent)} <br />
+                isLike: {"\t" + props.isLikelyToChange + "\t" + typeof(props.isLikelyToChange)} <br />
+                mailTo: {"\t" + props.mailToThisAddress + "\t" + typeof(props.mailToThisAddress)} <br />
             </div>
         </form>
     )
 }
 
 AddressFields.defaultProps = {
-    id:               0,
-    index:            0,
-    householdId:      0,
-    line_1:           "",
-    line_2:           "",
-    city:             "",
-    state:            "",
-    zip:              "",
-    country:          "",
-    fullAddress:      "",
-    isCurrent:        false,
-    isLikelyToChange: false,
-    createdDate:      new Date().toISOString(),
-    lastModified:     new Date().toISOString(),
-    notes:            ""
+    id:                0,
+    index:             0,
+    householdId:       0,
+    line_1:            "",
+    line_2:            "",
+    city:              "",
+    state:             "",
+    zip:               "",
+    country:           "",
+    fullAddress:       "",
+    isCurrent:         true,
+    isLikelyToChange:  true,
+    mailToThisAddress: true,
+    createdDate:       new Date().toISOString(),
+    lastModified:      new Date().toISOString(),
+    notes:             ""
 }
