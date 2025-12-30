@@ -75,12 +75,12 @@ export default function App() {
                 { name: "pets", weight: 0.05 },
                 { name: "known_from", weight: 0.05 },
                 { name: "relationship", weight: 0.05 },
-                { name: "relationship_type", weight: 0.05 },
-                { name: "family_side", weight: 0.05 },
+                { name: "relationship_type", weight: 0.05 }
              ],
             threshold: 0.25,
             ignoreLocation: true,
             minMatchCharLength: 2,
+            includeMatches: true
         })
     }, [householdData])
 

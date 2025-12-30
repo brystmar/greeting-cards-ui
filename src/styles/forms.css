@@ -111,4 +111,14 @@
   color: #cb5700;
 }
 
+.hh-search-results li.active {
+  background: #eef2ff;
+}
+
+mark {
+  background: #fde68a;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
 /*# sourceMappingURL=forms.css.map */

@@ -1,10 +1,46 @@
 import React from "react";
 
 export default function HouseholdSearchResult(props) {
+    function matchFor(key) {
+        return props.matches?.find((m) => m.key === key)
+    }
+
+    function highlightMatchedText(text, indices) {
+        if (!indices || !indices.length) {
+            return text
+        }
+
+        let result = []
+        let lastIndex = 0
+
+        indices.forEach(([start, end], i) => {
+            if (lastIndex < start) {
+                result.push(text.slice(lastIndex, start))
+            }
+
+            result.push(
+                <mark key={i}>{text.slice(start, end + 1)}</mark>
+            )
+
+            lastIndex = end + 1
+        })
+
+        if (lastIndex < text.length) {
+            result.push(text.slice(lastIndex))
+        }
+
+        return result
+    }
+
     return (
         <div className="hh-search-result">
             <div className="hh-search-result-title">
-                {props.nickname}
+                <strong>
+                    {highlightMatchedText(
+                        props.nickname,
+                        matchFor("nickname")?.indices
+                    )}
+                </strong>
             </div>
 
             <div className="hh-search-result-subtitle">

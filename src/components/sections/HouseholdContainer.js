@@ -12,16 +12,20 @@ export default function HouseholdContainer(props) {
         addrList:     [ { id: 0, line_1: "" } ]
     })
 
+    // Core functionality vars
     const [ selectedHH, updateSelectedHH ] = useState({})
     const [ showDebug, updateShowDebug ] = useState(false)
-    const [ query, setQuery ] = useState("")
-    const fuse = props.hhIndex
 
+    // Search vars
+    const [ query, setQuery ] = useState("")
+    const [activeIndex, setActiveIndex] = useState(-1)
+    const fuse = props.hhIndex
     const searchResults =
         fuse && query.trim().length > 1
             ? fuse.search(query).slice(0, 8)
             : [];
 
+    // Build the picklist options list
     let picklistOptions = mapHouseholdData(props.householdList)
 
     // Map each household record into a picklist option
@@ -30,7 +34,7 @@ export default function HouseholdContainer(props) {
 
         if (!Array.isArray(hhList)) {
             console.error("Invalid household list:", hhList);
-            return [];
+            return []
         }
 
         const output = hhList.sort((a, b) => {
@@ -86,15 +90,39 @@ export default function HouseholdContainer(props) {
         setQuery(event.target.value)
     }
 
-    function normalizeBooleanProps(value) {
-        if (value in [null, ""]) {
-            value = false
-        }
-        else {
-            value = value === true
-        }
+    function handleKeyboardInput(event) {
+        if (!searchResults.length) return;
 
-        return value.toString().toLowerCase() === "true"
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                setActiveIndex((i) =>
+                    i < searchResults.length - 1 ? i + 1 : 0
+                );
+                break
+
+            case "ArrowUp":
+                event.preventDefault();
+                setActiveIndex((i) =>
+                    i > 0 ? i - 1 : searchResults.length - 1
+                );
+                break
+
+            case "Enter":
+                if (activeIndex >= 0) {
+                    event.preventDefault();
+                    props.onSelect(searchResults[activeIndex].item)
+                }
+                break
+
+            case "Escape":
+                setQuery("")
+                setActiveIndex(-1)
+                break
+
+            default:
+                break
+        }
     }
 
     // When householdList changes, update state and the list of picklist options
@@ -116,10 +144,10 @@ export default function HouseholdContainer(props) {
         }
     }, [ props.householdList, props.addressList ])
 
-    // if (selectedHH.id && selectedHH.id.toString() === "84") {
-    console.debug(`hhContainer: shouldReceiveHolidayCard=${selectedHH.should_receive_holiday_card}`)
-    console.debug(`hhContainer: isRelevant=${selectedHH.is_relevant}`)
-    // }
+    // Reset the active selection when the search query changes
+    useEffect(() => {
+        setActiveIndex(-1);
+    }, [query]);
 
     return (
         <section>
@@ -136,13 +164,15 @@ export default function HouseholdContainer(props) {
                                     className="hh-search-box"
                                     placeholder="Search by name(s), including kids & pets"
                                     value={query}
+                                    tabIndex={0}
                                     onChange={handleSearchQueryChange}
+                                    onKeyDown={handleKeyboardInput}
                                     autoFocus={true}
                                 />
 
                                 {searchResults.length > 0 && (
                                     <ul className="hh-search-results">
-                                        {searchResults.map(({item: result}) => {
+                                        {searchResults.map(({item: result, matches}) => {
                                                 // console.debug(`Search result item: ${JSON.stringify(item)}`)
                                                 // console.debug(`Selection: ${JSON.stringify(selection)}`)
                                                 return (
@@ -163,6 +193,7 @@ export default function HouseholdContainer(props) {
                                                             known_from={result.known_from}
                                                             relationship={result.relationship}
                                                             relationship_type={result.relationship_type}
+                                                            matches={matches}
                                                         />
                                                     </li>
                                                 )
@@ -232,10 +263,8 @@ export default function HouseholdContainer(props) {
                             knownFrom={selectedHH.known_from || ""}
                             kids={selectedHH.kids || ""}
                             pets={selectedHH.pets || ""}
-                            // shouldReceiveHolidayCard={normalizeBooleanProps(selectedHH.should_receive_holiday_card)}
-                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card}
-                            // isRelevant={normalizeBooleanProps(selectedHH.is_relevant)}
-                            isRelevant={selectedHH.is_relevant}
+                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card === null ? false : selectedHH.should_receive_holiday_card}
+                            isRelevant={selectedHH.is_relevant === null ? false : selectedHH.is_relevant}
                             createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
                             lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
                             notes={selectedHH.notes || ""}
