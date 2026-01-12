@@ -21,19 +21,21 @@ export default function AddressFields(props) {
     }
 
     const [ addressData, updateAddressData ] = useState(initialState)
-    const isDisabled = false
+    const [ showConfirmation, updateShowConfirmation ] = useState(false)
+    const [ disableSave, updateDisableSave] = useState(false)
     const hideDebug = true
+    const isDisabled = false
 
+    // Update the id, nickname, and address count for the selected household
     function handleChange(event) {
-        // Update the id, nickname, and address count for the selected household
         updateAddressData({
             ...addressData,
             [event.target.name]: event.target.value
         })
     }
 
+    // Default form handling of checkboxes is weird
     function handleCheckboxChange(event) {
-        // Default form handling of checkboxes is weird
         updateAddressData({
             ...addressData,
             [event.target.name]: event.target.checked
@@ -42,6 +44,9 @@ export default function AddressFields(props) {
 
     function handleSave(event) {
         console.debug(`Save button for form ${event.target.id} clicked.`)
+
+        // Disable fields and buttons until the service call is finished
+        updateDisableSave(true)
 
         // Don't refresh the page
         event.preventDefault()
@@ -79,14 +84,35 @@ export default function AddressFields(props) {
             })
             .then(result => {
                 console.log(`New address saved for address_id=${result}`)
+
+                // Briefly show the "Saved!" confirmation message
+                updateShowConfirmation(true)
+
+                // Re-enable fields and buttons now that the service call is complete
+                updateDisableSave(false)
             })
             .catch(err => {
                 console.debug(`Errors caught: ${err}`)
+
+                // Re-enable fields and buttons now that the service call is complete
+                updateDisableSave(false)
             })
 
         console.info(`Form submission complete.`)
     }
 
+    // Timeout for displaying the copy-to-clipboard confirmation
+    useEffect(() => {
+        if (showConfirmation) {
+            const timeout = setTimeout(() => {
+                updateShowConfirmation(false)
+            }, 1000)
+
+            return () => clearTimeout(timeout)
+        }
+    }, [ showConfirmation ])
+
+    // Re-render when props change
     useEffect(() => {
         console.debug("Re-rendering AddressFields")
         updateAddressData({
@@ -279,7 +305,10 @@ export default function AddressFields(props) {
                 >Mail to this address?</label>
             </div>
 
-            <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes</button>
+            <div className="btn-container">
+                <button type="submit" className="btn btn-submit" disabled={isDisabled || disableSave}>Save Changes</button>
+                <span className={showConfirmation ? "confirm-msg" : "confirm-msg hide"}>Saved!</span>
+            </div>
 
             <div className="debug" hidden={hideDebug}>
                 addrId: {"\t" + props.id} <br />

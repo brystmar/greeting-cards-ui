@@ -23,20 +23,23 @@ export default function HHInfo(props) {
     }
 
     const [ hhData, updateHHData ] = useState(initialState)
+    const [ showConfirmation, updateShowConfirmation ] = useState(false)
+    const [ disableSave, updateDisableSave] = useState(false)
     const isDisabled = false
     const isTesting = true
     const hideDebug = true
 
+
+    // Update the id, nickname, and address count for the selected household
     function handleChange(event) {
-        // Update the id, nickname, and address count for the selected household
         updateHHData({
             ...hhData,
             [event.target.name]: event.target.value
         })
     }
 
+    // Default form handling for checkboxes is weird
     function handleCheckboxChange(event) {
-        // Default form handling for checkboxes is weird
         updateHHData({
             ...hhData,
             [event.target.name]: event.target.checked
@@ -45,6 +48,9 @@ export default function HHInfo(props) {
 
     function handleSubmit(event) {
         console.debug(`Submit button for form ${event.target.id} clicked.`)
+
+        // Disable fields and buttons until the service call is finished
+        updateDisableSave(true)
 
         // Don't refresh the page
         event.preventDefault()
@@ -86,20 +92,40 @@ export default function HHInfo(props) {
             .then(result => {
                 console.log(`New address saved for hh_id=${result}`)
 
+                // Briefly show the "Saved!" confirmation message
+                updateShowConfirmation(true)
+
                 // Replace the householdList entry with the newly-submitted household data
                 console.debug("Refreshing hhList from the database...")
                 props.refreshDataFromDB()
+
+                // Re-enable fields and buttons now that the service call is complete
+                updateDisableSave(false)
             })
             .catch(err => {
                 console.debug(`Errors caught: ${err}`)
+
+                // Re-enable fields and buttons now that the service call is complete
+                updateDisableSave(false)
             })
 
         console.info(`Form ${event.target.id} submitted.`)
         console.debug(`Form data: ${JSON.stringify(newHH)}`)
     }
 
+    // Timeout for displaying the copy-to-clipboard confirmation
     useEffect(() => {
-        // Insert test data while testing
+        if (showConfirmation) {
+            const timeout = setTimeout(() => {
+                updateShowConfirmation(false)
+            }, 1000)
+
+            return () => clearTimeout(timeout)
+        }
+    }, [ showConfirmation ])
+
+    // Insert test data while testing
+    useEffect(() => {
         if (isTesting) {
             updateHHData({
                 nickname:   "0test Nick " + new Date().toISOString(),
@@ -111,10 +137,10 @@ export default function HHInfo(props) {
         }
     }, [ isTesting ])
 
+    // When props change, replace state with the new props values
     useEffect(() => {
         console.debug("Household selection changed, re-rendering HHInfo")
 
-        // When props change, replace state with the new props values
         updateHHData(props)
     }, [ props ])
 
@@ -397,7 +423,10 @@ export default function HHInfo(props) {
                 >Is still relevant?</label>
             </div>
 
-            <button type="submit" className="btn btn-submit" disabled={isDisabled}>Save Changes</button>
+            <div className="btn-container">
+                <button type="submit" className="btn btn-submit" disabled={isDisabled || disableSave}>Save Changes</button>
+                <span className={showConfirmation ? "confirm-msg" : "confirm-msg hide"}>Saved!</span>
+            </div>
 
             <div className="debug" hidden={hideDebug}>
                 id: {"\t" + props.id} <br />

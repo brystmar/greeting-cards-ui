@@ -121,4 +121,15 @@ mark {
   border-radius: 2px;
 }
 
+.confirm-msg {
+  color: green;
+  display: inline;
+  margin-left: 0.5em;
+  cursor: default;
+}
+
+.hide {
+  display: none;
+}
+
 /*# sourceMappingURL=forms.css.map */
