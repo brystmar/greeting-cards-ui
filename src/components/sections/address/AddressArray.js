@@ -24,21 +24,21 @@ export default function AddressArray(props) {
             <AddressFields
                 key={index}
                 index={index}
-                id={address.id}
-                householdId={address.household_id}
-                line_1={address.line_1}
-                line_2={address.line_2}
-                city={address.city}
-                state={address.state}
-                zip={address.zip}
-                country={address.country}
-                fullAddress={address.full_address}
+                id={address.id || 0}
+                householdId={address.household_id || 0}
+                line_1={address.line_1 || ""}
+                line_2={address.line_2 || ""}
+                city={address.city || ""}
+                state={address.state || ""}
+                zip={address.zip || ""}
+                country={address.country || ""}
+                fullAddress={address.full_address || ""}
                 isCurrent={address.is_current === null ? false : address.is_current}
                 isLikelyToChange={address.is_likely_to_change === null ? false : address.is_likely_to_change}
                 mailToThisAddress={address.mail_the_card_to_this_address === null ? false : address.mail_the_card_to_this_address}
-                createdDate={address.created_date}
-                lastModified={address.last_modified}
-                notes={address.notes}
+                createdDate={address.created_date || new Date().toLocaleString()}
+                lastModified={address.last_modified || new Date().toLocaleString()}
+                notes={address.notes || ""}
             />
         )
 

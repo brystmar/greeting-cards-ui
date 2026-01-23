@@ -7,18 +7,19 @@ import HouseholdSearchResult from "./household/HHSearchResult";
 
 export default function HouseholdContainer(props) {
     const [ selection, updateSelection ] = useState({
-        householdId:  0,
+        // TODO: Figure out why I have to hard-code a valid id here
+        householdId:  props.householdList[0].id ? props.householdList[0].id : 84,
         addressCount: 0,
         addrList:     [ { id: 0, line_1: "" } ]
     })
 
     // Core functionality vars
-    const [ selectedHH, updateSelectedHH ] = useState({})
+    const [ selectedHH, updateSelectedHH ] = useState(props.householdList[0])
     const [ showDebug, updateShowDebug ] = useState(false)
 
     // Search vars
     const [ query, setQuery ] = useState("")
-    const [activeIndex, setActiveIndex] = useState(-1)
+    const [ activeIndex, setActiveIndex ] = useState(-1)
     const fuse = props.hhIndex
     const searchResults =
         fuse && query.trim().length > 1
@@ -71,8 +72,8 @@ export default function HouseholdContainer(props) {
         updateSelectedHH(props.householdList.filter((hh) => hh.id.toString() === event.target.value.toString())[0])
     }
 
+    // Update the id, nickname, and address count for the selected household
     function handleSearchResultSelectionChange(searchSelectionId) {
-        // Update the id, nickname, and address count for the selected household
         // console.debug("Start of handleSearchResultSelectionChange()")
         // console.debug(`hhId: ${searchSelectionId}`)
         updateSelection({
@@ -95,14 +96,14 @@ export default function HouseholdContainer(props) {
 
         switch (event.key) {
             case "ArrowDown":
-                event.preventDefault();
+                event.preventDefault()
                 setActiveIndex((i) =>
                     i < searchResults.length - 1 ? i + 1 : 0
                 );
                 break
 
             case "ArrowUp":
-                event.preventDefault();
+                event.preventDefault()
                 setActiveIndex((i) =>
                     i > 0 ? i - 1 : searchResults.length - 1
                 );
@@ -110,7 +111,7 @@ export default function HouseholdContainer(props) {
 
             case "Enter":
                 if (activeIndex >= 0) {
-                    event.preventDefault();
+                    event.preventDefault()
                     props.onSelect(searchResults[activeIndex].item)
                 }
                 break
@@ -125,22 +126,47 @@ export default function HouseholdContainer(props) {
         }
     }
 
+    // When new household info is saved, update the household list to reflect this
+    function updateOneHousehold(updatedHousehold) {
+        // Create a new array with all households except the one being updated
+        let newHHList = props.householdList.filter((hh) => hh.id.toString() !== updatedHousehold.id.toString())
+
+        // Append the updated household to the array
+        newHHList.push(updatedHousehold)
+
+        // Update the list of households
+        props.updateHHData(newHHList)
+    }
+
+    function insertNewHousehold(newHousehold) {
+        // Append the updated household to the array
+        let newHHList = props.householdList.push(newHousehold)
+
+        // Update the list of households
+        props.updateHHData(newHHList)
+    }
+
     // When householdList changes, update state and the list of picklist options
     useEffect(() => {
         console.debug("List of households was updated by HouseholdContainer.useEffect")
 
         // picklistOptions = mapHouseholdData(props.householdList)
 
-        // Initialize the selected id to the first household in the list
+        // Initialize the selected id to the selected household
         if (props.householdList[0].nickname) {
             updateSelection({
-                householdId:  props.householdList[0].id,
-                addressCount: props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id).length,
-                addrList:     props.addressList.filter((address) => address.household_id.toString() === props.householdList[0].id)
+                // householdId:  props.householdList[0].id,
+                householdId: selection.householdId,
+                addressCount: props.addressList.filter((address) => address.household_id.toString() === selection.householdId.toString()).length,
+                addrList:     props.addressList.filter((address) => address.household_id.toString() === selection.householdId.toString())
             })
 
-            // Fill HHInfo for the first item in the list
-            updateSelectedHH(props.householdList[0])
+            // Fill HHInfo for the selected household
+            updateSelectedHH(props.householdList.filter((hh) => hh.id.toString() === selection.householdId.toString())[0])
+            // updateSelectedHH(selection.householdId)
+        } else {
+            console.log("props.hhList[0].nickname is undefined")
+            // updateSelectedHH([defaultHousehold])
         }
     }, [ props.householdList, props.addressList ])
 
@@ -268,7 +294,9 @@ export default function HouseholdContainer(props) {
                             createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
                             lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
                             notes={selectedHH.notes || ""}
-                            updateHHData={props.updateHHData}
+                            updateOneHousehold={updateOneHousehold}
+                            insertNewHousehold={insertNewHousehold}
+                            updateAddressData={props.updateAddressData}
                             refreshDataFromDB={props.refreshDataFromDB}
                         />
                     </div>
@@ -276,7 +304,7 @@ export default function HouseholdContainer(props) {
 
                 <div className="column-container">
                     <div className="col">
-                        <h3>{`${selection.addressCount > 1 ? "Addresses" : "Address"} for ${selectedHH.nickname}:`}</h3>
+                        <h3>{`${selection.addressCount > 1 ? "Addresses" : "Address"} ${selectedHH.nickname === null ? "" : `for ${selectedHH.nickname}`}:`}</h3>
                         <AddressArray
                             householdId={selection.householdId}
                             householdNickname={selectedHH.nickname}

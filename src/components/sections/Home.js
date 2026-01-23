@@ -11,6 +11,7 @@ export default function Home(props) {
                 householdList={props.householdList}
                 addressList={props.addressList}
                 updateHHData={props.updateHHData}
+                updateAddressData={props.updateAddressData}
                 refreshDataFromDB={props.refreshDataFromDB}
                 hhIndex={props.hhIndex}
             />

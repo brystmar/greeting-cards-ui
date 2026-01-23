@@ -71,12 +71,14 @@ export default function HHInfo(props) {
             pets:                        hhData.pets,
             should_receive_holiday_card: hhData.shouldReceiveHolidayCard === null ? false : hhData.shouldReceiveHolidayCard,
             is_relevant:                 hhData.isRelevant === null ? false : hhData.isRelevant,
-            notes:                       hhData.notes
+            notes:                       hhData.notes,
+            created_date:                props.createdDate,
+            last_modified:               new Date().toLocaleString()
         }
 
         // Send this new household data to the backend
         console.log(`Calling endpoint: [PUT] ${api.households.one}`)
-        console.debug(`Request body in JSON: ${JSON.stringify(newHH)}`)
+        // console.debug(`Request body in JSON: ${JSON.stringify(newHH)}`)
 
         const serviceCallOptions = {
             method:  "PUT",
@@ -96,8 +98,8 @@ export default function HHInfo(props) {
                 updateShowConfirmation(true)
 
                 // Replace the householdList entry with the newly-submitted household data
-                console.debug("Refreshing hhList from the database...")
-                props.refreshDataFromDB()
+                // console.debug("Refreshing hhList from the database...")
+                // props.refreshDataFromDB()
 
                 // Re-enable fields and buttons now that the service call is complete
                 updateDisableSave(false)
@@ -110,7 +112,10 @@ export default function HHInfo(props) {
             })
 
         console.info(`Form ${event.target.id} submitted.`)
-        console.debug(`Form data: ${JSON.stringify(newHH)}`)
+        // console.debug(`Form data: ${JSON.stringify(newHH)}`)
+
+        // Update the existing list of households
+        props.updateOneHousehold(newHH)
     }
 
     // Timeout for displaying the copy-to-clipboard confirmation
@@ -141,7 +146,26 @@ export default function HHInfo(props) {
     useEffect(() => {
         console.debug("Household selection changed, re-rendering HHInfo")
 
-        updateHHData(props)
+        // updateHHData(props)
+        updateHHData({
+            id:                       props.id || 0,
+            nickname:                 props.nickname || "",
+            firstNames:               props.firstNames || "",
+            surname:                  props.surname || "",
+            addressTo:                props.addressTo || "",
+            formalName:               props.formalName || "",
+            relationshipType:         props.relationshipType || "",
+            relationship:             props.relationship || "",
+            familySide:               props.familySide || "",
+            knownFrom:                props.knownFrom || "",
+            kids:                     props.kids || "",
+            pets:                     props.pets || "",
+            shouldReceiveHolidayCard: props.shouldReceiveHolidayCard === null ? false : props.shouldReceiveHolidayCard,
+            isRelevant:               props.isRelevant === null ? false : props.isRelevant,
+            createdDate:              props.createdDate || new Date().toLocaleString(),
+            lastModified:             props.lastModified || new Date().toLocaleString(),
+            notes:                    props.notes || ""
+        })
     }, [ props ])
 
     return (

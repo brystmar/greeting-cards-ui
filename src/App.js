@@ -14,6 +14,7 @@ import { defaultAddress, defaultHousehold } from "./data/defaultData";
 export default function App() {
     const [ addressData, updateAddressData ] = useState([ defaultAddress ])
     const [ householdData, updateHouseholdData ] = useState([ defaultHousehold ])
+    const [ selectedHH, updateSelectedHH ] = useState(-1)
 
     // Declare an async function for retrieving data
     async function getAllAddressesAndHouseholds() {
@@ -31,6 +32,15 @@ export default function App() {
             // Update local state
             updateAddressData(addressListResponse)
             updateHouseholdData(householdListResponse)
+
+            try {
+                if (selectedHH === -1) {
+                    updateSelectedHH(householdData[0].id)
+                }
+            } catch (error) {
+                updateSelectedHH(-1)
+            }
+
         } catch (error) {
             console.error(`Error retrieving (or parsing) address list: ${error}`)
         }
@@ -38,8 +48,9 @@ export default function App() {
 
     // Retrieve and store data from the database when the App function is loaded
     useEffect(() => {
-        // Call the async function declared above
         console.info("Retrieving list of addresses & households via App.useEffect")
+
+        // Call the async function declared above
         getAllAddressesAndHouseholds()
             .then(() => console.log("Request within App.useEffect.getData() completed!"))
             .catch((error) => console.error(`Error in App.useEffect.getData(): ${error}`))
@@ -93,6 +104,7 @@ export default function App() {
                     householdList={householdData}
                     addressList={addressData}
                     updateHHData={updateHouseholdData}
+                    updateAddressData={updateAddressData}
                     refreshDataFromDB={getAllAddressesAndHouseholds}
                     hhIndex={hhIndex}
                 />
