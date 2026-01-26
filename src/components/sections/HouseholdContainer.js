@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PicklistOption from "../PicklistOption";
+import PicklistOption from "./household/PicklistOption";
 import AddressArray from "./address/AddressArray";
 import { defaultAddress, defaultHousehold } from "../../data/defaultData";
 import HHInfo from "./household/HHInfo";
 import HouseholdSearchResult from "./household/HHSearchResult";
+import PicklistOptionsList from "./household/PicklistOptionsList";
 
 export default function HouseholdContainer(props) {
     const [ selection, updateSelection ] = useState({
@@ -16,6 +17,7 @@ export default function HouseholdContainer(props) {
     // Core functionality vars
     const [ selectedHH, updateSelectedHH ] = useState(props.householdList[0])
     const [ showDebug, updateShowDebug ] = useState(false)
+    const [ insertNewRecordMode, updateInsertNewRecordMode ] = useState(false)
 
     // Search vars
     const [ query, setQuery ] = useState("")
@@ -27,6 +29,7 @@ export default function HouseholdContainer(props) {
             : [];
 
     // Build the picklist options list
+    // TODO: Move this picklist to its own component
     let picklistOptions = mapHouseholdData(props.householdList)
 
     // Map each household record into a picklist option
@@ -128,8 +131,14 @@ export default function HouseholdContainer(props) {
 
     // When new household info is saved, update the household list to reflect this
     function updateOneHousehold(updatedHousehold) {
-        // Create a new array with all households except the one being updated
-        let newHHList = props.householdList.filter((hh) => hh.id.toString() !== updatedHousehold.id.toString())
+        let newHHList = []
+
+        try {
+            // Create a new array with all households except the one being updated
+            newHHList = props.householdList.filter((hh) => hh.id.toString() !== updatedHousehold.id.toString())
+        } catch(e) {
+            // New
+        }
 
         // Append the updated household to the array
         newHHList.push(updatedHousehold)
@@ -144,6 +153,10 @@ export default function HouseholdContainer(props) {
 
         // Update the list of households
         props.updateHHData(newHHList)
+    }
+
+    function handleNewRecordMode(event) {
+        updateInsertNewRecordMode(!insertNewRecordMode)
     }
 
     // When householdList changes, update state and the list of picklist options
@@ -181,6 +194,8 @@ export default function HouseholdContainer(props) {
                 <div className="column-container">
                     <div className="col">
                         <h3>Select Household</h3>
+
+                        {/* TODO: Move the search box & results to their own components */}
                         {props.householdList.length > 1 && (
                             <div className="hh-search-box-container">
                                 <input
@@ -193,7 +208,8 @@ export default function HouseholdContainer(props) {
                                     tabIndex={0}
                                     onChange={handleSearchQueryChange}
                                     onKeyDown={handleKeyboardInput}
-                                    autoFocus={true}
+                                    autoFocus={!insertNewRecordMode}
+                                    disabled={insertNewRecordMode}
                                 />
 
                                 {searchResults.length > 0 && (
@@ -239,9 +255,13 @@ export default function HouseholdContainer(props) {
                                 value={selection.householdId}
                                 onChange={handleHouseholdChange}
                                 required={false}
+                                disabled={insertNewRecordMode}
                             >
-                                {picklistOptions}
+                                <PicklistOptionsList
+                                    elementList={picklistOptions}
+                                />
                             </select>
+
                             <div className="label-checkbox-container">
                                 <input
                                     type="checkbox"
@@ -250,6 +270,7 @@ export default function HouseholdContainer(props) {
                                     checked={showDebug}
                                     onChange={() => updateShowDebug(!showDebug)}
                                     className="input-checkbox"
+                                    disabled={insertNewRecordMode}
                                 />
 
                                 <label
@@ -257,6 +278,13 @@ export default function HouseholdContainer(props) {
                                     className="label-checkbox"
                                 >Show debug info</label>
                             </div>
+
+                            <button
+                                type="button"
+                                name="insertNewHH"
+                                className="btn btn-submit"
+                                onClick={handleNewRecordMode}
+                            >Add New Household</button>
                         </span>
 
                         <p className="debug" hidden={!showDebug}>
@@ -276,29 +304,60 @@ export default function HouseholdContainer(props) {
 
                     <div className="col">
                         <h3>Household Info</h3>
-                        <HHInfo
-                            id={selectedHH.id}
-                            nickname={selectedHH.nickname}
-                            firstNames={selectedHH.first_names || ""}
-                            surname={selectedHH.surname || ""}
-                            addressTo={selectedHH.address_to || ""}
-                            formalName={selectedHH.formal_name || ""}
-                            relationship={selectedHH.relationship || ""}
-                            relationshipType={selectedHH.relationship_type || ""}
-                            familySide={selectedHH.family_side || ""}
-                            knownFrom={selectedHH.known_from || ""}
-                            kids={selectedHH.kids || ""}
-                            pets={selectedHH.pets || ""}
-                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card === null ? false : selectedHH.should_receive_holiday_card}
-                            isRelevant={selectedHH.is_relevant === null ? false : selectedHH.is_relevant}
-                            createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
-                            lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
-                            notes={selectedHH.notes || ""}
-                            updateOneHousehold={updateOneHousehold}
-                            insertNewHousehold={insertNewHousehold}
-                            updateAddressData={props.updateAddressData}
-                            refreshDataFromDB={props.refreshDataFromDB}
-                        />
+                        {insertNewRecordMode ?
+                            <HHInfo
+                                id={0}
+                                nickname={""}
+                                firstNames={""}
+                                surname={""}
+                                addressTo={""}
+                                formalName={""}
+                                relationship={""}
+                                relationshipType={""}
+                                familySide={""}
+                                knownFrom={""}
+                                kids={""}
+                                pets={""}
+                                shouldReceiveHolidayCard={true}
+                                isRelevant={true}
+                                createdDate={new Date().toLocaleString()}
+                                lastModified={new Date().toLocaleString()}
+                                notes={""}
+                                updateOneHousehold={updateOneHousehold}
+                                // insertNewHousehold={insertNewHousehold}
+                                insertNewRecordMode={insertNewRecordMode}
+                                updateInsertNewRecordMode={updateInsertNewRecordMode}
+                                updateAddressData={props.updateAddressData}
+                                refreshDataFromDB={props.refreshDataFromDB}
+                                nextIds={props.nextIds}
+                            />
+                            : <HHInfo
+                                id={selectedHH.id}
+                                nickname={selectedHH.nickname}
+                                firstNames={selectedHH.first_names || ""}
+                                surname={selectedHH.surname || ""}
+                                addressTo={selectedHH.address_to || ""}
+                                formalName={selectedHH.formal_name || ""}
+                                relationship={selectedHH.relationship || ""}
+                                relationshipType={selectedHH.relationship_type || ""}
+                                familySide={selectedHH.family_side || ""}
+                                knownFrom={selectedHH.known_from || ""}
+                                kids={selectedHH.kids || ""}
+                                pets={selectedHH.pets || ""}
+                                shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card === null ? false : selectedHH.should_receive_holiday_card}
+                                isRelevant={selectedHH.is_relevant === null ? false : selectedHH.is_relevant}
+                                createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
+                                lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
+                                notes={selectedHH.notes || ""}
+                                updateOneHousehold={updateOneHousehold}
+                                // insertNewHousehold={insertNewHousehold}
+                                insertNewRecordMode={insertNewRecordMode}
+                                updateInsertNewRecordMode={updateInsertNewRecordMode}
+                                updateAddressData={props.updateAddressData}
+                                refreshDataFromDB={props.refreshDataFromDB}
+                                nextIds={props.nextIds}
+                            />
+                        }
                     </div>
                 </div>
 
@@ -309,6 +368,7 @@ export default function HouseholdContainer(props) {
                             householdId={selection.householdId}
                             householdNickname={selectedHH.nickname}
                             addressList={props.addressList}
+                            insertNewRecordMode={insertNewRecordMode}
                             // refreshDataFromDB={props.refreshDataFromDB}
                         />
                     </div>
@@ -320,6 +380,7 @@ export default function HouseholdContainer(props) {
 }
 
 HouseholdContainer.defaultProps = {
-    householdList: [ defaultHousehold ],
-    addressList:   [ defaultAddress ]
+    householdList:  [ defaultHousehold ],
+    addressList:    [ defaultAddress ],
+    nextIds:        { nextAddressId: 0, nextHouseholdId: 0 }
 }

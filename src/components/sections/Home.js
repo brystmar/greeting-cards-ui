@@ -14,6 +14,7 @@ export default function Home(props) {
                 updateAddressData={props.updateAddressData}
                 refreshDataFromDB={props.refreshDataFromDB}
                 hhIndex={props.hhIndex}
+                nextIds={props.nextIds}
             />
 
         </article>
@@ -21,6 +22,7 @@ export default function Home(props) {
 }
 
 Home.defaultProps = {
-    householdList: [ defaultHousehold ],
-    addressList:   [ defaultAddress ]
+    householdList:  [ defaultHousehold ],
+    addressList:    [ defaultAddress ],
+    nextIds:        { nextAddressId: 0, nextHouseholdId: 0 }
 }

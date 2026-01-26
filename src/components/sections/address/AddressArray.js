@@ -50,6 +50,7 @@ export default function AddressArray(props) {
 }
 
 AddressArray.defaultProps = {
-    householdId: 0,
-    addressList: [ defaultAddress ]
+    householdId:    0,
+    addressList:    [ defaultAddress ],
+    nextIds:        { nextAddressId: 0, nextHouseholdId: 0 }
 }

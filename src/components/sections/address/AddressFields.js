@@ -344,5 +344,6 @@ AddressFields.defaultProps = {
     mailToThisAddress: true,
     createdDate:       new Date().toISOString(),
     lastModified:      new Date().toISOString(),
-    notes:             ""
+    notes:             "",
+    nextIds:           { nextAddressId: 0, nextHouseholdId: 0 }
 }

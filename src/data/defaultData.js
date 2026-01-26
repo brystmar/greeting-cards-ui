@@ -5,14 +5,14 @@ export const defaultAddress = {
     line_2:                         "",
     city:                           "",
     state:                          "",
-    zip:                            "12345",
+    zip:                            "",
     country:                        "United States",
-    full_address:                    "",
+    full_address:                   "",
     is_current:                     true,
     is_likely_to_change:            true,
     mail_the_card_to_this_address:  true,
-    created_date:                   new Date("2021-10-18 03:40:35.473881"),
-    last_modified:                  new Date("2021-10-18 03:40:35.473881"),
+    created_date:                   new Date().toLocaleString(),
+    last_modified:                  new Date().toLocaleString(),
     notes:                          ""
 }
 
@@ -31,8 +31,8 @@ export const defaultHousehold = {
     pets:                        "",
     should_receive_holiday_card: true,
     is_relevant:                 true,
-    created_date:                new Date("2021-10-18 03:40:35.473881"),
-    last_modified:               new Date("2021-10-18 03:40:35.473881"),
+    created_date:                new Date().toLocaleString(),
+    last_modified:               new Date().toLocaleString(),
     notes:                       ""
 }
 

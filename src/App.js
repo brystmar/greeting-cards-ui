@@ -15,6 +15,7 @@ export default function App() {
     const [ addressData, updateAddressData ] = useState([ defaultAddress ])
     const [ householdData, updateHouseholdData ] = useState([ defaultHousehold ])
     const [ selectedHH, updateSelectedHH ] = useState(-1)
+    // const [ nextIds, updateNextIds ] = useState({ nextAddressId: 0, nextHouseholdId: 0 })
 
     // Declare an async function for retrieving data
     async function getAllAddressesAndHouseholds() {
@@ -95,6 +96,36 @@ export default function App() {
         })
     }, [householdData])
 
+    // Determine the next address_id and household_id to use when we need to insert a new record
+    const nextIds = useMemo(() => {
+        const maxAddressId =
+            addressData && addressData.length
+                ? addressData.reduce(
+                    (max, addr) => (addr.id > max ? addr.id : max),
+                    -Infinity
+                )
+                : null
+
+        const maxHouseholdId =
+            householdData && householdData.length
+                ? householdData.reduce(
+                    (max, hh) => (hh.id > max ? hh.id : max),
+                    -Infinity
+                )
+                : null
+
+        console.debug(`Max hh_id: ${maxHouseholdId}; max address_id: ${maxAddressId}.`)
+        // updateNextIds({
+        //     nextAddressId:      maxAddressId + 1,
+        //     nextHouseholdId:    maxHouseholdId + 1,
+        // })
+
+        return {
+            nextAddressId:      maxAddressId + 1,
+            nextHouseholdId:    maxHouseholdId + 1,
+        }
+    }, [addressData, householdData])
+
     return (
         <div className="app-container">
             <Header />
@@ -107,6 +138,7 @@ export default function App() {
                     updateAddressData={updateAddressData}
                     refreshDataFromDB={getAllAddressesAndHouseholds}
                     hhIndex={hhIndex}
+                    nextIds={nextIds}
                 />
                 {/*<Routes>*/}
                 {/*    <Route path="/home">*/}
