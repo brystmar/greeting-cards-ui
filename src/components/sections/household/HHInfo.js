@@ -30,7 +30,8 @@ export default function HHInfo(props) {
     const hideDebug = true
 
     // Adjust button text depending on mode
-    const saveButtonText = props.insertNewRecordMode ? "Save New Household" : "Save Changes"
+    const saveButtonText = props.insertNewHouseholdMode ? "Add This Household" : "Save Changes"
+    const btnConfirmationText = props.insertNewHouseholdMode ? "Added!" : "Saved!"
 
     // Update the id, nickname, and address count for the selected household
     function handleChange(event) {
@@ -59,7 +60,7 @@ export default function HHInfo(props) {
 
         // Build the payload to send
         let newHHData = {
-            id:                          props.insertNewRecordMode ? props.nextIds.nextHouseholdId : hhData.id,
+            id:                          props.insertNewHouseholdMode ? props.nextIds.nextHouseholdId : hhData.id,
             nickname:                    hhData.nickname,
             first_names:                 hhData.firstNames,
             surname:                     hhData.surname,
@@ -73,22 +74,22 @@ export default function HHInfo(props) {
             pets:                        hhData.pets,
             should_receive_holiday_card: hhData.shouldReceiveHolidayCard === null ? false : hhData.shouldReceiveHolidayCard,
             is_relevant:                 hhData.isRelevant === null ? false : hhData.isRelevant,
-            created_date:                props.insertNewRecordMode ? new Date().toLocaleString() : props.createdDate,
+            created_date:                props.insertNewHouseholdMode ? new Date().toLocaleString() : props.createdDate,
             last_modified:               new Date().toLocaleString(),
             notes:                       hhData.notes
         }
 
+        let serviceCallMethod = props.insertNewHouseholdMode ? "POST" : "PUT"
         let functionToCall = props.updateOneHousehold
-        let serviceCallMethod = props.insertNewRecordMode ? "POST" : "PUT"
 
-        // These attributes are only needed when modifying an existing record
-        if (!props.insertNewRecordMode) {
+        // Update vars that are specific to inserting a new record
+        if (props.insertNewHouseholdMode) {
             newHHData = {
                 ...newHHData,
-
+                address_id: props.nextIds.nextAddressId
             }
 
-            functionToCall = props.updateOneHousehold
+            functionToCall = props.insertNewHousehold
         }
 
         // Send this new household data to the backend
@@ -118,14 +119,14 @@ export default function HHInfo(props) {
 
                 // Re-enable fields and buttons now that the service call is complete
                 updateDisableSave(false)
-                props.updateInsertNewRecordMode(false)
+                props.updateInsertNewHouseholdMode(false)
             })
             .catch(err => {
                 console.debug(`Errors caught: ${err}`)
 
                 // Re-enable fields and buttons now that the service call is complete
                 updateDisableSave(false)
-                props.updateInsertNewRecordMode(false)
+                props.updateInsertNewHouseholdMode(false)
             })
 
         console.info(`Form ${event.target.id} submitted.`)
@@ -201,7 +202,7 @@ export default function HHInfo(props) {
                     onChange={handleChange}
                     className="input-text"
                     disabled={isDisabled}
-                    autoFocus={!!props.insertNewRecordMode}
+                    autoFocus={!!props.insertNewHouseholdMode}
                 />
             </div>
 
@@ -467,7 +468,7 @@ export default function HHInfo(props) {
 
             <div className="btn-container">
                 <button type="submit" className="btn btn-submit" disabled={isDisabled || disableSave}>{saveButtonText}</button>
-                <span className={showConfirmation ? "confirm-msg" : "confirm-msg hide"}>Saved!</span>
+                <span className={showConfirmation ? "confirm-msg" : "confirm-msg hide"}>{btnConfirmationText}</span>
             </div>
 
             <div className="debug" hidden={hideDebug}>
@@ -506,6 +507,6 @@ HHInfo.defaultProps = {
     createdDate:              new Date().toISOString(),
     lastModified:             new Date().toISOString(),
     notes:                    "",
-    insertNewRecordMode:      false,
+    insertNewHouseholdMode:   false,
     nextIds:                  { nextAddressId: 0, nextHouseholdId: 0 }
 }

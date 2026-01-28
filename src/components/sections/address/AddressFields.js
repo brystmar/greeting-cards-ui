@@ -329,21 +329,21 @@ export default function AddressFields(props) {
 }
 
 AddressFields.defaultProps = {
-    id:                0,
-    index:             0,
-    householdId:       0,
-    line_1:            "",
-    line_2:            "",
-    city:              "",
-    state:             "",
-    zip:               "",
-    country:           "",
-    fullAddress:       "",
-    isCurrent:         true,
-    isLikelyToChange:  true,
-    mailToThisAddress: true,
-    createdDate:       new Date().toISOString(),
-    lastModified:      new Date().toISOString(),
-    notes:             "",
-    nextIds:           { nextAddressId: 0, nextHouseholdId: 0 }
+    id:                     0,
+    index:                  0,
+    householdId:            0,
+    line_1:                 "",
+    line_2:                 "",
+    city:                   "",
+    state:                  "",
+    zip:                    "",
+    country:                "",
+    fullAddress:            "",
+    isCurrent:              true,
+    isLikelyToChange:       false,
+    mailToThisAddress:      true,
+    createdDate:            new Date().toISOString(),
+    lastModified:           new Date().toISOString(),
+    notes:                  "",
+    nextIds:                { nextAddressId: 0, nextHouseholdId: 0 }
 }

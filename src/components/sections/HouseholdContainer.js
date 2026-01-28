@@ -17,7 +17,7 @@ export default function HouseholdContainer(props) {
     // Core functionality vars
     const [ selectedHH, updateSelectedHH ] = useState(props.householdList[0])
     const [ showDebug, updateShowDebug ] = useState(false)
-    const [ insertNewRecordMode, updateInsertNewRecordMode ] = useState(false)
+    const [ insertNewHouseholdMode, updateInsertNewHouseholdMode ] = useState(false)
 
     // Search vars
     const [ query, setQuery ] = useState("")
@@ -27,6 +27,16 @@ export default function HouseholdContainer(props) {
         fuse && query.trim().length > 1
             ? fuse.search(query).slice(0, 8)
             : [];
+
+    // Simplification vars
+    let addressFor = ""
+    if (selectedHH.nickname === null || insertNewHouseholdMode) {
+        addressFor = "Address:"
+    } else {
+        addressFor = selection.addressCount > 1 ? `Addresses for ${selectedHH.nickname}:` : `Address for ${selectedHH.nickname}:`
+    }
+
+    let addButtonText = insertNewHouseholdMode ? "Cancel" : "Add New Household"
 
     // Build the picklist options list
     // TODO: Move this picklist to its own component
@@ -137,7 +147,7 @@ export default function HouseholdContainer(props) {
             // Create a new array with all households except the one being updated
             newHHList = props.householdList.filter((hh) => hh.id.toString() !== updatedHousehold.id.toString())
         } catch(e) {
-            // New
+            console.log(`Error creating new array of households: ${e}`)
         }
 
         // Append the updated household to the array
@@ -148,15 +158,41 @@ export default function HouseholdContainer(props) {
     }
 
     function insertNewHousehold(newHousehold) {
-        // Append the updated household to the array
-        let newHHList = props.householdList.push(newHousehold)
+        // Append the new household to the householdList array
+        let newHHList = props.householdList
+        newHHList.push(newHousehold)
+
+        const newAddress = {
+            id:                             newHousehold.address_id,
+            household_id:                   newHousehold.id,
+            line_1:                         "",
+            line_2:                         "",
+            city:                           "",
+            state:                          "",
+            zip:                            "",
+            country:                        "United States",
+            full_address:                   "",
+            is_current:                     true,
+            is_likely_to_change:            false,
+            mail_the_card_to_this_address:  true,
+            created_date:                   newHousehold.created_date,
+            last_modified:                  newHousehold.last_modified,
+            notes:                          ""
+        }
+
+        // Append a blank address to the addressList array
+        let newAddressList = props.addressList
+        newAddressList.push(newAddress)
 
         // Update the list of households
         props.updateHHData(newHHList)
+
+        // Update the list of addresses
+        props.updateAddressData(newAddressList)
     }
 
     function handleNewRecordMode(event) {
-        updateInsertNewRecordMode(!insertNewRecordMode)
+        updateInsertNewHouseholdMode(!insertNewHouseholdMode)
     }
 
     // When householdList changes, update state and the list of picklist options
@@ -208,8 +244,8 @@ export default function HouseholdContainer(props) {
                                     tabIndex={0}
                                     onChange={handleSearchQueryChange}
                                     onKeyDown={handleKeyboardInput}
-                                    autoFocus={!insertNewRecordMode}
-                                    disabled={insertNewRecordMode}
+                                    autoFocus={!insertNewHouseholdMode}
+                                    disabled={insertNewHouseholdMode}
                                 />
 
                                 {searchResults.length > 0 && (
@@ -251,11 +287,11 @@ export default function HouseholdContainer(props) {
                                 name="householdId"
                                 id="households-selection-box"
                                 className="selection-box"
-                                size={Math.min(props.householdList.length, 18)}
+                                size={Math.min(props.householdList.length, 19)}
                                 value={selection.householdId}
                                 onChange={handleHouseholdChange}
                                 required={false}
-                                disabled={insertNewRecordMode}
+                                disabled={insertNewHouseholdMode}
                             >
                                 <PicklistOptionsList
                                     elementList={picklistOptions}
@@ -270,7 +306,7 @@ export default function HouseholdContainer(props) {
                                     checked={showDebug}
                                     onChange={() => updateShowDebug(!showDebug)}
                                     className="input-checkbox"
-                                    disabled={insertNewRecordMode}
+                                    disabled={insertNewHouseholdMode}
                                 />
 
                                 <label
@@ -284,7 +320,7 @@ export default function HouseholdContainer(props) {
                                 name="insertNewHH"
                                 className="btn btn-submit"
                                 onClick={handleNewRecordMode}
-                            >Add New Household</button>
+                            >{addButtonText}</button>
                         </span>
 
                         <p className="debug" hidden={!showDebug}>
@@ -304,9 +340,9 @@ export default function HouseholdContainer(props) {
 
                     <div className="col">
                         <h3>Household Info</h3>
-                        {insertNewRecordMode ?
+                        {insertNewHouseholdMode ?
                             <HHInfo
-                                id={0}
+                                id={props.nextIds.nextHouseholdId}
                                 nickname={""}
                                 firstNames={""}
                                 surname={""}
@@ -324,9 +360,9 @@ export default function HouseholdContainer(props) {
                                 lastModified={new Date().toLocaleString()}
                                 notes={""}
                                 updateOneHousehold={updateOneHousehold}
-                                // insertNewHousehold={insertNewHousehold}
-                                insertNewRecordMode={insertNewRecordMode}
-                                updateInsertNewRecordMode={updateInsertNewRecordMode}
+                                insertNewHousehold={insertNewHousehold}
+                                insertNewHouseholdMode={insertNewHouseholdMode}
+                                updateInsertNewHouseholdMode={updateInsertNewHouseholdMode}
                                 updateAddressData={props.updateAddressData}
                                 refreshDataFromDB={props.refreshDataFromDB}
                                 nextIds={props.nextIds}
@@ -350,9 +386,9 @@ export default function HouseholdContainer(props) {
                                 lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
                                 notes={selectedHH.notes || ""}
                                 updateOneHousehold={updateOneHousehold}
-                                // insertNewHousehold={insertNewHousehold}
-                                insertNewRecordMode={insertNewRecordMode}
-                                updateInsertNewRecordMode={updateInsertNewRecordMode}
+                                insertNewHousehold={insertNewHousehold}
+                                insertNewHouseholdMode={insertNewHouseholdMode}
+                                updateInsertNewHouseholdMode={updateInsertNewHouseholdMode}
                                 updateAddressData={props.updateAddressData}
                                 refreshDataFromDB={props.refreshDataFromDB}
                                 nextIds={props.nextIds}
@@ -363,12 +399,12 @@ export default function HouseholdContainer(props) {
 
                 <div className="column-container">
                     <div className="col">
-                        <h3>{`${selection.addressCount > 1 ? "Addresses" : "Address"} ${selectedHH.nickname === null ? "" : `for ${selectedHH.nickname}`}:`}</h3>
+                        <h3>{addressFor}</h3>
                         <AddressArray
                             householdId={selection.householdId}
                             householdNickname={selectedHH.nickname}
                             addressList={props.addressList}
-                            insertNewRecordMode={insertNewRecordMode}
+                            insertNewHouseholdMode={insertNewHouseholdMode}
                             // refreshDataFromDB={props.refreshDataFromDB}
                         />
                     </div>

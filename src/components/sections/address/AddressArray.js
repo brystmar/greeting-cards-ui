@@ -44,13 +44,14 @@ export default function AddressArray(props) {
 
     return (
         <div className="address-array-container">
-            {addressesForHousehold}
+            {props.insertNewHouseholdMode || addressesForHousehold.length === 0 ? "" : addressesForHousehold}
         </div>
     )
 }
 
 AddressArray.defaultProps = {
-    householdId:    0,
-    addressList:    [ defaultAddress ],
-    nextIds:        { nextAddressId: 0, nextHouseholdId: 0 }
+    householdId:                0,
+    addressList:                [ defaultAddress ],
+    nextIds:                    { nextAddressId: 0, nextHouseholdId: 0 },
+    insertNewHouseholdMode:     false
 }
