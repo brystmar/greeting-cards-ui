@@ -93,26 +93,6 @@ label
   margin: 0 auto
   max-width: $app-max-width
 
-@media (min-width: 500px)
-  .app-container
-    section
-      padding: 3em 0.9em
-
-@media (min-width: 600px)
-  .app-container
-    section
-      padding: 3em 1em
-
-@media (min-width: 800px)
-  .app-container
-    section
-      padding: 3em 1.5em
-
-@media (min-width: 970px)
-  .app-container
-    section
-      padding: 0.5em 2.5em 3em
-
 .sr-only  // for screen readers
   position: absolute
   width: 1px
@@ -140,21 +120,42 @@ label
     height: 1.3em
     display: flex
 
+//@media (min-width: 500px)
+//  .app-container
+//    section
+//      padding: 3em 0.9em
+//
+//@media (min-width: 600px)
+//  .app-container
+//    section
+//      padding: 3em 1em
+//
+//@media (min-width: 800px)
+//  .app-container
+//    section
+//      padding: 3em 1.5em
+
+@media (min-width: 970px)
+  .app-content
+    article
+      section
+        padding: 0 2.5em 0 3em
+
 @media (min-width: 420px)
   .footer-container
     white-space: initial
 
+@media (max-width: 760px)
+  .column-container
+    flex-direction: column
+  .app-content
+    article
+      section
+        padding-top: 0
+
 @media (prefers-reduced-motion: no-preference)
-  .app-logo
-    animation: spinning-bread infinite 20s linear
   html
     scroll-behavior: smooth
-
-@keyframes spinning-bread
-  from
-    transform: rotate(0deg)
-  to
-    transform: rotate(360deg)
 
 .debug
   color: darkred

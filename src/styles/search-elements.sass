@@ -1,0 +1,48 @@
+@import "variables"
+
+.hh-search-box-container
+  ul
+    position: relative
+    list-style: none
+  ul li::before
+    content: "➤"
+    //content: '▶'
+    position: absolute
+    left: 1em
+
+// Search box & results elements
+
+.hh-search-box
+  width: 100%
+
+.hh-search-result-container
+  margin-bottom: 0.6em
+
+.hh-search-result-title
+  font-weight: 600
+
+.hh-search-result-subtitle
+  font-style: italic
+  display: flex
+  gap: 0.25em
+  .separator
+    font-weight: 800
+
+.hh-search-result-info
+  margin-left: 0.5em
+
+.hh-search-result-relationship
+  //font-weight: 300
+  font-size: 0.8em
+  color: $color-primary-triadic
+
+.hh-search-result-other-info
+  font-size: 0.9em
+  display: flex
+  gap: 0.25em
+  label
+    font-weight: 500
+    color: $color-primary-complementary-darker
+
+.hh-search-results li.active
+  background: #eef2ff

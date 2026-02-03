@@ -1,0 +1,65 @@
+@charset "UTF-8";
+/*** Fonts ***/
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Source+Code+Pro:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap");
+/*** Color Palette ***/
+/*** Favicon ***/
+/*** Page Layout ***/
+/*** Nav ***/
+.hh-search-box-container ul {
+  position: relative;
+  list-style: none;
+}
+.hh-search-box-container ul li::before {
+  content: "➤";
+  position: absolute;
+  left: 1em;
+}
+
+.hh-search-box {
+  width: 100%;
+}
+
+.hh-search-result-container {
+  margin-bottom: 0.6em;
+}
+
+.hh-search-result-title {
+  font-weight: 600;
+}
+
+.hh-search-result-subtitle {
+  font-style: italic;
+  display: flex;
+  gap: 0.25em;
+}
+.hh-search-result-subtitle .separator {
+  font-weight: 800;
+}
+
+.hh-search-result-info {
+  margin-left: 0.5em;
+}
+
+.hh-search-result-relationship {
+  font-size: 0.8em;
+  color: #673a90;
+}
+
+.hh-search-result-other-info {
+  font-size: 0.9em;
+  display: flex;
+  gap: 0.25em;
+}
+.hh-search-result-other-info label {
+  font-weight: 500;
+  color: #cb5700;
+}
+
+.hh-search-results li.active {
+  background: #eef2ff;
+}
+
+/*# sourceMappingURL=search-elements.css.map */
