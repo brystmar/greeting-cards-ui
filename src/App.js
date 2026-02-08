@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Home from "./components/sections/Home";
 import Fuse from "fuse.js";
@@ -128,7 +128,9 @@ export default function App() {
 
     return (
         <div className="app-container">
-            <Header />
+            <header className="header-container">
+                <NavBar />
+            </header>
 
             <main className="app-content">
                 <Home
