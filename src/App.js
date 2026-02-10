@@ -1,11 +1,9 @@
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import Home from "./components/sections/Home";
+import Households from "./components/sections/Households";
 import Fuse from "fuse.js";
-// import Cards from "./components/sections/Cards";
-// import Events from "./components/sections/Events";
-import './styles/styles.css';
-import './styles/sections.css';
+import "./styles/styles.css";
+import "./styles/sections.css";
 import React, { useState, useEffect, useMemo } from "react";
 // import { Route, Routes } from "react-router-dom";
 import { api } from "./data/endpoints";
@@ -133,7 +131,7 @@ export default function App() {
             </header>
 
             <main className="app-content">
-                <Home
+                <Households
                     householdList={householdData}
                     addressList={addressData}
                     updateHHData={updateHouseholdData}
@@ -142,29 +140,6 @@ export default function App() {
                     hhIndex={hhIndex}
                     nextIds={nextIds}
                 />
-                {/*<Routes>*/}
-                {/*    <Route path="/home">*/}
-                {/*        <Home*/}
-                {/*            householdList={householdData}*/}
-                {/*            addressList={addressData}*/}
-                {/*        />*/}
-                {/*    </Route>*/}
-
-                {/*    <Route path="/events">*/}
-                {/*        <Events />*/}
-                {/*    </Route>*/}
-
-                {/*    <Route path="/cards">*/}
-                {/*        <Cards />*/}
-                {/*    </Route>*/}
-
-                {/*    <Route exact path="/">*/}
-                {/*        <Home*/}
-                {/*            householdList={householdData}*/}
-                {/*            addressList={addressData}*/}
-                {/*        />*/}
-                {/*    </Route>*/}
-                {/*</Routes>*/}
             </main>
 
             <Footer />

@@ -2,7 +2,7 @@ import React from "react";
 import HouseholdContainer from "./HouseholdContainer";
 import { defaultHousehold, defaultAddress } from "../../data/defaultData";
 
-export default function Home(props) {
+export default function Households(props) {
     return (
         <article>
             {/*<div className="title">Home!</div>*/}
@@ -16,12 +16,11 @@ export default function Home(props) {
                 hhIndex={props.hhIndex}
                 nextIds={props.nextIds}
             />
-
         </article>
     )
 }
 
-Home.defaultProps = {
+Households.defaultProps = {
     householdList:  [ defaultHousehold ],
     addressList:    [ defaultAddress ],
     nextIds:        { nextAddressId: 0, nextHouseholdId: 0 }
