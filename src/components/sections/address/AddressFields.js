@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {api} from "../../../data/endpoints";
+import { useState, useEffect } from "react";
+import { api } from "../../../data/endpoints";
 
 export default function AddressFields(props) {
     const initialState = {

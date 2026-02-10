@@ -1,4 +1,3 @@
-import React from "react";
 import HouseholdContainer from "./HouseholdContainer";
 import { defaultHousehold, defaultAddress } from "../../data/defaultData";
 

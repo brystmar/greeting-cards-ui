@@ -1,7 +1,5 @@
-import React from "react";
-
 export default function Footer() {
-    return <footer className="footer-container">
+    return <>
         <span className="footer-item">{`A webapp that, surprisingly, isn't about food \nby `}</span>
         <span className="footer-item">
             <a
@@ -23,5 +21,5 @@ export default function Footer() {
                 />
             </a>
         </span>
-    </footer>
+    </>
 }

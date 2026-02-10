@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import { useState } from "react";
 import "../styles/nav.css"
 
 export default function NavBar() {

@@ -1,13 +1,12 @@
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Households from "./components/sections/Households";
-import Fuse from "fuse.js";
 import "./styles/styles.css";
 import "./styles/sections.css";
-import React, { useState, useEffect, useMemo } from "react";
-// import { Route, Routes } from "react-router-dom";
 import { api } from "./data/endpoints";
 import { defaultAddress, defaultHousehold } from "./data/defaultData";
+import { useState, useEffect, useMemo } from "react";
+import Fuse from "fuse.js";
 
 export default function App() {
     const [ addressData, updateAddressData ] = useState([ defaultAddress ])
@@ -86,7 +85,7 @@ export default function App() {
                 { name: "known_from", weight: 0.05 },
                 { name: "relationship", weight: 0.05 },
                 { name: "relationship_type", weight: 0.05 }
-             ],
+            ],
             threshold: 0.25,
             ignoreLocation: true,
             minMatchCharLength: 2,
@@ -142,7 +141,9 @@ export default function App() {
                 />
             </main>
 
-            <Footer />
+            <footer className="footer-container">
+                <Footer />
+            </footer>
         </div>
     )
 }

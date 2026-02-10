@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PicklistOption from "./household/PicklistOption";
 import AddressArray from "./address/AddressArray";
 import { defaultAddress, defaultHousehold } from "../../data/defaultData";
 import HHInfo from "./household/HHInfo";
 import HouseholdSearchResult from "./household/HHSearchResult";
 import PicklistOptionsList from "./household/PicklistOptionsList";
-import '../../styles/search-elements.css';
+import "../../styles/search-elements.css";
 
 export default function HouseholdContainer(props) {
     const [ selection, updateSelection ] = useState({

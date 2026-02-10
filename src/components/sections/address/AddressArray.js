@@ -1,4 +1,3 @@
-import React from "react";
 import AddressFields from "./AddressFields";
 import "../../../styles/forms.css"
 import { defaultAddress } from "../../../data/defaultData";

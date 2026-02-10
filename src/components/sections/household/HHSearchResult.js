@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function HouseholdSearchResult(props) {
     function matchFor(key) {
         return props.matches?.find((m) => m.key === key)
