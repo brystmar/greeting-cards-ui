@@ -135,6 +135,7 @@ label {
   display: flex;
   align-content: center;
   font-size: 0.8rem;
+  margin: 2em 1.25em;
 }
 .footer-container .footer-item {
   margin-right: 0.15em;

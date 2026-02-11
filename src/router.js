@@ -1,20 +1,22 @@
 import { createBrowserRouter } from "react-router";
-import AppLayout from "./App";
-// import Households from "./pages/Households";
-// import Events from "./pages/Events";
-// import Cards from "./pages/Cards";
+import App from "./App";
+import HouseholdsPage from "./pages/HouseholdsPage";
+import EventsPage from "./pages/EventsPage";
+import CardsPage from "./pages/CardsPage";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <AppLayout />,
+        element: <App />,
         children: [
-            // { index: true, element: <Households /> },
-            // { path: "households", element: <Households /> },
-            // { path: "events", element: <Events /> },
-            // { path: "cards", element: <Cards /> },
-        ],
-    },
+            { index: true, element: <HouseholdsPage /> },
+            { path: "households", element: <HouseholdsPage /> },
+            { path: "events", element: <EventsPage /> },
+            { path: "cards", element: <CardsPage /> },
+            { path: "*", element: <NotFound /> }
+        ]
+    }
 ]);
 
 export default router;

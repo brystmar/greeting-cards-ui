@@ -1,6 +1,6 @@
 import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
-import HouseholdsPage from "./pages/HouseholdsPage"
+import { Outlet } from "react-router"
 import "./styles/styles.css"
 import "./styles/sections.css"
 
@@ -12,7 +12,7 @@ export default function App() {
             </header>
 
             <main className="app-content">
-                <HouseholdsPage />
+                <Outlet />
             </main>
 
             <footer className="footer-container">

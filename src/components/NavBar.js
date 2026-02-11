@@ -1,24 +1,34 @@
-import { useState } from "react";
+import { NavLink } from "react-router"
 import "../styles/nav.css"
 
 export default function NavBar() {
-    const navItems = [ "Households", "Events", "Cards" ]
-    const [ selectedTab, updateSelectedTab ] = useState("Households")
+    const navItems = [
+        { name: "Households", path: "/households" },
+        { name: "Events", path: "/events" },
+        { name: "Cards", path: "/cards" }
+    ]
 
-    const navLinks = navItems.map((item) =>
-        <span className="nav-tab" title={item}><a
-            className={item.toString() === selectedTab ? "nav-link selected-tab" : "nav-link"}
-            href={`/#${item}`}
-            title={item}
-        >{item}</a></span>
-    )
+    const navLinks = navItems.map((item) => (
+        <span className="nav-tab">
+            <NavLink
+                key={item.name}
+                to={item.path}
+                className={({ isActive }) =>
+                    `nav-link ${isActive ? "selected-tab" : ""}`
+                }
+                title={item.name}
+            >
+                {item.name}
+            </NavLink>
+        </span>
+    ))
 
     return (
         <nav
-            className="navbar"
-            onClick={(event) => updateSelectedTab(event.target.title)}
             role="navigation"
             aria-label="Navigation links"
-        >{navLinks}</nav>
+        >
+            {navLinks}
+        </nav>
     )
 }

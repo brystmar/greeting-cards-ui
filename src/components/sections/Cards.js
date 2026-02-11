@@ -1,5 +1,8 @@
 export default function Cards() {
-    return <section>
-        <div className="title">Cards</div>
-    </section>
+    return (
+        <section>
+            <div className="title">Cards</div>
+            <p>Placeholder for the Cards page</p>
+        </section>
+    )
 }

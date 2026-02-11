@@ -1,6 +1,7 @@
 export default function Footer() {
     return <>
         <span className="footer-item">{`A webapp that, surprisingly, isn't about food \nby `}</span>
+
         <span className="footer-item">
             <a
                 href="http://thomasberg.me/"
@@ -8,9 +9,10 @@ export default function Footer() {
                 rel="noopener noreferrer"
             >Thomas Berg</a>
         </span>
+
         <span className="footer-item">
             <a
-                href="https://github.com/brystmar/"
+                href="https://github.com/brystmar/greeting-cards-ui"
                 target="_blank"
                 rel="noopener noreferrer"
             >

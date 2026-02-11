@@ -6,38 +6,42 @@ header
 nav
   padding: 0 1em
   margin: 0 0.25em 1.5em
-  border: 1px black hidden
+  border: 1px red hidden
   display: flex
+  max-height: fit-content
   flex-wrap: nowrap
   justify-content: space-around
-  //align-items: center
-  //align-content: center
-  //justify-items: center
-  //background: pink
+
   .nav-tab
     background: white
     width: 100%
     border: 1px solid $color-border-darker
     display: flex
     justify-content: center
-  a
-    font-size: 2.4rem
+
+  // Style the links inside nav (NavLink renders as <a>)
+  .nav-link
+    font-size: 1.8rem
     text-decoration: none
     width: 100%
     text-align: center
     border: 1px orange hidden
-  a:visited
+    color: black
+    padding: 0.15em 0
+
+  .nav-link:visited
     color: $color-link-visited
-  a:hover
+
+  .nav-link:hover
     background: $color-background
-  a:focus, a:active
+
+  .nav-link:focus,
+  .nav-link:active
     outline-color: $color-border
+
   .selected-tab
     background: $color-link
     color: white !important
+
   .selected-tab:hover
     background: $color-link-visited
-
-//@media (min-width: 970px)
-//  .nav
-//    padding: 0 1em 0
