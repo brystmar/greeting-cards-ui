@@ -1,5 +1,4 @@
-import Households from "../components/sections/Households"
-import { useHouseholds } from "../hooks/useHouseholds"
+import HouseholdContainer from "../components/sections/HouseholdContainer"
 import { useAppData } from "../context/AppDataContext"
 
 export default function HouseholdsPage() {
@@ -15,14 +14,6 @@ export default function HouseholdsPage() {
         error
     } = useAppData()
 
-    // if (isLoading) {
-    //     return (
-    //         <div className="loading">
-    //             <h2>Loading households…</h2>
-    //         </div>
-    //     )
-    // }
-
     if (error) {
         return (
             <div className="error-msg">
@@ -33,7 +24,7 @@ export default function HouseholdsPage() {
     }
 
     return (
-        <Households
+        <HouseholdContainer
             householdList={householdData}
             addressList={addressData}
             updateHHData={setHouseholdData}

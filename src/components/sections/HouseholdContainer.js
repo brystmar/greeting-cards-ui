@@ -226,64 +226,61 @@ export default function HouseholdContainer(props) {
     }, [query]);
 
     return (
-        <section>
-            <div className="content">
-                <div className="column-container">
-                    <div className="col">
-                        <h3>Select Household</h3>
+        <section className="content">
+            <div className="column-container">
+                <div className="col">
+                    <h3>Select Household</h3>
 
-                        {/* TODO: Move the search box & results to their own components */}
-                        {props.householdList.length > 1 && (
-                            <div className="hh-search-box-container">
-                                <input
-                                    type="text"
-                                    id="household-search-box"
-                                    name="hhSearchBox"
-                                    className="hh-search-box"
-                                    placeholder="Search by name(s), including kids & pets"
-                                    value={query}
-                                    tabIndex={0}
-                                    onChange={handleSearchQueryChange}
-                                    onKeyDown={handleKeyboardInput}
-                                    autoFocus={!insertNewHouseholdMode}
-                                    disabled={insertNewHouseholdMode}
-                                />
+                    {/* TODO: Move the search box & results to their own components */}
+                    {props.householdList.length > 1 && (
+                        <div className="hh-search-box-container">
+                            <input
+                                type="text"
+                                id="household-search-box"
+                                name="hhSearchBox"
+                                className="hh-search-box"
+                                placeholder="Search by name(s), including kids & pets"
+                                value={query}
+                                tabIndex={0}
+                                onChange={handleSearchQueryChange}
+                                onKeyDown={handleKeyboardInput}
+                                autoFocus={!insertNewHouseholdMode}
+                                disabled={insertNewHouseholdMode}
+                            />
 
-                                {searchResults.length > 0 && (
-                                    <ul className="hh-search-results">
-                                        {searchResults.map(({item: result, matches}) => {
-                                                // console.debug(`Search result item: ${JSON.stringify(item)}`)
-                                                // console.debug(`Selection: ${JSON.stringify(selection)}`)
-                                                return (
-                                                    <li
-                                                        key={`search-result-${result.id}`}
-                                                        id={`search-result-${result.id}`}
-                                                        className="hh-search-result-container"
-                                                        value={result.id}
-                                                        onClick={() => handleSearchResultSelectionChange(result.id)}
-                                                    >
-                                                        <HouseholdSearchResult
-                                                            key={result.id}
-                                                            nickname={result.nickname}
-                                                            first_names={result.first_names}
-                                                            surname={result.surname}
-                                                            kids={result.kids}
-                                                            pets={result.pets}
-                                                            known_from={result.known_from}
-                                                            relationship={result.relationship}
-                                                            relationship_type={result.relationship_type}
-                                                            matches={matches}
-                                                        />
-                                                    </li>
-                                                )
-                                            }
-                                        )}
-                                    </ul>
-                                )}
-                            </div>
-                        )}
+                            {searchResults.length > 0 && (
+                                <ul className="hh-search-results">
+                                    {searchResults.map(({item: result, matches}) => {
+                                            return (
+                                                <li
+                                                    key={`search-result-${result.id}`}
+                                                    id={`search-result-${result.id}`}
+                                                    className="hh-search-result-container"
+                                                    value={result.id}
+                                                    onClick={() => handleSearchResultSelectionChange(result.id)}
+                                                >
+                                                    <HouseholdSearchResult
+                                                        key={result.id}
+                                                        nickname={result.nickname}
+                                                        first_names={result.first_names}
+                                                        surname={result.surname}
+                                                        kids={result.kids}
+                                                        pets={result.pets}
+                                                        known_from={result.known_from}
+                                                        relationship={result.relationship}
+                                                        relationship_type={result.relationship_type}
+                                                        matches={matches}
+                                                    />
+                                                </li>
+                                            )
+                                        }
+                                    )}
+                                </ul>
+                            )}
+                        </div>
+                    )}
 
-                        <span className="selection-box">
+                    <span className="selection-box">
                             <select
                                 name="householdId"
                                 id="households-selection-box"
@@ -324,94 +321,91 @@ export default function HouseholdContainer(props) {
                             >{addButtonText}</button>
                         </span>
 
-                        <p className="debug" hidden={!showDebug}>
-                            hh_id: {"\t" + selection.householdId} <br />
-                            nick: {"\t" + selectedHH.nickname} <br />
-                            addresses: {"\t" + selection.addressCount} <br /><br />
-                            addr0Id: {selection.addrList[0] ? selection.addrList[0].id : "..."}
-                            <br />
-                            addr0Street: {selection.addrList[0] ? selection.addrList[0].line_1 : "..."}
-                            <br /><br />
-                            addr1Id: {selection.addrList[1] ? selection.addrList[1].id : "n/a"}
-                            <br />
-                            addr1Street: {selection.addrList[1] ? selection.addrList[1].line_1 : "n/a"}
-                            <br />
-                        </p>
-                    </div>
-
-                    <div className="col">
-                        <h3>Household Info</h3>
-                        {insertNewHouseholdMode ?
-                            <HHInfo
-                                id={props.nextIds.nextHouseholdId}
-                                nickname={""}
-                                firstNames={""}
-                                surname={""}
-                                addressTo={""}
-                                formalName={""}
-                                relationship={""}
-                                relationshipType={""}
-                                familySide={""}
-                                knownFrom={""}
-                                kids={""}
-                                pets={""}
-                                shouldReceiveHolidayCard={true}
-                                isRelevant={true}
-                                createdDate={new Date().toLocaleString()}
-                                lastModified={new Date().toLocaleString()}
-                                notes={""}
-                                updateOneHousehold={updateOneHousehold}
-                                insertNewHousehold={insertNewHousehold}
-                                insertNewHouseholdMode={insertNewHouseholdMode}
-                                updateInsertNewHouseholdMode={updateInsertNewHouseholdMode}
-                                updateAddressData={props.updateAddressData}
-                                refreshDataFromDB={props.refreshDataFromDB}
-                                nextIds={props.nextIds}
-                            />
-                            : <HHInfo
-                                id={selectedHH.id}
-                                nickname={selectedHH.nickname}
-                                firstNames={selectedHH.first_names || ""}
-                                surname={selectedHH.surname || ""}
-                                addressTo={selectedHH.address_to || ""}
-                                formalName={selectedHH.formal_name || ""}
-                                relationship={selectedHH.relationship || ""}
-                                relationshipType={selectedHH.relationship_type || ""}
-                                familySide={selectedHH.family_side || ""}
-                                knownFrom={selectedHH.known_from || ""}
-                                kids={selectedHH.kids || ""}
-                                pets={selectedHH.pets || ""}
-                                shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card === null ? false : selectedHH.should_receive_holiday_card}
-                                isRelevant={selectedHH.is_relevant === null ? false : selectedHH.is_relevant}
-                                createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
-                                lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
-                                notes={selectedHH.notes || ""}
-                                updateOneHousehold={updateOneHousehold}
-                                insertNewHousehold={insertNewHousehold}
-                                insertNewHouseholdMode={insertNewHouseholdMode}
-                                updateInsertNewHouseholdMode={updateInsertNewHouseholdMode}
-                                updateAddressData={props.updateAddressData}
-                                refreshDataFromDB={props.refreshDataFromDB}
-                                nextIds={props.nextIds}
-                            />
-                        }
-                    </div>
+                    <p className="debug" hidden={!showDebug}>
+                        hh_id: {"\t" + selection.householdId} <br />
+                        nick: {"\t" + selectedHH.nickname} <br />
+                        addresses: {"\t" + selection.addressCount} <br /><br />
+                        addr0Id: {selection.addrList[0] ? selection.addrList[0].id : "..."}
+                        <br />
+                        addr0Street: {selection.addrList[0] ? selection.addrList[0].line_1 : "..."}
+                        <br /><br />
+                        addr1Id: {selection.addrList[1] ? selection.addrList[1].id : "n/a"}
+                        <br />
+                        addr1Street: {selection.addrList[1] ? selection.addrList[1].line_1 : "n/a"}
+                        <br />
+                    </p>
                 </div>
 
-                <div className="column-container">
-                    <div className="col">
-                        <h3>{addressFor}</h3>
-                        <AddressArray
-                            householdId={selection.householdId}
-                            householdNickname={selectedHH.nickname}
-                            addressList={props.addressList}
+                <div className="col">
+                    <h3>Household Info</h3>
+                    {insertNewHouseholdMode ?
+                        <HHInfo
+                            id={props.nextIds.nextHouseholdId}
+                            nickname={""}
+                            firstNames={""}
+                            surname={""}
+                            addressTo={""}
+                            formalName={""}
+                            relationship={""}
+                            relationshipType={""}
+                            familySide={""}
+                            knownFrom={""}
+                            kids={""}
+                            pets={""}
+                            shouldReceiveHolidayCard={true}
+                            isRelevant={true}
+                            createdDate={new Date().toLocaleString()}
+                            lastModified={new Date().toLocaleString()}
+                            notes={""}
+                            updateOneHousehold={updateOneHousehold}
+                            insertNewHousehold={insertNewHousehold}
                             insertNewHouseholdMode={insertNewHouseholdMode}
-                            // refreshDataFromDB={props.refreshDataFromDB}
+                            updateInsertNewHouseholdMode={updateInsertNewHouseholdMode}
+                            updateAddressData={props.updateAddressData}
+                            refreshDataFromDB={props.refreshDataFromDB}
+                            nextIds={props.nextIds}
                         />
-                    </div>
+                        : <HHInfo
+                            id={selectedHH.id}
+                            nickname={selectedHH.nickname}
+                            firstNames={selectedHH.first_names || ""}
+                            surname={selectedHH.surname || ""}
+                            addressTo={selectedHH.address_to || ""}
+                            formalName={selectedHH.formal_name || ""}
+                            relationship={selectedHH.relationship || ""}
+                            relationshipType={selectedHH.relationship_type || ""}
+                            familySide={selectedHH.family_side || ""}
+                            knownFrom={selectedHH.known_from || ""}
+                            kids={selectedHH.kids || ""}
+                            pets={selectedHH.pets || ""}
+                            shouldReceiveHolidayCard={selectedHH.should_receive_holiday_card === null ? false : selectedHH.should_receive_holiday_card}
+                            isRelevant={selectedHH.is_relevant === null ? false : selectedHH.is_relevant}
+                            createdDate={new Date(selectedHH.created_date).toLocaleString() || ""}
+                            lastModified={new Date(selectedHH.last_modified).toLocaleString() || ""}
+                            notes={selectedHH.notes || ""}
+                            updateOneHousehold={updateOneHousehold}
+                            insertNewHousehold={insertNewHousehold}
+                            insertNewHouseholdMode={insertNewHouseholdMode}
+                            updateInsertNewHouseholdMode={updateInsertNewHouseholdMode}
+                            updateAddressData={props.updateAddressData}
+                            refreshDataFromDB={props.refreshDataFromDB}
+                            nextIds={props.nextIds}
+                        />
+                    }
                 </div>
             </div>
 
+            <div className="column-container">
+                <div className="col">
+                    <h3>{addressFor}</h3>
+                    <AddressArray
+                        householdId={selection.householdId}
+                        householdNickname={selectedHH.nickname}
+                        addressList={props.addressList}
+                        insertNewHouseholdMode={insertNewHouseholdMode}
+                    />
+                </div>
+            </div>
         </section>
     )
 }

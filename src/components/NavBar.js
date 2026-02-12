@@ -9,9 +9,8 @@ export default function NavBar() {
     ]
 
     const navLinks = navItems.map((item) => (
-        <span className="nav-tab">
+        <span className="nav-tab" key={item.name}>
             <NavLink
-                key={item.name}
                 to={item.path}
                 className={({ isActive }) =>
                     `nav-link ${isActive ? "selected-tab" : ""}`
