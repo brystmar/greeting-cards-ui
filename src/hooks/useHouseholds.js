@@ -13,8 +13,8 @@ export default function useHouseholds() {
     const retryCountRef = useRef(0)
     const isMountedRef = useRef(true)
 
-    const MAX_RETRIES = 100
-    const BASE_DELAY = 5000  // Starting with 5 seconds
+    const BASE_DELAY = 2000  // Starting with 2 seconds
+    const MAX_RETRIES = 15   // 2^15 is ~9 hours
 
     const refresh = useCallback(async () => {
         try {
@@ -38,9 +38,10 @@ export default function useHouseholds() {
             setError(err.toString())
             retryCountRef.current += 1
 
+            // Exponentially back off the retries
             if (retryCountRef.current <= MAX_RETRIES) {
-                const delay = BASE_DELAY * Math.pow(2, retryCountRef.current - 1) // exponential backoff
-                console.debug(`Retrying fetch in ${delay}ms (attempt ${retryCountRef.current})`)
+                const delay = BASE_DELAY * Math.pow(2, retryCountRef.current - 1)
+                console.debug(`Fetch failed at ${new Date().toLocaleString()}, retrying in ${delay}ms (attempt ${retryCountRef.current})`)
                 setTimeout(() => {
                     if (isMountedRef.current) refresh()
                 }, delay)

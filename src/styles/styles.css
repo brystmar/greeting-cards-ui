@@ -218,16 +218,38 @@ label {
 }
 
 .loading {
-  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
   font-weight: 500;
-  color: #0647b6;
+  color: black;
   text-align: center;
   padding: 2rem;
   opacity: 0;
-  animation: fadeIn 0.3s forwards;
+  animation: fadeIn 1s forwards;
   position: relative;
 }
 
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 0.25rem solid rgb(91.3936170213, 149.8244680851, 249.6063829787);
+  border-top: 0.25rem solid #0647b6;
+  border-radius: 50%;
+  margin: 1rem 0;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .error-banner {
   background-color: red;
   color: white;
@@ -240,7 +262,7 @@ label {
   max-width: 600px;
   width: 90%;
   opacity: 0;
-  animation: fadeIn 0.3s forwards;
+  animation: fadeIn 1s forwards;
   position: relative;
 }
 

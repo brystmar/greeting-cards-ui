@@ -102,7 +102,7 @@ label
 .app-content
   flex: 1
   padding: 1rem
-  //min-height: 60vh  // reserve space so footer doesn’t jump
+//min-height: 60vh  // reserve space so footer doesn’t jump
 
 .sr-only  // for screen readers
   position: absolute
@@ -185,14 +185,35 @@ label
 
 // Loading spinner / message
 .loading
-  font-size: 2rem
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  font-size: 1.5rem
   font-weight: 500
-  color: $color-link
+  color: black
   text-align: center
   padding: 2rem
   opacity: 0
-  animation: fadeIn 0.3s forwards
+  animation: fadeIn 1s forwards
   position: relative
+
+// Spinner container
+.spinner
+  width: 2rem
+  height: 2rem
+  border: 0.25rem solid $color-link-lighter
+  border-top: 0.25rem solid $color-link
+  border-radius: 50%
+  margin: 1rem 0
+  animation: spin 1s linear infinite
+
+// Keyframes for spinner rotation
+@keyframes spin
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
 
 // Error banner
 .error-banner
@@ -207,7 +228,7 @@ label
   max-width: 600px
   width: 90%
   opacity: 0
-  animation: fadeIn 0.3s forwards
+  animation: fadeIn 1s forwards
   position: relative
 
 // Fade-in animation

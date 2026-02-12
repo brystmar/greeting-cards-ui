@@ -7,10 +7,11 @@ import "./styles/styles.css"
 import "./styles/sections.css"
 
 function AppLayout() {
-    const { loading } = useAppData()
+    const { loading, error } = useAppData()
 
-    const [showSpinner, setShowSpinner] = useState(false)
-    const [isBootstrapped, setIsBootstrapped] = useState(false)
+    const [ showSpinner, setShowSpinner ] = useState(false)
+    const [ isBootstrapped, setIsBootstrapped ] = useState(false)
+    const TIMEOUT_MS = 1500
 
     // Hide the loading message and spinner initially to prevent screen flickering
     useEffect(() => {
@@ -20,7 +21,7 @@ function AppLayout() {
             timer = setTimeout(() => {
                 setShowSpinner(true)
                 setIsBootstrapped(true)
-            }, 500)
+            }, TIMEOUT_MS)
         } else {
             setShowSpinner(false)
             setIsBootstrapped(true)
@@ -36,7 +37,12 @@ function AppLayout() {
             </header>
 
             <main className="app-content">
-                { isBootstrapped && showSpinner && (<div className="loading">Loading households…</div>) }
+                { isBootstrapped && showSpinner && !error && (
+                    <div className="loading">
+                        <div className="spinner"></div>
+                        Loading households…
+                    </div>
+                )}
 
                 { isBootstrapped && !loading && <Outlet /> }
             </main>
