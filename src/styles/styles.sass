@@ -92,6 +92,17 @@ label
 .app-container
   margin: 0 auto
   max-width: $app-max-width
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+
+.header-container
+  flex-shrink: 0
+
+.app-content
+  flex: 1
+  padding: 1rem
+  //min-height: 60vh  // reserve space so footer doesn’t jump
 
 .sr-only  // for screen readers
   position: absolute
@@ -106,6 +117,7 @@ label
 .footer-container.mobile-hidden
   display: none
 .footer-container
+  flex-shrink: 0
   display: flex
   align-content: center
   font-size: 0.8rem
@@ -120,21 +132,6 @@ label
     margin-left: 0.15em
     height: 1.3em
     display: flex
-
-//@media (min-width: 500px)
-//  .app-container
-//    section
-//      padding: 3em 0.9em
-//
-//@media (min-width: 600px)
-//  .app-container
-//    section
-//      padding: 3em 1em
-//
-//@media (min-width: 800px)
-//  .app-container
-//    section
-//      padding: 3em 1.5em
 
 @media (min-width: 970px)
   .app-content
@@ -185,3 +182,37 @@ label
   max-height: 1.1em
   margin-right: 0.35em
   outline: 1px dotted transparent
+
+// Loading spinner / message
+.loading
+  font-size: 2rem
+  font-weight: 500
+  color: $color-link
+  text-align: center
+  padding: 2rem
+  opacity: 0
+  animation: fadeIn 0.3s forwards
+  position: relative
+
+// Error banner
+.error-banner
+  background-color: $color-error-bg
+  color: $color-error-text
+  border: 1px solid $color-error-border
+  padding: 1rem 2rem
+  border-radius: 0.5rem
+  margin-bottom: 1.5rem
+  text-align: center
+  font-weight: 500
+  max-width: 600px
+  width: 90%
+  opacity: 0
+  animation: fadeIn 0.3s forwards
+  position: relative
+
+// Fade-in animation
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1

@@ -1,5 +1,6 @@
 import Households from "../components/sections/Households"
 import { useHouseholds } from "../hooks/useHouseholds"
+import { useAppData } from "../context/AppDataContext"
 
 export default function HouseholdsPage() {
     const {
@@ -10,12 +11,26 @@ export default function HouseholdsPage() {
         refresh,
         hhIndex,
         nextIds,
-        loading,
+        // isLoading,
         error
-    } = useHouseholds()
+    } = useAppData()
 
-    if (loading) return <div>Loading households…</div>
-    if (error) return <div>Error loading data</div>
+    // if (isLoading) {
+    //     return (
+    //         <div className="loading">
+    //             <h2>Loading households…</h2>
+    //         </div>
+    //     )
+    // }
+
+    if (error) {
+        return (
+            <div className="error-msg">
+                <h2>Error loading data</h2>
+                <p>{error}</p>
+            </div>
+        )
+    }
 
     return (
         <Households

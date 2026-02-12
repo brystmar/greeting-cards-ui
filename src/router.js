@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router"
 import App from "./App";
 import HouseholdsPage from "./pages/HouseholdsPage";
 import EventsPage from "./pages/EventsPage";
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <App />,
         children: [
-            { index: true, element: <HouseholdsPage /> },
+            { index: true, element: <Navigate to="/households" replace /> },
             { path: "households", element: <HouseholdsPage /> },
             { path: "events", element: <EventsPage /> },
             { path: "cards", element: <CardsPage /> },

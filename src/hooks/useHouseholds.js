@@ -1,35 +1,64 @@
-import { useEffect, useMemo, useState, useCallback } from "react"
+import { useEffect, useMemo, useState, useCallback, useRef } from "react"
 import { fetchHouseholdsAndAddresses } from "../services/householdsService"
 import { defaultAddress, defaultHousehold } from "../data/defaultData"
 import Fuse from "fuse.js"
 
-export function useHouseholds() {
-    const [ addressData, setAddressData ] = useState([defaultAddress])
-    const [ householdData, setHouseholdData ] = useState([defaultHousehold])
-    const [ selectedHH, setSelectedHH ] = useState(-1)
-    const [ loading, setLoading ] = useState(false)
-    const [ error, setError ] = useState(null)
+export default function useHouseholds() {
+    const [addressData, setAddressData] = useState([defaultAddress])
+    const [householdData, setHouseholdData] = useState([defaultHousehold])
+    const [selectedHH, setSelectedHH] = useState(-1)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    const retryCountRef = useRef(0)
+    const isMountedRef = useRef(true)
+
+    const MAX_RETRIES = 100
+    const BASE_DELAY = 5000  // Starting with 5 seconds
 
     const refresh = useCallback(async () => {
         try {
-            setLoading(true)
+            setIsLoading(true)
             const { addresses, households } = await fetchHouseholdsAndAddresses()
+
+            if (!isMountedRef.current) return
 
             setAddressData(addresses)
             setHouseholdData(households)
+            setError(null)
+            retryCountRef.current = 0  // Reset the retry counter on success
 
             if (selectedHH === -1 && households.length) {
                 setSelectedHH(households[0].id)
             }
         } catch (err) {
-            setError(err)
+            console.error(`Error fetching data: ${err}`)
+            if (!isMountedRef.current) return
+
+            setError(err.toString())
+            retryCountRef.current += 1
+
+            if (retryCountRef.current <= MAX_RETRIES) {
+                const delay = BASE_DELAY * Math.pow(2, retryCountRef.current - 1) // exponential backoff
+                console.debug(`Retrying fetch in ${delay}ms (attempt ${retryCountRef.current})`)
+                setTimeout(() => {
+                    if (isMountedRef.current) refresh()
+                }, delay)
+            } else {
+                console.error("Max retries reached, giving up.")
+            }
         } finally {
-            setLoading(false)
+            if (isMountedRef.current) setIsLoading(false)
         }
     }, [selectedHH])
 
+    //
     useEffect(() => {
+        isMountedRef.current = true
         refresh()
+        return () => {
+            isMountedRef.current = false
+        }
     }, [refresh])
 
     // Create & update the searchable household index when householdData changes
@@ -66,22 +95,10 @@ export function useHouseholds() {
 
     // Determine the next address_id and household_id to use when we need to insert a new record
     const nextIds = useMemo(() => {
-        const maxAddressId = addressData.reduce(
-            (max, addr) => Math.max(max, addr.id),
-            -1
-        )
-
-        const maxHouseholdId = householdData.reduce(
-            (max, hh) => Math.max(max, hh.id),
-            -1
-        )
+        const maxAddressId = addressData.reduce((max, addr) => Math.max(max, addr.id), -1)
+        const maxHouseholdId = householdData.reduce((max, hh) => Math.max(max, hh.id), -1)
 
         console.debug(`Max hh_id: ${maxHouseholdId}; max address_id: ${maxAddressId}.`)
-        // updateNextIds({
-        //     nextAddressId:      maxAddressId + 1,
-        //     nextHouseholdId:    maxHouseholdId + 1,
-        // })
-
         return {
             nextAddressId: maxAddressId + 1,
             nextHouseholdId: maxHouseholdId + 1
@@ -98,7 +115,7 @@ export function useHouseholds() {
         refresh,
         hhIndex,
         nextIds,
-        loading,
+        isLoading,
         error
     }
 }
