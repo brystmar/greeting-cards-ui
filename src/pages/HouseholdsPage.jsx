@@ -10,7 +10,6 @@ export default function HouseholdsPage() {
         refresh,
         hhIndex,
         nextIds,
-        // isLoading,
         error
     } = useAppData()
 
