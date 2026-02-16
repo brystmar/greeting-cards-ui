@@ -1,16 +1,12 @@
+const BASE_URL = import.meta.env.VITE_BACKEND_URL
+
 export const api = {
-    households:  {
-        one: `${process.env.REACT_APP_BACKEND_URL}/api/v1/household`,
-        all: `${process.env.REACT_APP_BACKEND_URL}/api/v1/all_households`
+    households: {
+        one: `${BASE_URL}/api/v1/household`,
+        all: `${BASE_URL}/api/v1/all_households`
     },
     addresses: {
-        one: `${process.env.REACT_APP_BACKEND_URL}/api/v1/address`,
-        all: `${process.env.REACT_APP_BACKEND_URL}/api/v1/all_addresses`
+        one: `${BASE_URL}/api/v1/address`,
+        all: `${BASE_URL}/api/v1/all_addresses`
     }
 }
-
-// export const headers = {
-//     new Headers({
-//         'content-type': 'application/json'
-//     })
-// }

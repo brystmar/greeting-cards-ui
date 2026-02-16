@@ -5,6 +5,7 @@ export default defineConfig({
     plugins: [react()],
     server: {
         host: true,
-        port: 3000
+        port: 3000,  // default Vite port is 5713
+        strictPort: true
     }
 })
