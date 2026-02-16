@@ -2,6 +2,7 @@ import { createContext, useContext } from "react"
 import useHouseholds from "../hooks/useHouseholds"
 
 const AppDataContext = createContext(null)
+AppDataContext.displayName = "AppDataContext"
 
 export function AppDataProvider({ children }) {
     const householdsData = useHouseholds()
@@ -14,5 +15,11 @@ export function AppDataProvider({ children }) {
 }
 
 export function useAppData() {
-    return useContext(AppDataContext)
+    const ctx = useContext(AppDataContext)
+
+    if (!ctx) {
+        throw new Error("useAppData must be used inside <AppDataProvider>")
+    }
+
+    return ctx
 }

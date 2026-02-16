@@ -7,7 +7,7 @@ export default function PicklistOptionsList({ elementList = [] }) {
             (a.nickname || "").toLowerCase().localeCompare((b.nickname || "").toLowerCase())
         )
 
-    const picklistOptionsList = sorted.map((hh) => (
+    return sorted.map((hh) => (
         <PicklistOption
             key={hh.id}
             id={hh.id}
@@ -16,6 +16,4 @@ export default function PicklistOptionsList({ elementList = [] }) {
             surname={hh.surname}
         />
     ))
-
-    return picklistOptionsList
 }
