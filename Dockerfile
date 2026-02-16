@@ -10,4 +10,5 @@ RUN npm ci
 
 COPY . /greeting-cards-ui
 
-CMD ["npm", "start"]
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
