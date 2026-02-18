@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import useHouseholdSelection from "../../hooks/useHouseholdSelection"
 import HHInfo from "./household/HHInfo"
 import HouseholdSearchResult from "./household/HHSearchResult"
@@ -61,22 +62,22 @@ export default function HouseholdContainer({
         }
         : {
             id: selectedHH?.id ?? 0,
-            nickname: selectedHH?.nickname ?? "",
-            firstNames: selectedHH?.first_names ?? "",
-            surname: selectedHH?.surname ?? "",
-            addressTo: selectedHH?.address_to ?? "",
-            formalName: selectedHH?.formal_name ?? "",
-            relationship: selectedHH?.relationship ?? "",
-            relationshipType: selectedHH?.relationship_type ?? "",
-            familySide: selectedHH?.family_side ?? "",
-            knownFrom: selectedHH?.known_from ?? "",
-            kids: selectedHH?.kids ?? "",
-            pets: selectedHH?.pets ?? "",
+            nickname: selectedHH?.nickname,
+            firstNames: selectedHH?.first_names,
+            surname: selectedHH?.surname,
+            addressTo: selectedHH?.address_to,
+            formalName: selectedHH?.formal_name,
+            relationship: selectedHH?.relationship,
+            relationshipType: selectedHH?.relationship_type,
+            familySide: selectedHH?.family_side,
+            knownFrom: selectedHH?.known_from,
+            kids: selectedHH?.kids,
+            pets: selectedHH?.pets,
             shouldReceiveHolidayCard: Boolean(selectedHH?.should_receive_holiday_card),
             isRelevant: Boolean(selectedHH?.is_relevant),
             createdDate: selectedHH?.created_date ? new Date(selectedHH.created_date).toLocaleString() : "",
             lastModified: selectedHH?.last_modified ? new Date(selectedHH.last_modified).toLocaleString() : "",
-            notes: selectedHH?.notes ?? ""
+            notes: selectedHH?.notes
         }
 
     const searchResultItems = showSearchResults
@@ -102,11 +103,43 @@ export default function HouseholdContainer({
         ))
         : null
 
-    // When only 1 record matches a search query, automatically update the selection to that record
-    if (searchResults.length === 1) {
-        // console.log(`Only 1 search result: ${JSON.stringify(searchResults[0].item.id)}`)
-        // handlers.handleSearchResultSelectionChange(searchResults[0].item.id)
-    }
+    const { handleSearchResultSelectionChange } = handlers
+    const lastAutoSelectedIdRef = useRef(null)
+
+    useEffect(() => {
+            // When only 1 record matches a search query, automatically update the picklist selection to that record
+            if (!showSearchResults) return
+
+            const trimmedQuery = query.trim()
+            const minChars = 2
+            const debounceMs = 500
+
+            // Only auto-select after the user has typed enough to be intentional
+            if (trimmedQuery.length < minChars) {
+                lastAutoSelectedIdRef.current = null
+                return
+            }
+
+            // Only auto-select when exactly one match exists
+            if (searchResults.length !== 1) {
+                lastAutoSelectedIdRef.current = null
+                return
+            }
+
+            const onlyId = searchResults[0].item.id
+
+            // Skip if already selected, or we've already auto-selected this id for this query state
+            if (selection.householdId === onlyId) return
+            if (lastAutoSelectedIdRef.current === onlyId) return
+
+            const timer = setTimeout(() => {
+                lastAutoSelectedIdRef.current = onlyId
+                handleSearchResultSelectionChange(onlyId)
+            }, debounceMs)
+
+            return () => clearTimeout(timer)
+        }, [showSearchResults, query, searchResults, selection.householdId, handleSearchResultSelectionChange]
+    )
 
     return (
         <section className="content">
@@ -144,7 +177,7 @@ export default function HouseholdContainer({
                             id="households-selection-box"
                             className="selection-box"
                             size={picklistSize}
-                            value={selection.householdId ?? ""}
+                            value={selection.householdId}
                             onChange={handlers.handleHouseholdChange}
                             disabled={insertNewHouseholdMode}
                         >
@@ -178,8 +211,8 @@ export default function HouseholdContainer({
                     </span>
 
                     <p className="debug" hidden={!showDebug}>
-                        hh_id: {"\t" + (selection.householdId ?? "")} <br />
-                        nick: {"\t" + (selectedHH?.nickname ?? "")} <br />
+                        hh_id: {"\t" + (selection.householdId)} <br />
+                        nick: {"\t" + (selectedHH?.nickname)} <br />
                         addresses: {"\t" + (selection.addressCount ?? 0)} <br /><br />
                         addr0Id: {selection.addrList?.[0] ? selection.addrList[0].id : "..."} <br />
                         addr0Street: {selection.addrList?.[0] ? selection.addrList[0].line_1 : "..."} <br /><br />
@@ -208,7 +241,7 @@ export default function HouseholdContainer({
 
                     <AddressArray
                         householdId={selection.householdId}
-                        householdNickname={selectedHH?.nickname ?? ""}
+                        householdNickname={selectedHH?.nickname}
                         addressList={addressList}
                         insertNewHouseholdMode={insertNewHouseholdMode}
                     />
