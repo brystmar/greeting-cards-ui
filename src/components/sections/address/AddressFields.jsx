@@ -1,40 +1,28 @@
 import { useState, useEffect } from "react"
 import { api } from "../../../data/endpoints"
+import { normalizeNulls } from "../../../helpers/helpers"
 
 export default function AddressFields({
                                           id = 0,
                                           index = 0,
                                           householdId = 0,
-                                          line_1 = "",
-                                          line_2 = "",
-                                          city = "",
-                                          state = "",
-                                          zip = "",
-                                          country = "",
-                                          fullAddress = "",
+                                          line_1 = normalizeNulls(""),
+                                          line_2 = normalizeNulls(""),
+                                          city = normalizeNulls(""),
+                                          state = normalizeNulls(""),
+                                          zip = normalizeNulls(""),
+                                          country = normalizeNulls(""),
+                                          fullAddress = normalizeNulls(""),
                                           isCurrent = true,
                                           isLikelyToChange = false,
                                           mailToThisAddress = true,
                                           createdDate = new Date().toISOString(),
                                           lastModified = new Date().toISOString(),
-                                          notes = ""
+                                          notes = normalizeNulls("")
                                       }) {
     const [addressData, setAddressData] = useState({
-        id,
-        householdId,
-        line_1,
-        line_2,
-        city,
-        state,
-        zip,
-        country,
-        fullAddress,
-        isCurrent,
-        isLikelyToChange,
-        mailToThisAddress,
-        createdDate,
-        lastModified,
-        notes
+        id, householdId, line_1, line_2, city, state, zip, country, fullAddress, isCurrent, isLikelyToChange,
+        mailToThisAddress, createdDate, lastModified, notes
     })
 
     const [ showConfirmation, setShowConfirmation ] = useState(false)
@@ -100,36 +88,23 @@ export default function AddressFields({
         setAddressData({
             id,
             householdId,
-            line_1,
-            line_2,
-            city,
-            state,
-            zip,
-            country,
-            fullAddress,
-            isCurrent,
-            isLikelyToChange,
-            mailToThisAddress,
+            line_1: normalizeNulls(line_1),
+            line_2: normalizeNulls(line_2),
+            city: normalizeNulls(city),
+            state: normalizeNulls(state),
+            zip: normalizeNulls(zip),
+            country: normalizeNulls(country),
+            fullAddress: normalizeNulls(fullAddress),
+            isCurrent: !!isCurrent,
+            isLikelyToChange: !!isLikelyToChange,
+            mailToThisAddress: !!mailToThisAddress,
             createdDate,
             lastModified,
-            notes
+            notes: normalizeNulls(notes)
         })
     }, [
-        id,
-        householdId,
-        line_1,
-        line_2,
-        city,
-        state,
-        zip,
-        country,
-        fullAddress,
-        isCurrent,
-        isLikelyToChange,
-        mailToThisAddress,
-        createdDate,
-        lastModified,
-        notes
+        id, householdId, line_1, line_2, city, state, zip, country, fullAddress, isCurrent, isLikelyToChange,
+        mailToThisAddress, createdDate, lastModified, notes
     ])
 
     return (
@@ -150,7 +125,7 @@ export default function AddressFields({
                         type={field.type}
                         id={`address-${field.name}-${index}`}
                         name={field.name}
-                        value={addressData[field.name]}
+                        value={addressData[field.name] ?? ""}
                         onChange={handleChange}
                         className={`input-text input-address-${field.name}`}
                         disabled={isDisabled}
