@@ -4,9 +4,6 @@ export default function PicklistOption({
                                            first_names = "",
                                            surname = ""
                                        }) {
-    // const display = [nickname, first_names, surname].filter(Boolean).join(" | ")
-    // const display = `${nickname} (${first_names} | ${surname})`
-
     return (
         <option value={id}>
             {nickname}

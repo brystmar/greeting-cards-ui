@@ -33,7 +33,7 @@ export default function HouseholdContainer({
     const showSearchResults = isSearchEnabled && searchResults.length > 0
 
     const addressFor = insertNewHouseholdMode || !selectedHH?.nickname
-        ? "Address:"
+        ? "Address for ..."
         : selection.addressCount > 1
             ? `Addresses for ${selectedHH.nickname}:`
             : `Address for ${selectedHH.nickname}:`
@@ -177,7 +177,7 @@ export default function HouseholdContainer({
                             id="households-selection-box"
                             className="selection-box"
                             size={picklistSize}
-                            value={selection.householdId}
+                            value={selection.householdId || null}
                             onChange={handlers.handleHouseholdChange}
                             disabled={insertNewHouseholdMode}
                         >

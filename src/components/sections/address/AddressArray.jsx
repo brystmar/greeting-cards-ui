@@ -3,16 +3,23 @@ import "../../../styles/forms.css"
 import { defaultAddress } from "../../../data/defaultData"
 
 export default function AddressArray({
-                                         householdId = 0,
+                                         householdId = null,
                                          addressList = [defaultAddress],
                                          insertNewHouseholdMode = false
                                      }) {
-    // Filter addresses for the current household
-    const addressesForHousehold = addressList.filter(
-        (address) => address.household_id?.toString() === householdId.toString()
-    )
+    // No household selected or we're inserting a new one -> nothing to show
+    if (insertNewHouseholdMode || householdId == null) return null
 
-    if (insertNewHouseholdMode || addressesForHousehold.length === 0) return null
+    const householdIdNum = Number(householdId)
+
+    // Filter addresses for the current household
+    const addressesForHousehold = addressList.filter((address) => {
+        const addrHhId = address?.household_id
+        if (addrHhId == null) return false
+        return Number(addrHhId) === householdIdNum
+    })
+
+    if (addressesForHousehold.length === 0) return null
 
     return (
         <div className="address-array-container">

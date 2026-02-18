@@ -12,17 +12,23 @@ export default function useHouseholdSelection(
 ) {
     // --- Selection & modes ---
     const [selection, setSelection] = useState({
-        householdId: householdList[0]?.id || nextIds.nextHouseholdId,
+        householdId: null,
         addressCount: 0,
         addrList: []
     })
-    const [selectedHH, setSelectedHH] = useState(householdList[0] || defaultHousehold)
+
     const [insertNewHouseholdMode, setInsertNewHouseholdMode] = useState(false)
     const [showDebug, setShowDebug] = useState(false)
 
     // --- Search state ---
     const [query, setQuery] = useState("")
     const [activeIndex, setActiveIndex] = useState(-1)
+
+    // --- Derive selected household from selection + list (single source of truth) ---
+    const selectedHH = useMemo(() => {
+        if (selection.householdId == null) return null
+        return householdList.find((hh) => hh.id === selection.householdId) || null
+    }, [householdList, selection.householdId])
 
     // --- Search results using Fuse ---
     const searchResults = useMemo(() => {
@@ -43,22 +49,38 @@ export default function useHouseholdSelection(
 
     const handleSearchResultSelectionChange = useCallback(
         (hhId) => {
-            const addrListForHH = addressList.filter((addr) => addr.household_id === hhId)
+            // Allow explicit "clear selection" by passing null/undefined
+            if (hhId == null) {
+                setSelection({
+                    householdId: null,
+                    addressCount: 0,
+                    addrList: []
+                })
+                return
+            }
+
+            const numericId = Number(hhId)
+            const addrListForHH = addressList.filter((addr) => addr.household_id === numericId)
 
             setSelection({
-                householdId: hhId,
+                householdId: numericId,
                 addressCount: addrListForHH.length,
                 addrList: addrListForHH
             })
-
-            setSelectedHH(householdList.find((hh) => hh.id === hhId) || defaultHousehold)
         },
-        [householdList, addressList]
+        [addressList]
     )
 
     const handleHouseholdChange = useCallback(
         (event) => {
-            const hhId = Number(event.target.value)
+            const raw = event.target.value
+            // If you ever add a blank option like <option value="">Select...</option>
+            if (raw === "" || raw == null) {
+                handleSearchResultSelectionChange(null)
+                return
+            }
+
+            const hhId = Number(raw)
             handleSearchResultSelectionChange(hhId)
         },
         [handleSearchResultSelectionChange]
@@ -98,7 +120,6 @@ export default function useHouseholdSelection(
                     break
 
                 default:
-                    // required for lint + safe no-op for other keys
                     break
             }
         },
@@ -148,27 +169,41 @@ export default function useHouseholdSelection(
         [householdList, addressList, updateHHData, updateAddressData]
     )
 
-    // Initialize / reconcile selection when list data changes.
-    // This version avoids referencing selection in the dependency list by using a functional setState.
+    // Reconcile selection when underlying lists change.
+    // Never auto-select a default household.
     useEffect(() => {
-        if (!householdList.length) return
+        // If nothing selected, nothing to reconcile
+        if (selection.householdId == null) return
 
+        const selectedId = selection.householdId
+        const exists = householdList.some((hh) => hh.id === selectedId)
+
+        if (!exists) {
+            setSelection({
+                householdId: null,
+                addressCount: 0,
+                addrList: []
+            })
+            return
+        }
+
+        // Update derived address list/count if addresses changed
+        const addrListForHH = addressList.filter((addr) => addr.household_id === selectedId)
+
+        // Avoid useless state updates if nothing changed
         setSelection((prev) => {
-            const preferredId = prev.householdId
-            const exists = householdList.some((hh) => hh.id === preferredId)
-
-            const hhId = exists ? preferredId : householdList[0].id
-            const addrListForHH = addressList.filter((addr) => addr.household_id === hhId)
-
-            setSelectedHH(householdList.find((hh) => hh.id === hhId) || defaultHousehold)
+            if (prev.householdId !== selectedId) return prev
+            if (prev.addressCount === addrListForHH.length && prev.addrList === addrListForHH) {
+                return prev
+            }
 
             return {
-                householdId: hhId,
+                householdId: selectedId,
                 addressCount: addrListForHH.length,
                 addrList: addrListForHH
             }
         })
-    }, [householdList, addressList])
+    }, [householdList, addressList, selection.householdId])
 
     // Reset activeIndex when query changes
     useEffect(() => {
