@@ -13,8 +13,8 @@ export default function useHouseholds() {
     const retryCountRef = useRef(0)
     const isMountedRef = useRef(true)
 
-    const BASE_DELAY = 2000  // Starting with 2 seconds
-    const MAX_RETRIES = 15   // 2^15 is ~9 hours
+    const BASE_DELAY = 1000   // Start with a 1-second delay
+    const MAX_RETRIES = 200   // High cap since we back off exponentially, with a 30-minute floor
 
     const refresh = useCallback(async () => {
         try {
@@ -38,10 +38,12 @@ export default function useHouseholds() {
             setError(err.toString())
             retryCountRef.current += 1
 
-            // Exponentially back off the retries
             if (retryCountRef.current <= MAX_RETRIES) {
-                const delay = BASE_DELAY * Math.pow(2, retryCountRef.current - 1)
-                console.debug(`Fetch failed at ${new Date().toLocaleString()}, retrying in ${delay}ms (attempt ${retryCountRef.current})`)
+                // How long to wait until next retry?  Back off exponentially, but always retry within 30 minutes
+                const delay = Math.min(BASE_DELAY * Math.pow(2, retryCountRef.current - 1), 1800)
+
+                console.debug(`Fetch failed at ${new Date().toLocaleString()}, retrying in ${delay * 1000}s (attempt ${retryCountRef.current})`)
+
                 setTimeout(() => {
                     if (isMountedRef.current) refresh()
                 }, delay)
@@ -99,7 +101,7 @@ export default function useHouseholds() {
         const maxAddressId = addressData.reduce((max, addr) => Math.max(max, addr.id), -1)
         const maxHouseholdId = householdData.reduce((max, hh) => Math.max(max, hh.id), -1)
 
-        console.debug(`Max hh_id: ${maxHouseholdId}; max address_id: ${maxAddressId}.`)
+        // console.debug(`Max hh_id: ${maxHouseholdId}; max address_id: ${maxAddressId}.`)
         return {
             nextAddressId: maxAddressId + 1,
             nextHouseholdId: maxHouseholdId + 1
