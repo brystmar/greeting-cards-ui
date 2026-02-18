@@ -1,24 +1,23 @@
 import { useState, useEffect } from "react"
 import { api } from "../../../data/endpoints"
-import { normalizeNulls } from "../../../helpers/helpers"
 
 export default function AddressFields({
                                           id = 0,
                                           index = 0,
                                           householdId = 0,
-                                          line_1 = normalizeNulls(""),
-                                          line_2 = normalizeNulls(""),
-                                          city = normalizeNulls(""),
-                                          state = normalizeNulls(""),
-                                          zip = normalizeNulls(""),
-                                          country = normalizeNulls(""),
-                                          fullAddress = normalizeNulls(""),
+                                          line_1 = "",
+                                          line_2 = "",
+                                          city = "",
+                                          state = "",
+                                          zip = "",
+                                          country = "",
+                                          fullAddress = "",
                                           isCurrent = true,
                                           isLikelyToChange = false,
                                           mailToThisAddress = true,
                                           createdDate = new Date().toISOString(),
                                           lastModified = new Date().toISOString(),
-                                          notes = normalizeNulls("")
+                                          notes = ""
                                       }) {
     const [addressData, setAddressData] = useState({
         id, householdId, line_1, line_2, city, state, zip, country, fullAddress, isCurrent, isLikelyToChange,
@@ -88,19 +87,19 @@ export default function AddressFields({
         setAddressData({
             id,
             householdId,
-            line_1: normalizeNulls(line_1),
-            line_2: normalizeNulls(line_2),
-            city: normalizeNulls(city),
-            state: normalizeNulls(state),
-            zip: normalizeNulls(zip),
-            country: normalizeNulls(country),
-            fullAddress: normalizeNulls(fullAddress),
-            isCurrent: !!isCurrent,
-            isLikelyToChange: !!isLikelyToChange,
-            mailToThisAddress: !!mailToThisAddress,
+            line_1,
+            line_2,
+            city,
+            state,
+            zip,
+            country,
+            fullAddress,
+            isCurrent,
+            isLikelyToChange,
+            mailToThisAddress,
             createdDate,
             lastModified,
-            notes: normalizeNulls(notes)
+            notes
         })
     }, [
         id, householdId, line_1, line_2, city, state, zip, country, fullAddress, isCurrent, isLikelyToChange,

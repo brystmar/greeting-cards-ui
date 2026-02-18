@@ -23,15 +23,8 @@ export default function HouseholdContainer({
         searchResults,
         handlers,
         showDebug
-    } = useHouseholdSelection(
-        householdList,
-        addressList,
-        hhIndex,
-        nextIds,
-        updateHHData,
-        updateAddressData,
-        refreshDataFromDB
-    )
+    } = useHouseholdSelection(householdList, addressList, hhIndex, nextIds, updateHHData,
+        updateAddressData, refreshDataFromDB)
 
     const picklistSize = Math.min(householdList.length, 19)
 
@@ -108,6 +101,12 @@ export default function HouseholdContainer({
             </li>
         ))
         : null
+
+    // When only 1 record matches a search query, automatically update the selection to that record
+    if (searchResults.length === 1) {
+        // console.log(`Only 1 search result: ${JSON.stringify(searchResults[0].item.id)}`)
+        // handlers.handleSearchResultSelectionChange(searchResults[0].item.id)
+    }
 
     return (
         <section className="content">
