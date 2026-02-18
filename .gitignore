@@ -1,6 +1,9 @@
 # Created by https://www.gitignore.io/api/react,macos,pycharm
 # Edit at https://www.gitignore.io/?templates=react,macos,pycharm
 
+### LLM summaries ###
+CONTEXT.md
+
 ### macOS ###
 # General
 .DS_Store
