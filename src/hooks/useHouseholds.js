@@ -109,16 +109,7 @@ export default function useHouseholds() {
     }, [addressData, householdData])
 
     return {
-        addressData,
-        householdData,
-        selectedHH,
-        setSelectedHH,
-        setAddressData,
-        setHouseholdData,
-        refresh,
-        hhIndex,
-        nextIds,
-        isLoading,
-        error
+        addressData, householdData, selectedHH, setSelectedHH, setAddressData, setHouseholdData, refresh, hhIndex,
+        nextIds, isLoading, error
     }
 }

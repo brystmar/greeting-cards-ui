@@ -16,14 +16,8 @@ export default function HouseholdContainer({
                                                nextIds
                                            }) {
     const {
-        selectedHH,
-        selection,
-        insertNewHouseholdMode,
-        query,
-        activeIndex,
-        searchResults,
-        handlers,
-        showDebug
+        selectedHH, selection, insertNewHouseholdMode, query, activeIndex,
+        searchResults, handlers, showDebug
     } = useHouseholdSelection(householdList, addressList, hhIndex, nextIds, updateHHData,
         updateAddressData, refreshDataFromDB)
 

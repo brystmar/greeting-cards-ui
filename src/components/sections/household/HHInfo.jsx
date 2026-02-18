@@ -26,23 +26,8 @@ export default function HHInfo({
                                    updateInsertNewHouseholdMode
                                }) {
     const [hhData, setHHData] = useState({
-        id,
-        nickname,
-        firstNames,
-        surname,
-        addressTo,
-        formalName,
-        relationshipType,
-        relationship,
-        familySide,
-        knownFrom,
-        kids,
-        pets,
-        shouldReceiveHolidayCard,
-        isRelevant,
-        createdDate,
-        lastModified,
-        notes
+        id, nickname, firstNames, surname, addressTo, formalName, relationshipType, relationship, familySide,
+        knownFrom, kids, pets, shouldReceiveHolidayCard, isRelevant, createdDate, lastModified, notes
     })
 
     const [showConfirmation, setShowConfirmation] = useState(false)
@@ -119,42 +104,12 @@ export default function HHInfo({
     // Sync state if props change
     useEffect(() => {
         setHHData({
-            id,
-            nickname,
-            firstNames,
-            surname,
-            addressTo,
-            formalName,
-            relationshipType,
-            relationship,
-            familySide,
-            knownFrom,
-            kids,
-            pets,
-            shouldReceiveHolidayCard,
-            isRelevant,
-            createdDate,
-            lastModified,
-            notes
+            id, nickname, firstNames, surname, addressTo, formalName, relationshipType, relationship, familySide,
+            knownFrom, kids, pets, shouldReceiveHolidayCard, isRelevant, createdDate, lastModified, notes
         })
     }, [
-        id,
-        nickname,
-        firstNames,
-        surname,
-        addressTo,
-        formalName,
-        relationshipType,
-        relationship,
-        familySide,
-        knownFrom,
-        kids,
-        pets,
-        shouldReceiveHolidayCard,
-        isRelevant,
-        createdDate,
-        lastModified,
-        notes
+        id, nickname, firstNames, surname, addressTo, formalName, relationshipType, relationship, familySide,
+        knownFrom, kids, pets, shouldReceiveHolidayCard, isRelevant, createdDate, lastModified, notes
     ])
 
     const textFields = [

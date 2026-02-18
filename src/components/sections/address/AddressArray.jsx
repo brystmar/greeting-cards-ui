@@ -7,7 +7,7 @@ export default function AddressArray({
                                          addressList = [defaultAddress],
                                          insertNewHouseholdMode = false
                                      }) {
-    // No household selected or we're inserting a new one -> nothing to show
+    // No household selected, or we're inserting a new one -> nothing to show
     if (insertNewHouseholdMode || householdId == null) return null
 
     const householdIdNum = Number(householdId)

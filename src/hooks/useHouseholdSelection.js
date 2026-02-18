@@ -31,10 +31,11 @@ export default function useHouseholdSelection(
     }, [householdList, selection.householdId])
 
     // --- Search results using Fuse ---
+    const maxSearchResults = 5
     const searchResults = useMemo(() => {
         if (!hhIndex) return []
         if (query.trim().length < 2) return []
-        return hhIndex.search(query).slice(0, 8)
+        return hhIndex.search(query).slice(0, maxSearchResults)
     }, [hhIndex, query])
 
     // --- Picklist options (kept for compatibility; you can remove if unused) ---
@@ -211,13 +212,7 @@ export default function useHouseholdSelection(
     }, [query])
 
     return {
-        selectedHH,
-        selection,
-        insertNewHouseholdMode,
-        query,
-        activeIndex,
-        searchResults,
-        picklistOptions,
+        selectedHH, selection, insertNewHouseholdMode, query, activeIndex, searchResults, picklistOptions, showDebug,
         handlers: {
             handleHouseholdChange,
             handleSearchQueryChange,
@@ -227,7 +222,6 @@ export default function useHouseholdSelection(
             updateOneHousehold,
             insertNewHousehold,
             toggleDebug: () => setShowDebug((prev) => !prev)
-        },
-        showDebug
+        }
     }
 }

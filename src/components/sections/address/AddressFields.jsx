@@ -85,24 +85,10 @@ export default function AddressFields({
     // Update local state if props change
     useEffect(() => {
         setAddressData({
-            id,
-            householdId,
-            line_1,
-            line_2,
-            city,
-            state,
-            zip,
-            country,
-            fullAddress,
-            isCurrent,
-            isLikelyToChange,
-            mailToThisAddress,
-            createdDate,
-            lastModified,
-            notes
+            id, householdId, line_1, line_2, city, state, zip, country, fullAddress, isCurrent, isLikelyToChange,
+            mailToThisAddress, createdDate, lastModified, notes
         })
-    }, [
-        id, householdId, line_1, line_2, city, state, zip, country, fullAddress, isCurrent, isLikelyToChange,
+    }, [ id, householdId, line_1, line_2, city, state, zip, country, fullAddress, isCurrent, isLikelyToChange,
         mailToThisAddress, createdDate, lastModified, notes
     ])
 
