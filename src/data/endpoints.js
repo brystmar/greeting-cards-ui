@@ -1,8 +1,12 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL
+const BASE_URL = import.meta.env.PROD
+    ? "http://192.168.1.92:15000"
+    : (import.meta.env.VITE_BACKEND_URL || "http://localhost:5001")
 
-// Validate this is imported properly at runtime so we don't deploy a broken UI
-if (!BASE_URL) {
-    throw new Error("VITE_BACKEND_URL_PROD is not defined. Ensure ENVs are properly loaded.")
+// Log the base URL for debugging
+if (import.meta.env.DEV) {
+    console.log("API BASE URL (dev):", BASE_URL)
+} else {
+    console.log("API BASE URL (prod):", BASE_URL)
 }
 
 export const api = {

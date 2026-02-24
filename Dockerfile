@@ -1,14 +1,12 @@
 FROM node:20-slim
 
 WORKDIR /greeting-cards-ui
-ENV PATH=/greeting-cards-ui/node_modules/.bin:$PATH
 
-COPY package.json /greeting-cards-ui
-COPY package-lock.json /greeting-cards-ui
-
+COPY package.json package-lock.json ./
 RUN npm ci
 
-COPY . /greeting-cards-ui
+COPY . .
+RUN npm run build
 
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
+EXPOSE 4173
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "4173"]
