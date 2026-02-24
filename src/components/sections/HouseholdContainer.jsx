@@ -171,7 +171,7 @@ export default function HouseholdContainer({
                             id="households-selection-box"
                             className="selection-box"
                             size={picklistSize}
-                            value={selection.householdId || null}
+                            value={selection.householdId || ""}
                             onChange={handlers.handleHouseholdChange}
                             disabled={insertNewHouseholdMode}
                         >
