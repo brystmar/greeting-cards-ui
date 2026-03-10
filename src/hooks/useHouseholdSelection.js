@@ -48,8 +48,7 @@ export default function useHouseholdSelection(
             .map((hh) => ({ id: hh.id, nickname: hh.nickname }))
     }, [householdList])
 
-    const handleSearchResultSelectionChange = useCallback(
-        (hhId) => {
+    const handleSearchResultSelectionChange = useCallback((hhId) => {
             // Allow explicit "clear selection" by passing null/undefined
             if (hhId == null) {
                 setSelection({
@@ -72,16 +71,20 @@ export default function useHouseholdSelection(
         [addressList]
     )
 
-    const handleHouseholdChange = useCallback(
-        (event) => {
-            const raw = event.target.value
-            // If you ever add a blank option like <option value="">Select...</option>
-            if (raw === "" || raw == null) {
+    const handleHouseholdChange = useCallback((event) => {
+            const rawValue = event.target.value
+
+            // For handling the blank picklist item: <option value="">Select...</option>
+            // Browsers return "" when that option is selected; treat this as "no hh selected" and clear the selection state
+            if (rawValue === "" || rawValue == null) {
                 handleSearchResultSelectionChange(null)
                 return
             }
 
-            const hhId = Number(raw)
+            // <select> values are always returned as strings.
+            // Convert the selected hhId back to a number before passing it to the selection handler
+            const hhId = Number(rawValue)
+
             handleSearchResultSelectionChange(hhId)
         },
         [handleSearchResultSelectionChange]
@@ -92,8 +95,7 @@ export default function useHouseholdSelection(
         setActiveIndex(-1)
     }, [])
 
-    const handleKeyboardInput = useCallback(
-        (event) => {
+    const handleKeyboardInput = useCallback((event) => {
             if (!searchResults.length) return
 
             switch (event.key) {
@@ -127,12 +129,17 @@ export default function useHouseholdSelection(
         [searchResults, activeIndex, handleSearchResultSelectionChange]
     )
 
-    const handleNewRecordMode = useCallback(() => {
-        setInsertNewHouseholdMode((prev) => !prev)
+    const handleNewRecordMode = useCallback((isInsertNewRecordModeEnabled) => {
+        // Toggle the insertNewHouseholdMode boolean unless a value is expressly provided
+        setInsertNewHouseholdMode((prev) => {
+            if (typeof isInsertNewRecordModeEnabled === "boolean") {
+                return isInsertNewRecordModeEnabled
+            }
+            return !prev
+        })
     }, [])
 
-    const updateOneHousehold = useCallback(
-        (updatedHH) => {
+    const updateOneHousehold = useCallback((updatedHH) => {
             const newHHList = householdList.filter((hh) => hh.id !== updatedHH.id)
             newHHList.push(updatedHH)
             updateHHData(newHHList)
@@ -140,8 +147,7 @@ export default function useHouseholdSelection(
         [householdList, updateHHData]
     )
 
-    const insertNewHousehold = useCallback(
-        (newHH) => {
+    const insertNewHousehold = useCallback((newHH) => {
             const newHHList = [...householdList, newHH]
 
             const newAddress = {

@@ -70,7 +70,8 @@ export default function HHInfo({
         }
 
         const method = insertNewHouseholdMode ? "POST" : "PUT"
-        const serviceFn = insertNewHouseholdMode ? insertNewHousehold : updateOneHousehold
+        const serviceFunctionToCall = insertNewHouseholdMode ? insertNewHousehold : updateOneHousehold
+        console.debug(`insertNewHouseholdMode: ${insertNewHouseholdMode}`)
 
         try {
             const response = await fetch(api.households.one, {
@@ -89,7 +90,7 @@ export default function HHInfo({
             updateInsertNewHouseholdMode(false)
         } finally {
             setDisableSave(false)
-            serviceFn(payload)
+            serviceFunctionToCall(payload)
         }
     }
 

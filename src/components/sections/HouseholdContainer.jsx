@@ -171,10 +171,12 @@ export default function HouseholdContainer({
                             id="households-selection-box"
                             className="selection-box"
                             size={picklistSize}
-                            value={selection.householdId || ""}
+                            value={selection.householdId ?? ""}
                             onChange={handlers.handleHouseholdChange}
                             disabled={insertNewHouseholdMode}
                         >
+                            {/* Placeholder option ensures nothing is selected by default */}
+                            <option value="" disabled hidden></option>
                             <PicklistOptionsList elementList={householdList} />
                         </select>
 
