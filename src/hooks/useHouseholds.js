@@ -104,6 +104,7 @@ export default function useHouseholds() {
                 { name: "nickname", weight: 0.35 },
                 { name: "first_names", weight: 0.25 },
                 { name: "surname", weight: 0.25 },
+                { name: "notes", weight: 0.15 },
                 { name: "kids", weight: 0.15 },
                 { name: "pets", weight: 0.05 },
                 { name: "known_from", weight: 0.05 },
