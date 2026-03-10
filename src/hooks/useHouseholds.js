@@ -12,11 +12,13 @@ export default function useHouseholds() {
 
     const retryCountRef = useRef(0)
     const isMountedRef = useRef(true)
+    const retryTimeoutRef = useRef(null)
 
     const BASE_DELAY = 1000   // Start with a 1-second delay
     const MAX_RETRIES = 200   // High cap since we back off exponentially, with a 30-minute floor
 
-    const refresh = useCallback(async () => {
+    // Process to refresh the UI if connection to the backend fails
+    const refreshAllData = useCallback(async () => {
         try {
             setIsLoading(true)
             const { addresses, households } = await fetchHouseholdsAndAddresses()
@@ -28,9 +30,12 @@ export default function useHouseholds() {
             setError(null)
             retryCountRef.current = 0  // Reset the retry counter on success
 
-            if (selectedHH === -1 && households.length) {
-                setSelectedHH(households[0].id)
-            }
+            setSelectedHH((prev) => {
+                if (prev === -1 && households.length) {
+                    return households[0].id
+                }
+                return prev
+            })
         } catch (err) {
             console.error(`Error fetching data: ${err}`)
             if (!isMountedRef.current) return
@@ -40,29 +45,45 @@ export default function useHouseholds() {
 
             if (retryCountRef.current <= MAX_RETRIES) {
                 // How long to wait until next retry?  Back off exponentially, but always retry within 30 minutes
-                const delay = Math.min(BASE_DELAY * Math.pow(2, retryCountRef.current - 1), 1800)
+                const delay = Math.min(BASE_DELAY * Math.pow(2, retryCountRef.current - 1), 1800 * 1000)
+                const retryTime = new Date(Date.now() + delay)
+                console.debug(`Fetch attempt #${retryCountRef.current} failed at ${new Date().toLocaleString()}, retrying in ${delay / 1000}s at ${retryTime.toLocaleTimeString()}`)
 
-                console.debug(`Fetch failed at ${new Date().toLocaleString()}, retrying in ${delay * 1000}s (attempt ${retryCountRef.current})`)
+                clearTimeout(retryTimeoutRef.current)
 
-                setTimeout(() => {
-                    if (isMountedRef.current) refresh()
+                retryTimeoutRef.current = setTimeout(() => {
+                    if (isMountedRef.current) refreshAllData()
                 }, delay)
+
             } else {
                 console.error("Max retries reached, giving up.")
             }
         } finally {
             if (isMountedRef.current) setIsLoading(false)
         }
-    }, [selectedHH])
+    }, [])
 
-    //
     useEffect(() => {
+        /**
+         * On mount:
+         *  - mark this component as mounted so async refresh logic can safely update state
+         *  - trigger the initial data fetch
+         *
+         * On unmount:
+         *  - mark the component as unmounted so any in-flight async operations
+         *    (like refresh retries or pending fetches) will not attempt to update state.
+         *
+         * This avoids React warnings about setting state on an unmounted component.
+         */
         isMountedRef.current = true
-        refresh()
+
+        // We intentionally ignore the returned promise because retry logic & error handling are handled inside refresh()
+        void refreshAllData()
+
         return () => {
             isMountedRef.current = false
         }
-    }, [refresh])
+    }, [refreshAllData])
 
     // Create & update the searchable household index when householdData changes
     const hhIndex = useMemo(() => {
@@ -109,7 +130,7 @@ export default function useHouseholds() {
     }, [addressData, householdData])
 
     return {
-        addressData, householdData, selectedHH, setSelectedHH, setAddressData, setHouseholdData, refresh, hhIndex,
+        addressData, householdData, selectedHH, setSelectedHH, setAddressData, setHouseholdData, refresh: refreshAllData, hhIndex,
         nextIds, isLoading, error
     }
 }
