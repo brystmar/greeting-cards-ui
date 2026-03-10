@@ -99,41 +99,41 @@ export default function HouseholdContainer({
 
     const { handleSearchResultSelectionChange } = handlers
     const lastAutoSelectedIdRef = useRef(null)
+    const searchInputRef = useRef(null)
 
     useEffect(() => {
-            // When only 1 record matches a search query, automatically update the picklist selection to that record
-            if (!showSearchResults) return
+        // When only 1 record matches a search query, automatically update the picklist selection to that record
+        if (!showSearchResults) return
 
-            const trimmedQuery = query.trim()
-            const minChars = 2
-            const debounceMs = 500
+        const trimmedQuery = query.trim()
+        const minChars = 2
+        const debounceMs = 500
 
-            // Only auto-select after the user has typed enough to be intentional
-            if (trimmedQuery.length < minChars) {
-                lastAutoSelectedIdRef.current = null
-                return
-            }
+        // Only auto-select after the user has typed enough to be intentional
+        if (trimmedQuery.length < minChars) {
+            lastAutoSelectedIdRef.current = null
+            return
+        }
 
-            // Only auto-select when exactly one match exists
-            if (searchResults.length !== 1) {
-                lastAutoSelectedIdRef.current = null
-                return
-            }
+        // Only auto-select when exactly one match exists
+        if (searchResults.length !== 1) {
+            lastAutoSelectedIdRef.current = null
+            return
+        }
 
-            const onlyId = searchResults[0].item.id
+        const onlyId = searchResults[0].item.id
 
-            // Skip if already selected, or we've already auto-selected this id for this query state
-            if (selection.householdId === onlyId) return
-            if (lastAutoSelectedIdRef.current === onlyId) return
+        // Skip if already selected, or we've already auto-selected this id for this query state
+        if (selection.householdId === onlyId) return
+        if (lastAutoSelectedIdRef.current === onlyId) return
 
-            const timer = setTimeout(() => {
-                lastAutoSelectedIdRef.current = onlyId
-                handleSearchResultSelectionChange(onlyId)
-            }, debounceMs)
+        const timer = setTimeout(() => {
+            lastAutoSelectedIdRef.current = onlyId
+            handleSearchResultSelectionChange(onlyId)
+        }, debounceMs)
 
-            return () => clearTimeout(timer)
-        }, [showSearchResults, query, searchResults, selection.householdId, handleSearchResultSelectionChange]
-    )
+        return () => clearTimeout(timer)
+    }, [showSearchResults, query, searchResults, selection.householdId, handleSearchResultSelectionChange])
 
     return (
         <section className="content">
@@ -143,19 +143,40 @@ export default function HouseholdContainer({
 
                     {householdList.length > 1 && (
                         <div className="hh-search-box-container">
-                            <input
-                                type="text"
-                                id="household-search-box"
-                                name="hhSearchBox"
-                                className="hh-search-box"
-                                placeholder="Search by name(s), including kids & pets"
-                                value={query}
-                                tabIndex={0}
-                                onChange={handlers.handleSearchQueryChange}
-                                onKeyDown={handlers.handleKeyboardInput}
-                                autoFocus={!insertNewHouseholdMode}
-                                disabled={!isSearchEnabled}
-                            />
+                            <div className="hh-search-input-wrapper">
+                                <input
+                                    type="text"
+                                    id="household-search-box"
+                                    name="hhSearchBox"
+                                    ref={searchInputRef}
+                                    className="hh-search-box hh-search-box-with-clear-button"
+                                    placeholder="Search by name(s), including kids & pets"
+                                    value={query}
+                                    tabIndex={0}
+                                    autoComplete="off"
+                                    onChange={handlers.handleSearchQueryChange}
+                                    onKeyDown={handlers.handleKeyboardInput}
+                                    autoFocus={!insertNewHouseholdMode}
+                                    disabled={!isSearchEnabled}
+                                />
+
+                                {query.trim().length > 0 && !insertNewHouseholdMode && isSearchEnabled && (
+                                    // Display a clear button only when the search box contains text.
+                                    <button
+                                        type="button"
+                                        className="hh-search-clear-button"
+                                        onClick={() => {
+                                            handlers.clearSearchQuery()
+                                            searchInputRef.current?.focus()
+                                        }}
+                                        aria-label="Clear search"
+                                        title="Clear search"
+                                        tabIndex={0}
+                                    >
+                                        ×
+                                    </button>
+                                )}
+                            </div>
 
                             {showSearchResults && (
                                 <ul className="hh-search-results">

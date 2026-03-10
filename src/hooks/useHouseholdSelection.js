@@ -20,9 +20,18 @@ export default function useHouseholdSelection(
     const [insertNewHouseholdMode, setInsertNewHouseholdMode] = useState(false)
     const [showDebug, setShowDebug] = useState(false)
 
+
     // --- Search state ---
     const [query, setQuery] = useState("")
     const [activeIndex, setActiveIndex] = useState(-1)
+    const clearSearchQuery = useCallback(() => {
+        /**
+         * Clear the current search text and reset the keyboard navigation index
+         * so the results list returns to its initial, un-highlighted state.
+         */
+        setQuery("")
+        setActiveIndex(-1)
+    }, [])
 
     // --- Derive selected household from selection + list (single source of truth) ---
     const selectedHH = useMemo(() => {
@@ -227,6 +236,7 @@ export default function useHouseholdSelection(
             handleNewRecordMode,
             updateOneHousehold,
             insertNewHousehold,
+            clearSearchQuery,
             toggleDebug: () => setShowDebug((prev) => !prev)
         }
     }

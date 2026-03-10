@@ -62,4 +62,35 @@
   background: #eef2ff;
 }
 
+.hh-search-input-wrapper {
+  position: relative;
+}
+.hh-search-input-wrapper .hh-search-box-with-clear-button {
+  padding-right: 2rem;
+}
+.hh-search-input-wrapper .hh-search-clear-button {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  color: #666;
+}
+.hh-search-input-wrapper .hh-search-clear-button:hover {
+  color: #111;
+}
+.hh-search-input-wrapper .hh-search-clear-button:focus {
+  outline: none;
+}
+.hh-search-input-wrapper .hh-search-clear-button:focus-visible {
+  outline: 2px solid #666;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /*# sourceMappingURL=search-elements.css.map */
