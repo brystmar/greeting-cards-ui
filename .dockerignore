@@ -8,5 +8,8 @@ Dockerfile
 **/node_modules
 !/CONTEXT.md
 
+# Adding compose file to git for tracking, even though it's implemented separately on local server
+compose.yml
+
 # LLMs
 .claude/sessions/

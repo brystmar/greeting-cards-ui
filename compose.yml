@@ -1,0 +1,60 @@
+services:
+  backend:
+    container_name: backend
+    restart: on-failure
+    environment:
+      - TZ=America/Los_Angeles
+      - SECRET_KEY=${SECRET_KEY}
+      - PROD_SECRET_KEY=${PROD_SECRET_KEY}
+      - BACKEND_PORT=${BACKEND_PORT}
+      - HOST_ADDRESS=${HOST_ADDRESS}
+      - DEBUG_ENABLED=${DEBUG_ENABLED}
+      - POSTGRES_DB_PORT=${POSTGRES_DB_PORT}
+      - POSTGRES_DB_CONNECTION=${POSTGRES_DB_CONNECTION}
+      - USE_PROD_DATABASE=${USE_PROD_DATABASE}
+    ports:
+      - "15000:5000"
+    image: "${DOCKERHUB_USER}/cards-backend:${VERSION_TAG}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - cardsnet
+
+  ui:
+    container_name: ui
+    restart: on-failure
+    environment:
+      - TZ=America/Los_Angeles
+      - WDS_SOCKET_PORT=${WDS_SOCKET_PORT}
+    ports:
+      - "4173:4173"
+    image: "${DOCKERHUB_USER}/cards-ui:${VERSION_TAG}"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - cardsnet
+
+  db:
+    container_name: db
+    restart: on-failure
+    ports:
+      - "15432:5432"
+    environment:
+      - TZ=America/Los_Angeles
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - '/var/lib/docker/volumes/cards-data/_data/db:/var/lib/postgresql/data'
+    image: postgres:15
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d cards"]
+      interval: 5s
+      retries: 10
+      start_period: 10s
+      timeout: 8s
+    networks:
+      - cardsnet
+
+networks:
+  cardsnet:
