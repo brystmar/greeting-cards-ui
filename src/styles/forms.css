@@ -21,7 +21,11 @@
   margin: 0;
   padding: 0.1em;
   grid-gap: 1em;
-  grid-template: 1fr/minmax(7em, 25%) minmax(max-content, 75%);
+  grid-template: 1fr/minmax(7em, 31%) minmax(max-content, 75%);
+}
+.label-input-container .label-input {
+  width: 100%;
+  text-wrap: nowrap;
 }
 
 .label-checkbox-container {

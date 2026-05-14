@@ -1,5 +1,5 @@
 const BASE_URL = import.meta.env.PROD
-    ? "http://192.168.1.92:15000"
+    ? "https://cards-api.pnwbergs.com"
     : (import.meta.env.VITE_BACKEND_URL || "http://localhost:5001")
 
 // Log the base URL for debugging

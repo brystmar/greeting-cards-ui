@@ -6,12 +6,16 @@ export default defineConfig({
     server: {
         host: true,
         port: 3000,  // default Vite port is 5713
-        strictPort: true
+        strictPort: true,
+        allowedHosts: true
     },
     test: {
         environment: "jsdom",
         setupFiles: ["./src/setupTests.js"],
         globals: true,
         exclude: ["node_modules", "src/App.test.js"],
+    },
+    preview: {
+        allowedHosts: true  // Allow nginx proxy host
     }
 })
