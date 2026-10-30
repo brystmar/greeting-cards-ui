@@ -1,0 +1,99 @@
+/*** Fonts ***/
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Source+Code+Pro:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap");
+/*** Color Palette ***/
+/*** Favicon ***/
+/*** Page Layout ***/
+/*** Nav ***/
+.status-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.375rem;
+  margin: 0.5rem 0 0.75rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.status-banner--retrying {
+  background-color: #fbf2e0;
+  color: #cb5700;
+  border: 1px solid #e8a52b;
+}
+.status-banner--error {
+  background-color: #fff0f0;
+  color: #8b1a1a;
+  border: 1px solid #f5b8b8;
+}
+.status-banner__main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.status-banner__icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.status-banner__message {
+  flex: 1;
+  min-width: 0;
+}
+.status-banner__attempt {
+  opacity: 0.8;
+  font-size: 0.85rem;
+}
+.status-banner__retry {
+  flex-shrink: 0;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid #c0504d;
+  border-radius: 0.25rem;
+  background: #c0504d;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.status-banner__retry:hover {
+  background: #a8403d;
+  border-color: #a8403d;
+}
+.status-banner__details-toggle {
+  flex-shrink: 0;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.status-banner__details-toggle:hover {
+  opacity: 1;
+}
+.status-banner__details {
+  margin: 0.25rem 0 0 1.6rem;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.1rem 0.75rem;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  font-family: "Roboto Mono", "Source Code Pro", "Courier New", monospace;
+}
+.status-banner__details dt {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.status-banner__details dd {
+  margin: 0;
+  word-break: break-all;
+}
+
+/*# sourceMappingURL=DivStatusBanner.css.map */

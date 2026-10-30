@@ -1,4 +1,5 @@
 import { api } from "../data/endpoints"
+import { apiFetch } from "./apiFetch"
 
 // Local helpers to normalize null strings & bools
 const str = (v) => (v == null ? "" : String(v))
@@ -38,20 +39,13 @@ const normalizeHousehold = (hh) => ({
 })
 
 export async function fetchHouseholdsAndAddresses() {
-    console.debug(`Calling endpoint: ${api.addresses.all}`)
+    console.debug(`Calling endpoints: ${api.addresses.all}, ${api.households.all}`)
 
+    // apiFetch throws a typed error object on any failure; Promise.all re-throws the first one
     const [addressesResp, householdsResp] = await Promise.all([
-        fetch(api.addresses.all),
-        fetch(api.households.all)
+        apiFetch(api.addresses.all),
+        apiFetch(api.households.all)
     ])
-
-    if (!addressesResp.ok) {
-        throw new Error(`Failed to fetch addresses: ${addressesResp.status}`)
-    }
-
-    if (!householdsResp.ok) {
-        throw new Error(`Failed to fetch households: ${householdsResp.status}`)
-    }
 
     const addressesRaw = await addressesResp.json()
     const householdsRaw = await householdsResp.json()
