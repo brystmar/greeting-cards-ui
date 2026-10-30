@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
+import DivStatusBanner from "./components/DivStatusBanner"
 import { Outlet } from "react-router"
 import { AppDataProvider, useAppData } from "./context/AppDataContext"
 import "./styles/styles.css"
 import "./styles/sections.css"
 
 function AppLayout() {
-    const { loading, error } = useAppData()
+    const { loading, apiStatus } = useAppData()
 
     const [ showSpinner, setShowSpinner ] = useState(false)
     const [ isBootstrapped, setIsBootstrapped ] = useState(false)
@@ -37,7 +38,9 @@ function AppLayout() {
             </header>
 
             <main className="app-content">
-                { isBootstrapped && showSpinner && !error && (
+                <DivStatusBanner />
+
+                { isBootstrapped && showSpinner && !apiStatus && (
                     <div className="loading">
                         <div className="spinner"></div>
                         Loading households…

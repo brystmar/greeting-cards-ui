@@ -17,5 +17,6 @@ export const api = {
     addresses: {
         one: `${BASE_URL}/api/v1/address`,
         all: `${BASE_URL}/api/v1/all_addresses`
-    }
+    },
+    health: `${BASE_URL}/api/v1/health`
 }

@@ -100,18 +100,18 @@ describe("fetchHouseholdsAndAddresses", () => {
         expect(households[0].should_receive_holiday_card).toBe(true)
     })
 
-    it("throws when the addresses response is not ok", async () => {
+    it("throws a typed error when the addresses response is not ok", async () => {
         fetchMock
             .mockResolvedValueOnce({ ok: false, status: 500 })
             .mockResolvedValueOnce({ ok: true, json: vi.fn().mockResolvedValue([]) })
-        await expect(fetchHouseholdsAndAddresses()).rejects.toThrow("500")
+        await expect(fetchHouseholdsAndAddresses()).rejects.toMatchObject({ kind: "http_error", status: 500 })
     })
 
-    it("throws when the households response is not ok", async () => {
+    it("throws a typed error when the households response is not ok", async () => {
         fetchMock
             .mockResolvedValueOnce({ ok: true, json: vi.fn().mockResolvedValue([]) })
             .mockResolvedValueOnce({ ok: false, status: 404 })
-        await expect(fetchHouseholdsAndAddresses()).rejects.toThrow("404")
+        await expect(fetchHouseholdsAndAddresses()).rejects.toMatchObject({ kind: "http_error", status: 404 })
     })
 
     it("returns empty arrays when the API returns a non-array for addresses", async () => {

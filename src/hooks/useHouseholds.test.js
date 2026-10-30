@@ -48,7 +48,7 @@ describe("useHouseholds", () => {
     it("starts in a loading state", () => {
         fetchHouseholdsAndAddresses.mockImplementation(() => new Promise(() => {}))
         const { result } = renderHook(() => useHouseholds())
-        expect(result.current.isLoading).toBe(true)
+        expect(result.current.loading).toBe(true)
     })
 
     it("populates householdData and addressData on successful fetch", async () => {
@@ -57,26 +57,26 @@ describe("useHouseholds", () => {
             addresses: [mockAddress(10, 1)],
         })
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(result.current.householdData).toHaveLength(1)
         expect(result.current.householdData[0].nickname).toBe("Smith Family")
         expect(result.current.addressData).toHaveLength(1)
-        expect(result.current.error).toBeNull()
+        expect(result.current.typedError).toBeNull()
     })
 
     it("sets error state when fetch fails", async () => {
         fetchHouseholdsAndAddresses.mockRejectedValue(new Error("Network error"))
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
-        expect(result.current.error).toContain("Network error")
+        expect(result.current.typedError?.message).toContain("Network error")
     })
 
-    it("sets isLoading to false after a failed fetch", async () => {
+    it("sets loading to false after a failed fetch", async () => {
         fetchHouseholdsAndAddresses.mockRejectedValue(new Error("fail"))
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
     })
 
     it("computes nextHouseholdId as one more than the max household id", async () => {
@@ -85,7 +85,7 @@ describe("useHouseholds", () => {
             addresses: [],
         })
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(result.current.nextIds.nextHouseholdId).toBe(8)
     })
@@ -96,7 +96,7 @@ describe("useHouseholds", () => {
             addresses: [mockAddress(10, 1), mockAddress(4, 1)],
         })
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(result.current.nextIds.nextAddressId).toBe(11)
     })
@@ -104,7 +104,7 @@ describe("useHouseholds", () => {
     it("hhIndex is null when no households are loaded", async () => {
         fetchHouseholdsAndAddresses.mockResolvedValue({ households: [], addresses: [] })
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(result.current.hhIndex).toBeNull()
     })
@@ -115,7 +115,7 @@ describe("useHouseholds", () => {
             addresses: [],
         })
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(result.current.hhIndex).not.toBeNull()
         const results = result.current.hhIndex.search("Smith")
@@ -129,7 +129,7 @@ describe("useHouseholds", () => {
             addresses: [],
         })
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(result.current.selectedHH).toBe(42)
     })
@@ -137,7 +137,7 @@ describe("useHouseholds", () => {
     it("exposes a refresh function that re-fetches data", async () => {
         fetchHouseholdsAndAddresses.mockResolvedValue({ households: [], addresses: [] })
         const { result } = renderHook(() => useHouseholds())
-        await waitFor(() => expect(result.current.isLoading).toBe(false))
+        await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(fetchHouseholdsAndAddresses).toHaveBeenCalledTimes(1)
 

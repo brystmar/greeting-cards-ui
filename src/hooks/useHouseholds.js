@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react"
 import { fetchHouseholdsAndAddresses } from "../services/householdsService"
+import { refineErrorWithHealthCheck } from "../services/apiFetch"
 import { defaultAddress, defaultHousehold } from "../data/defaultData"
 import Fuse from "fuse.js"
 
@@ -7,28 +8,37 @@ export default function useHouseholds() {
     const [addressData, setAddressData] = useState([defaultAddress])
     const [householdData, setHouseholdData] = useState([defaultHousehold])
     const [selectedHH, setSelectedHH] = useState(-1)
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    // Banner state: null while healthy, "retrying" during back-off, "error" after giving up
+    const [apiStatus, setApiStatus] = useState(null)
+    const [typedError, setTypedError] = useState(null)
+    const [retryAttempt, setRetryAttempt] = useState(0)
+    const [retryAt, setRetryAt] = useState(null)  // epoch ms of next scheduled retry
 
     const retryCountRef = useRef(0)
     const isMountedRef = useRef(true)
     const retryTimeoutRef = useRef(null)
 
-    const BASE_DELAY = 1000   // Start with a 1-second delay
-    const MAX_RETRIES = 200   // High cap since we back off exponentially, with a 30-minute floor
+    const BASE_DELAY = 1000  // 1 second
+    const MAX_RETRIES = 5    // delays: 1s, 2s, 4s, 8s, 16s
 
-    // Process to refresh the UI if connection to the backend fails
     const refreshAllData = useCallback(async () => {
+        // Don't flash the loading state on retries — only on the initial bootstrap
+        if (retryCountRef.current === 0) setLoading(true)
+
         try {
-            setIsLoading(true)
             const { addresses, households } = await fetchHouseholdsAndAddresses()
 
             if (!isMountedRef.current) return
 
             setAddressData(addresses)
             setHouseholdData(households)
-            setError(null)
-            retryCountRef.current = 0  // Reset the retry counter on success
+            setApiStatus(null)
+            setTypedError(null)
+            setRetryAttempt(0)
+            setRetryAt(null)
+            retryCountRef.current = 0
 
             setSelectedHH((prev) => {
                 if (prev === -1 && households.length) {
@@ -37,31 +47,57 @@ export default function useHouseholds() {
                 return prev
             })
         } catch (err) {
-            console.error(`Error fetching data: ${err}`)
+            console.error(`Error fetching data: ${err?.message || err}`)
             if (!isMountedRef.current) return
 
-            setError(err.toString())
+            // err is a typed object from apiFetch; guard against unexpected plain Errors
+            const typed = (err && err.kind)
+                ? err
+                : { kind: "http_error", status: null, endpoint: "unknown", timestamp: new Date().toISOString(), message: String(err) }
+
             retryCountRef.current += 1
+            setRetryAttempt(retryCountRef.current)
 
             if (retryCountRef.current <= MAX_RETRIES) {
-                // How long to wait until next retry?  Back off exponentially, but always retry within 30 minutes
                 const delay = Math.min(BASE_DELAY * Math.pow(2, retryCountRef.current - 1), 1800 * 1000)
-                const retryTime = new Date(Date.now() + delay)
-                console.debug(`Fetch attempt #${retryCountRef.current} failed at ${new Date().toLocaleString()}, retrying in ${delay / 1000}s at ${retryTime.toLocaleTimeString()}`)
+                const nextRetryAt = Date.now() + delay
+                console.debug(`Fetch attempt #${retryCountRef.current} failed at ${new Date().toLocaleString()}, retrying in ${delay / 1000}s at ${new Date(nextRetryAt).toLocaleTimeString()}`)
+
+                setApiStatus("retrying")
+                setTypedError(typed)
+                setRetryAt(nextRetryAt)
 
                 clearTimeout(retryTimeoutRef.current)
-
                 retryTimeoutRef.current = setTimeout(() => {
                     if (isMountedRef.current) refreshAllData()
                 }, delay)
 
             } else {
                 console.error("Max retries reached, giving up.")
+
+                // One silent health check to get a more specific error message if the server is up
+                const refined = await refineErrorWithHealthCheck(typed)
+                if (!isMountedRef.current) return
+
+                setApiStatus("error")
+                setTypedError(refined)
+                setRetryAt(null)
             }
         } finally {
-            if (isMountedRef.current) setIsLoading(false)
+            if (isMountedRef.current) setLoading(false)
         }
     }, [])
+
+    // Restart the fetch cycle from scratch — called by the Retry button in DivStatusBanner
+    const retryFetch = useCallback(() => {
+        clearTimeout(retryTimeoutRef.current)
+        retryCountRef.current = 0
+        setApiStatus(null)
+        setTypedError(null)
+        setRetryAttempt(0)
+        setRetryAt(null)
+        refreshAllData()
+    }, [refreshAllData])
 
     useEffect(() => {
         /**
@@ -77,11 +113,12 @@ export default function useHouseholds() {
          */
         isMountedRef.current = true
 
-        // We intentionally ignore the returned promise because retry logic & error handling are handled inside refresh()
+        // We intentionally ignore the returned promise because retry logic & error handling are handled inside refreshAllData()
         void refreshAllData()
 
         return () => {
             isMountedRef.current = false
+            clearTimeout(retryTimeoutRef.current)
         }
     }, [refreshAllData])
 
@@ -131,7 +168,8 @@ export default function useHouseholds() {
     }, [addressData, householdData])
 
     return {
-        addressData, householdData, selectedHH, setSelectedHH, setAddressData, setHouseholdData, refresh: refreshAllData, hhIndex,
-        nextIds, isLoading, error
+        addressData, householdData, selectedHH, setSelectedHH, setAddressData, setHouseholdData,
+        refresh: refreshAllData, retryFetch, hhIndex, nextIds,
+        loading, apiStatus, typedError, retryAttempt, retryAt
     }
 }
